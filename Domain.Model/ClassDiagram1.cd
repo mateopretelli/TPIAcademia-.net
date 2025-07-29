@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Domain.Model.BusinessEntity">
+    <Position X="6.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>BusinessEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Domain.Model.Materia">
+    <Position X="3.25" Y="4.5" Width="1.5" />
+    <InheritanceLine Type="Domain.Model.BusinessEntity" ManuallyRouted="true">
+      <Path>
+        <Point X="7.5" Y="3.997" />
+        <Point X="7.5" Y="4.765" />
+        <Point X="6.312" Y="4.765" />
+        <Point X="6.312" Y="5.016" />
+        <Point X="5.125" Y="5.016" />
+        <Point X="5.125" Y="4.125" />
+        <Point X="4" Y="4.125" />
+        <Point X="4" Y="4.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAEQAAAAIAAAAAAAAAABAAIAAAAAAAAAAAAAAwA=</HashCode>
+      <FileName>Materia.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
