@@ -28,22 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
+            materiasDataGridView = new DataGridView();
             addButton = new Button();
             deleteButton = new Button();
             updateButton = new Button();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)materiasDataGridView).BeginInit();
             SuspendLayout();
             // 
-            // dataGridView1
+            // materiasDataGridView
             // 
-            dataGridView1.AllowUserToOrderColumns = true;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 15);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.Size = new Size(776, 339);
-            dataGridView1.TabIndex = 0;
+            materiasDataGridView.AllowUserToOrderColumns = true;
+            materiasDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            materiasDataGridView.Location = new Point(12, 15);
+            materiasDataGridView.Name = "materiasDataGridView";
+            materiasDataGridView.ReadOnly = true;
+            materiasDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            materiasDataGridView.Size = new Size(776, 339);
+            materiasDataGridView.TabIndex = 0;
+            materiasDataGridView.CellContentClick += materiasDataGridView_CellContentClick;
             // 
             // addButton
             // 
@@ -63,6 +65,7 @@
             deleteButton.TabIndex = 2;
             deleteButton.Text = "Eliminar";
             deleteButton.UseVisualStyleBackColor = true;
+            deleteButton.Click += deleteButton_Click;
             // 
             // updateButton
             // 
@@ -72,6 +75,7 @@
             updateButton.TabIndex = 3;
             updateButton.Text = "Modificar";
             updateButton.UseVisualStyleBackColor = true;
+            updateButton.Click += updateButton_Click;
             // 
             // MateriasLista
             // 
@@ -81,16 +85,17 @@
             Controls.Add(updateButton);
             Controls.Add(deleteButton);
             Controls.Add(addButton);
-            Controls.Add(dataGridView1);
+            Controls.Add(materiasDataGridView);
             Name = "MateriasLista";
             Text = "Materias";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            Load += Materias_Load;
+            ((System.ComponentModel.ISupportInitialize)materiasDataGridView).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private DataGridView materiasDataGridView;
         private Button addButton;
         private Button deleteButton;
         private Button updateButton;
