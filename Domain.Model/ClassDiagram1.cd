@@ -3,7 +3,7 @@
   <Class Name="Domain.Model.BusinessEntity">
     <Position X="6.75" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <HashCode>AAAABAAAAAAAoAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>BusinessEntity.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -11,7 +11,7 @@
     <Position X="3.25" Y="4.5" Width="1.5" />
     <InheritanceLine Type="Domain.Model.BusinessEntity" ManuallyRouted="true">
       <Path>
-        <Point X="7.5" Y="3.997" />
+        <Point X="7.5" Y="4.189" />
         <Point X="7.5" Y="4.765" />
         <Point X="6.312" Y="4.765" />
         <Point X="6.312" Y="5.016" />
@@ -22,8 +22,25 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAEQAAAAIAAAAAAAAAABAAIAAAAAAAAAAAAAAwA=</HashCode>
+      <HashCode>AAAAAAEQAAAAAAAAAAAAAAARAAIAAAAAAAAAAAAAAwA=</HashCode>
       <FileName>Materia.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Domain.Model.Plan">
+    <Position X="7.75" Y="6" Width="1.5" />
+    <InheritanceLine Type="Domain.Model.BusinessEntity" ManuallyRouted="true">
+      <Path>
+        <Point X="7.5" Y="4.189" />
+        <Point X="7.5" Y="4.535" />
+        <Point X="8.167" Y="4.535" />
+        <Point X="8.167" Y="5.625" />
+        <Point X="8.5" Y="5.625" />
+        <Point X="8.5" Y="6" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAABAAAAAAAAAAAAAEAAAQA=</HashCode>
+      <FileName>Plan.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
