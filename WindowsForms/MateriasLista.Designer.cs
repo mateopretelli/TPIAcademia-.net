@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             materiasDataGridView = new DataGridView();
-            addButton = new Button();
-            deleteButton = new Button();
-            updateButton = new Button();
+            addMateriaButton = new Button();
+            deleteMateriaButton = new Button();
+            updateMateriaButton = new Button();
+            MateriasHomeButton = new Button();
             ((System.ComponentModel.ISupportInitialize)materiasDataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -47,44 +48,55 @@
             materiasDataGridView.TabIndex = 0;
             materiasDataGridView.CellContentClick += materiasDataGridView_CellContentClick;
             // 
-            // addButton
+            // addMateriaButton
             // 
-            addButton.Location = new Point(551, 369);
-            addButton.Name = "addButton";
-            addButton.Size = new Size(75, 23);
-            addButton.TabIndex = 1;
-            addButton.Text = "Agregar";
-            addButton.UseVisualStyleBackColor = true;
-            addButton.Click += addButton_Click;
+            addMateriaButton.Location = new Point(551, 369);
+            addMateriaButton.Size = new Size(75, 23);
+            addMateriaButton.TabIndex = 1;
+            addMateriaButton.Name = "addMateriaButton";
+            addMateriaButton.Text = "Agregar";
+            addMateriaButton.UseVisualStyleBackColor = true;
+            addMateriaButton.Click += addMateriaButton_Click;
             // 
-            // deleteButton
+            // deleteMateriaButton
             // 
-            deleteButton.Location = new Point(632, 369);
-            deleteButton.Name = "deleteButton";
-            deleteButton.Size = new Size(75, 23);
-            deleteButton.TabIndex = 2;
-            deleteButton.Text = "Eliminar";
-            deleteButton.UseVisualStyleBackColor = true;
-            deleteButton.Click += deleteButton_Click;
+            deleteMateriaButton.Location = new Point(632, 369);
+            deleteMateriaButton.Name = "deleteMateriaButton";
+            deleteMateriaButton.Size = new Size(75, 23);
+            deleteMateriaButton.TabIndex = 2;
+            deleteMateriaButton.Text = "Eliminar";
+            deleteMateriaButton.UseVisualStyleBackColor = true;
+            deleteMateriaButton.Click += deleteMateriaButton_Click;
             // 
-            // updateButton
+            // updateMateriaButton
             // 
-            updateButton.Location = new Point(713, 369);
-            updateButton.Name = "updateButton";
-            updateButton.Size = new Size(75, 23);
-            updateButton.TabIndex = 3;
-            updateButton.Text = "Modificar";
-            updateButton.UseVisualStyleBackColor = true;
-            updateButton.Click += updateButton_Click;
+            updateMateriaButton.Location = new Point(713, 369);
+            updateMateriaButton.Name = "updateMateriaButton";
+            updateMateriaButton.Size = new Size(75, 23);
+            updateMateriaButton.TabIndex = 3;
+            updateMateriaButton.Text = "Modificar";
+            updateMateriaButton.UseVisualStyleBackColor = true;
+            updateMateriaButton.Click += updateMateriaButton_Click;
+            // 
+            // MateriasHomeButton
+            // 
+            MateriasHomeButton.Location = new Point(12, 369);
+            MateriasHomeButton.Name = "MateriasHomeButton";
+            MateriasHomeButton.Size = new Size(111, 50);
+            MateriasHomeButton.TabIndex = 4;
+            MateriasHomeButton.Text = "Volver al Menu";
+            MateriasHomeButton.UseVisualStyleBackColor = true;
+            MateriasHomeButton.Click += MateriasHomeButton_Click;
             // 
             // MateriasLista
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(updateButton);
-            Controls.Add(deleteButton);
-            Controls.Add(addButton);
+            Controls.Add(MateriasHomeButton);
+            Controls.Add(updateMateriaButton);
+            Controls.Add(deleteMateriaButton);
+            Controls.Add(addMateriaButton);
             Controls.Add(materiasDataGridView);
             Name = "MateriasLista";
             Text = "Materias";
@@ -96,8 +108,9 @@
         #endregion
 
         private DataGridView materiasDataGridView;
-        private Button addButton;
-        private Button deleteButton;
-        private Button updateButton;
+        private Button addMateriaButton;
+        private Button deleteMateriaButton;
+        private Button updateMateriaButton;
+        private Button MateriasHomeButton;
     }
 }

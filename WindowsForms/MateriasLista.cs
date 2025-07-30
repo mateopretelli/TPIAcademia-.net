@@ -3,9 +3,11 @@ namespace WindowsForms
 {
     public partial class MateriasLista : Form
     {
-        public MateriasLista()
+        private Home home;
+        public MateriasLista(Home home)
         {
             InitializeComponent();
+            this.home = home;
         }
 
         private void Materias_Load(object sender, EventArgs e)
@@ -13,7 +15,7 @@ namespace WindowsForms
             this.GetAllAndLoad();
         }
 
-        private async void updateButton_Click(object sender, EventArgs e)
+        private async void updateMateriaButton_Click(object sender, EventArgs e)
         {
             MateriaDetalle materiaDetalle = new MateriaDetalle();
 
@@ -31,7 +33,7 @@ namespace WindowsForms
             this.GetAllAndLoad();
         }
 
-        private async void deleteButton_Click(object sender, EventArgs e)
+        private async void deleteMateriaButton_Click(object sender, EventArgs e)
         {
             int id;
 
@@ -40,7 +42,7 @@ namespace WindowsForms
 
             this.GetAllAndLoad();
         }
-        private void addButton_Click(object sender, EventArgs e)
+        private void addMateriaButton_Click(object sender, EventArgs e)
         {
             MateriaDetalle materiaDetalle = new MateriaDetalle();
 
@@ -63,13 +65,13 @@ namespace WindowsForms
             if (this.materiasDataGridView.Rows.Count > 0)
             {
                 this.materiasDataGridView.Rows[0].Selected = true;
-                this.deleteButton.Enabled = true;
-                this.updateButton.Enabled = true;
+                this.deleteMateriaButton.Enabled = true;
+                this.updateMateriaButton.Enabled = true;
             }
             else
             {
-                this.deleteButton.Enabled = false;
-                this.updateButton.Enabled = false;
+                this.deleteMateriaButton.Enabled = false;
+                this.updateMateriaButton.Enabled = false;
             }
         }
 
@@ -87,6 +89,10 @@ namespace WindowsForms
 
         }
 
-        
+        private void MateriasHomeButton_Click(object sender, EventArgs e)
+        {
+            home.Show();
+            this.Close();
+        }
     }
 }
