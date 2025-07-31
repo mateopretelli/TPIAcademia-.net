@@ -69,7 +69,6 @@
             // 
             // MateriaIDPlanTextBox
             // 
-            MateriaIDPlanTextBox.Enabled = false;
             MateriaIDPlanTextBox.Location = new Point(143, 184);
             MateriaIDPlanTextBox.Name = "MateriaIDPlanTextBox";
             MateriaIDPlanTextBox.Size = new Size(287, 23);

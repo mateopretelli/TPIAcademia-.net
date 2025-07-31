@@ -68,7 +68,7 @@ namespace WindowsForms
 
         private void SetMateria()
         {
-            this.MateriaIDPlanTextBox.Text = this.Materia.ID.ToString();
+            this.MateriaIDTextBox.Text = this.Materia.ID.ToString();
             this.MateriaDescriptionTextBox.Text = this.Materia.Descripcion;
             this.weeklyHoursTextBox.Text = this.Materia.HSSemanales.ToString();
             this.totalHoursTextBox.Text = this.Materia.HSTotales.ToString();
@@ -164,6 +164,5 @@ namespace WindowsForms
             }
 
         }
-
     }
 }
