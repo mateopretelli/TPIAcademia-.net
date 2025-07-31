@@ -20,18 +20,6 @@ namespace Domain.Model
             IDPlan = iDPlan;
         }
 
-        public void SetId(int id)
-        {
-            if (id < 0)
-                throw new ArgumentException("El Id debe ser mayor que 0.", nameof(id));
-            ID = id;
-        }
-
-        public void SetState(string state)
-        {
-            State = state;
-        }
-
         public void SetDescripcion(string descripcion)
         {
             if (string.IsNullOrWhiteSpace(descripcion))

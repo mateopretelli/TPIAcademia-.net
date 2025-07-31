@@ -13,15 +13,7 @@ namespace WindowsForms
 {
     internal class MateriaApiClient
     {
-        private static HttpClient client = new HttpClient();
-        static MateriaApiClient()
-        {
-            client.BaseAddress = new Uri("http://localhost:5130/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-        }
-
+        private static HttpClient client = ApiClientProvider.GetClient();
 
         public static async Task<Materia> GetAsync(int id)
         {

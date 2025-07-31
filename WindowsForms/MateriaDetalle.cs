@@ -33,17 +33,17 @@ namespace WindowsForms
             InitializeComponent();
         }
 
-        private async void acceptButton_Click(object sender, EventArgs e)
+        private async void acceptMateriaButton_Click(object sender, EventArgs e)
         {
             MateriaApiClient client = new MateriaApiClient();
             IEnumerable<Materia> materiasExistentes = await MateriaApiClient.GetAllAsync();
 
             if (this.ValidateMateria(materiasExistentes))
             {
-                this.Materia.Descripcion = descriptionTextBox.Text;
+                this.Materia.Descripcion = MateriaDescriptionTextBox.Text;
                 this.Materia.HSSemanales = int.Parse(weeklyHoursTextBox.Text);
                 this.Materia.HSTotales = int.Parse(totalHoursTextBox.Text);
-                this.Materia.IDPlan = int.Parse(idPlanTextBox.Text);
+                this.Materia.IDPlan = int.Parse(MateriaIDPlanTextBox.Text);
 
                 //El Detalle se esta llevando la responsabilidad de llamar al servicio
                 //pero tal vez deberia ser solo una vista y que esta responsabilidad quede
@@ -61,19 +61,19 @@ namespace WindowsForms
                 this.Close();
             }
         }
-        private void cancelButton_Click(object sender, EventArgs e)
+        private void cancelMateriaButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
         private void SetMateria()
         {
-            this.idTextBox.Text = this.Materia.ID.ToString();
-            this.descriptionTextBox.Text = this.Materia.Descripcion;
+            this.MateriaIDPlanTextBox.Text = this.Materia.ID.ToString();
+            this.MateriaDescriptionTextBox.Text = this.Materia.Descripcion;
             this.weeklyHoursTextBox.Text = this.Materia.HSSemanales.ToString();
             this.totalHoursTextBox.Text = this.Materia.HSTotales.ToString();
-            this.stateTextBox.Text = this.Materia.State;
-            this.idPlanTextBox.Text = this.Materia.IDPlan.ToString();
+            this.MateriaStateTextBox.Text = this.Materia.State;
+            this.MateriaIDPlanTextBox.Text = this.Materia.IDPlan.ToString();
         }
 
         private bool ValidateMateria(IEnumerable<Materia> materiasExistentes)
@@ -81,19 +81,19 @@ namespace WindowsForms
             bool isValid = true;
 
             // Validar Descripción
-            if (string.IsNullOrWhiteSpace(this.descriptionTextBox.Text))
+            if (string.IsNullOrWhiteSpace(this.MateriaDescriptionTextBox.Text))
             {
                 isValid = false;
-                errorProvider.SetError(descriptionTextBox, "La descripción es requerida");
+                errorProvider.SetError(MateriaDescriptionTextBox, "La descripción es requerida");
             }
-            else if (ValidDescription(this.descriptionTextBox.Text, materiasExistentes))
+            else if (ValidDescription(this.MateriaDescriptionTextBox.Text, materiasExistentes))
             {
                 isValid = false;
-                errorProvider.SetError(descriptionTextBox, "Ya existe una materia con esa descripcion");
+                errorProvider.SetError(MateriaDescriptionTextBox, "Ya existe una plan con esa descripcion");
             }
             else
             {
-                errorProvider.SetError(descriptionTextBox, string.Empty);
+                errorProvider.SetError(MateriaDescriptionTextBox, string.Empty);
             }
 
             // Validar Horas Semanales
@@ -128,20 +128,20 @@ namespace WindowsForms
                 errorProvider.SetError(totalHoursTextBox, string.Empty);
             }
 
-            // Validar ID Plan
-            if (string.IsNullOrWhiteSpace(this.idPlanTextBox.Text))
+            // Validar ID Materia
+            if (string.IsNullOrWhiteSpace(this.MateriaIDPlanTextBox.Text))
             {
                 isValid = false;
-                errorProvider.SetError(idPlanTextBox, "El ID del plan es requerido");
+                errorProvider.SetError(MateriaIDPlanTextBox, "El ID del plan es requerido");
             }
-            else if (!int.TryParse(this.idPlanTextBox.Text, out int idPlan) || idPlan < 1)
+            else if (!int.TryParse(this.MateriaIDPlanTextBox.Text, out int idPlan) || idPlan < 1)
             {
                 isValid = false;
-                errorProvider.SetError(idPlanTextBox, "Ingrese un ID de plan válido mayor a 0");
+                errorProvider.SetError(MateriaIDPlanTextBox, "Ingrese un ID de plan válido mayor a 0");
             }
             else
             {
-                errorProvider.SetError(idPlanTextBox, string.Empty);
+                errorProvider.SetError(MateriaIDPlanTextBox, string.Empty);
             }
 
             return isValid;
@@ -149,10 +149,11 @@ namespace WindowsForms
 
         private bool ValidDescription(string descripcion, IEnumerable<Materia> materias)
         {
-            if(descripcion == this.Materia.Descripcion)
+            if (descripcion == this.Materia.Descripcion)
             {
                 return false; // Si la descripción no cambió, no es necesario validar
-            }else 
+            }
+            else
             {
                 var materiaEncontrada = from Materia m in materias
                                         where m.Descripcion == descripcion &&
@@ -161,7 +162,7 @@ namespace WindowsForms
 
                 return materiaEncontrada.Any();
             }
-                
+
         }
 
     }

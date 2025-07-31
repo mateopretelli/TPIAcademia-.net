@@ -29,58 +29,58 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            acceptButton = new Button();
-            cancelButton = new Button();
-            idTextBox = new TextBox();
-            descriptionTextBox = new TextBox();
+            acceptMateriaButton = new Button();
+            cancelMateriaButton = new Button();
+            MateriaIDPlanTextBox = new TextBox();
+            MateriaDescriptionTextBox = new TextBox();
             weeklyHoursTextBox = new TextBox();
             totalHoursTextBox = new TextBox();
-            stateTextBox = new TextBox();
-            idLabel = new Label();
-            descriptionLabel = new Label();
+            MateriaStateTextBox = new TextBox();
+            MateriaIDLabel = new Label();
+            MateriaDescriptionLabel = new Label();
             weeklyHoursLabel = new Label();
             totalHoursLabel = new Label();
-            stateLabel = new Label();
-            idPlanLabel = new Label();
-            idPlanTextBox = new TextBox();
+            MateriaStateLabel = new Label();
+            MateriaIDPlanLabel = new Label();
             errorProvider = new ErrorProvider(components);
+            MateriaIDTextBox = new TextBox();
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
             // 
-            // acceptButton
+            // acceptMateriaButton
             // 
-            acceptButton.Location = new Point(227, 234);
-            acceptButton.Name = "acceptButton";
-            acceptButton.Size = new Size(99, 24);
-            acceptButton.TabIndex = 0;
-            acceptButton.Text = "Aceptar";
-            acceptButton.UseVisualStyleBackColor = true;
-            acceptButton.Click += acceptButton_Click;
+            acceptMateriaButton.Location = new Point(226, 234);
+            acceptMateriaButton.Name = "acceptMateriaButton";
+            acceptMateriaButton.Size = new Size(99, 40);
+            acceptMateriaButton.TabIndex = 0;
+            acceptMateriaButton.Text = "Aceptar";
+            acceptMateriaButton.UseVisualStyleBackColor = true;
+            acceptMateriaButton.Click += acceptMateriaButton_Click;
             // 
-            // cancelButton
+            // cancelMateriaButton
             // 
-            cancelButton.Location = new Point(331, 234);
-            cancelButton.Name = "cancelButton";
-            cancelButton.Size = new Size(99, 24);
-            cancelButton.TabIndex = 1;
-            cancelButton.Text = "Cancelar";
-            cancelButton.UseVisualStyleBackColor = true;
-            cancelButton.Click += cancelButton_Click;
+            cancelMateriaButton.Location = new Point(331, 234);
+            cancelMateriaButton.Name = "cancelMateriaButton";
+            cancelMateriaButton.Size = new Size(99, 40);
+            cancelMateriaButton.TabIndex = 1;
+            cancelMateriaButton.Text = "Cancelar";
+            cancelMateriaButton.UseVisualStyleBackColor = true;
+            cancelMateriaButton.Click += cancelMateriaButton_Click;
             // 
-            // idTextBox
+            // MateriaIDPlanTextBox
             // 
-            idTextBox.Enabled = false;
-            idTextBox.Location = new Point(143, 40);
-            idTextBox.Name = "idTextBox";
-            idTextBox.Size = new Size(287, 23);
-            idTextBox.TabIndex = 2;
+            MateriaIDPlanTextBox.Enabled = false;
+            MateriaIDPlanTextBox.Location = new Point(143, 184);
+            MateriaIDPlanTextBox.Name = "MateriaIDPlanTextBox";
+            MateriaIDPlanTextBox.Size = new Size(287, 23);
+            MateriaIDPlanTextBox.TabIndex = 13;
             // 
-            // descriptionTextBox
+            // MateriaDescriptionTextBox
             // 
-            descriptionTextBox.Location = new Point(143, 68);
-            descriptionTextBox.Name = "descriptionTextBox";
-            descriptionTextBox.Size = new Size(287, 23);
-            descriptionTextBox.TabIndex = 3;
+            MateriaDescriptionTextBox.Location = new Point(143, 68);
+            MateriaDescriptionTextBox.Name = "MateriaDescriptionTextBox";
+            MateriaDescriptionTextBox.Size = new Size(287, 23);
+            MateriaDescriptionTextBox.TabIndex = 3;
             // 
             // weeklyHoursTextBox
             // 
@@ -96,31 +96,31 @@
             totalHoursTextBox.Size = new Size(287, 23);
             totalHoursTextBox.TabIndex = 5;
             // 
-            // stateTextBox
+            // MateriaStateTextBox
             // 
-            stateTextBox.Enabled = false;
-            stateTextBox.Location = new Point(143, 155);
-            stateTextBox.Name = "stateTextBox";
-            stateTextBox.Size = new Size(287, 23);
-            stateTextBox.TabIndex = 6;
+            MateriaStateTextBox.Enabled = false;
+            MateriaStateTextBox.Location = new Point(143, 155);
+            MateriaStateTextBox.Name = "MateriaStateTextBox";
+            MateriaStateTextBox.Size = new Size(287, 23);
+            MateriaStateTextBox.TabIndex = 6;
             // 
-            // idLabel
+            // MateriaIDLabel
             // 
-            idLabel.AutoSize = true;
-            idLabel.Location = new Point(33, 43);
-            idLabel.Name = "idLabel";
-            idLabel.Size = new Size(18, 15);
-            idLabel.TabIndex = 7;
-            idLabel.Text = "ID";
+            MateriaIDLabel.AutoSize = true;
+            MateriaIDLabel.Location = new Point(33, 43);
+            MateriaIDLabel.Name = "MateriaIDLabel";
+            MateriaIDLabel.Size = new Size(18, 15);
+            MateriaIDLabel.TabIndex = 7;
+            MateriaIDLabel.Text = "ID";
             // 
-            // descriptionLabel
+            // MateriaDescriptionLabel
             // 
-            descriptionLabel.AutoSize = true;
-            descriptionLabel.Location = new Point(31, 71);
-            descriptionLabel.Name = "descriptionLabel";
-            descriptionLabel.Size = new Size(69, 15);
-            descriptionLabel.TabIndex = 8;
-            descriptionLabel.Text = "Descripcion";
+            MateriaDescriptionLabel.AutoSize = true;
+            MateriaDescriptionLabel.Location = new Point(31, 71);
+            MateriaDescriptionLabel.Name = "MateriaDescriptionLabel";
+            MateriaDescriptionLabel.Size = new Size(69, 15);
+            MateriaDescriptionLabel.TabIndex = 8;
+            MateriaDescriptionLabel.Text = "Descripcion";
             // 
             // weeklyHoursLabel
             // 
@@ -140,56 +140,57 @@
             totalHoursLabel.TabIndex = 10;
             totalHoursLabel.Text = "Horas Totales";
             // 
-            // stateLabel
+            // MateriaStateLabel
             // 
-            stateLabel.AutoSize = true;
-            stateLabel.Location = new Point(33, 158);
-            stateLabel.Name = "stateLabel";
-            stateLabel.Size = new Size(42, 15);
-            stateLabel.TabIndex = 11;
-            stateLabel.Text = "Estado";
+            MateriaStateLabel.AutoSize = true;
+            MateriaStateLabel.Location = new Point(33, 158);
+            MateriaStateLabel.Name = "MateriaStateLabel";
+            MateriaStateLabel.Size = new Size(42, 15);
+            MateriaStateLabel.TabIndex = 11;
+            MateriaStateLabel.Text = "Estado";
             // 
-            // idPlanLabel
+            // MateriaIDPlanLabel
             // 
-            idPlanLabel.AutoSize = true;
-            idPlanLabel.Location = new Point(31, 187);
-            idPlanLabel.Name = "idPlanLabel";
-            idPlanLabel.Size = new Size(44, 15);
-            idPlanLabel.TabIndex = 12;
-            idPlanLabel.Text = "ID Plan";
-            // 
-            // idPlanTextBox
-            // 
-            idPlanTextBox.Location = new Point(143, 184);
-            idPlanTextBox.Name = "idPlanTextBox";
-            idPlanTextBox.Size = new Size(287, 23);
-            idPlanTextBox.TabIndex = 13;
+            MateriaIDPlanLabel.AutoSize = true;
+            MateriaIDPlanLabel.Location = new Point(31, 187);
+            MateriaIDPlanLabel.Name = "MateriaIDPlanLabel";
+            MateriaIDPlanLabel.Size = new Size(44, 15);
+            MateriaIDPlanLabel.TabIndex = 12;
+            MateriaIDPlanLabel.Text = "ID Plan";
             // 
             // errorProvider
             // 
             errorProvider.ContainerControl = this;
+            // 
+            // MateriaIDTextBox
+            // 
+            MateriaIDTextBox.Enabled = false;
+            MateriaIDTextBox.Location = new Point(143, 39);
+            MateriaIDTextBox.Name = "MateriaIDTextBox";
+            MateriaIDTextBox.Size = new Size(287, 23);
+            MateriaIDTextBox.TabIndex = 14;
             // 
             // MateriaDetalle
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(465, 286);
-            Controls.Add(idPlanTextBox);
-            Controls.Add(idPlanLabel);
-            Controls.Add(stateLabel);
+            Controls.Add(MateriaIDTextBox);
+            Controls.Add(MateriaIDPlanLabel);
+            Controls.Add(MateriaStateLabel);
             Controls.Add(totalHoursLabel);
             Controls.Add(weeklyHoursLabel);
-            Controls.Add(descriptionLabel);
-            Controls.Add(idLabel);
-            Controls.Add(stateTextBox);
+            Controls.Add(MateriaDescriptionLabel);
+            Controls.Add(MateriaIDLabel);
+            Controls.Add(MateriaStateTextBox);
             Controls.Add(totalHoursTextBox);
             Controls.Add(weeklyHoursTextBox);
-            Controls.Add(descriptionTextBox);
-            Controls.Add(idTextBox);
-            Controls.Add(cancelButton);
-            Controls.Add(acceptButton);
+            Controls.Add(MateriaDescriptionTextBox);
+            Controls.Add(MateriaIDPlanTextBox);
+            Controls.Add(cancelMateriaButton);
+            Controls.Add(acceptMateriaButton);
             Name = "MateriaDetalle";
-            Text = "Materia Seleccionada";
+            Text = "Plan Seleccionada";
             ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -197,20 +198,20 @@
 
         #endregion
 
-        private Button acceptButton;
-        private Button cancelButton;
-        private TextBox idTextBox;
-        private TextBox descriptionTextBox;
+        private Button acceptMateriaButton;
+        private Button cancelMateriaButton;
+        private TextBox MateriaDescriptionTextBox;
         private TextBox weeklyHoursTextBox;
         private TextBox totalHoursTextBox;
-        private TextBox stateTextBox;
-        private TextBox idPlanTextBox;
-        private Label idLabel;
-        private Label descriptionLabel;
+        private TextBox MateriaStateTextBox;
+        private TextBox MateriaIDPlanTextBox;
+        private Label MateriaIDLabel;
+        private Label MateriaDescriptionLabel;
         private Label weeklyHoursLabel;
         private Label totalHoursLabel;
-        private Label stateLabel;
-        private Label idPlanLabel;
+        private Label MateriaStateLabel;
+        private Label MateriaIDPlanLabel;
         private ErrorProvider errorProvider;
+        private TextBox MateriaIDTextBox;
     }
 }
