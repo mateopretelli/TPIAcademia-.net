@@ -43,5 +43,12 @@
       <FileName>Plan.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Domain.Model.Person">
+    <Position X="10.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACFABKAAQAAAIAAEQAQQBAAAAAACAAQAQAAAAAA=</HashCode>
+      <FileName>Person.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

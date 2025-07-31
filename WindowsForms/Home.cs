@@ -30,5 +30,13 @@ namespace WindowsForms
             planesLista.Show();
             this.Hide();
         }
+
+        private void PeopleButton_Click(object sender, EventArgs e)
+        {
+            PeopleLista peopleLista = new PeopleLista(this);
+            peopleLista.Show();
+            this.Hide();
+
+        }
     }
 }

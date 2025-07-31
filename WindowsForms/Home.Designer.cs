@@ -30,13 +30,15 @@
         {
             MateriasButton = new Button();
             PlanesButton = new Button();
+            PeopleButton = new Button();
             SuspendLayout();
             // 
             // MateriasButton
             // 
-            MateriasButton.Location = new Point(201, 45);
+            MateriasButton.Location = new Point(230, 57);
+            MateriasButton.Margin = new Padding(3, 4, 3, 4);
             MateriasButton.Name = "MateriasButton";
-            MateriasButton.Size = new Size(368, 76);
+            MateriasButton.Size = new Size(421, 96);
             MateriasButton.TabIndex = 0;
             MateriasButton.Text = "Administrar Materias";
             MateriasButton.UseVisualStyleBackColor = true;
@@ -44,21 +46,35 @@
             // 
             // PlanesButton
             // 
-            PlanesButton.Location = new Point(201, 127);
+            PlanesButton.Location = new Point(230, 161);
+            PlanesButton.Margin = new Padding(3, 4, 3, 4);
             PlanesButton.Name = "PlanesButton";
-            PlanesButton.Size = new Size(368, 76);
+            PlanesButton.Size = new Size(421, 96);
             PlanesButton.TabIndex = 1;
             PlanesButton.Text = "Administrar Planes";
             PlanesButton.UseVisualStyleBackColor = true;
             PlanesButton.Click += PlanesButton_Click;
             // 
+            // button1
+            // 
+            PeopleButton.Location = new Point(230, 265);
+            PeopleButton.Margin = new Padding(3, 4, 3, 4);
+            PeopleButton.Name = "PeopleButton";
+            PeopleButton.Size = new Size(421, 96);
+            PeopleButton.TabIndex = 2;
+            PeopleButton.Text = "Administrar Personas";
+            PeopleButton.UseVisualStyleBackColor = true;
+            PeopleButton.Click += PeopleButton_Click;
+            // 
             // Home
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(914, 570);
+            Controls.Add(PeopleButton);
             Controls.Add(PlanesButton);
             Controls.Add(MateriasButton);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Home";
             Text = "Sistema de Gestión Académica";
             ResumeLayout(false);
@@ -68,5 +84,6 @@
 
         private Button MateriasButton;
         private Button PlanesButton;
+        private Button PeopleButton;
     }
 }
