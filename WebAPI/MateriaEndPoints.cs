@@ -58,6 +58,25 @@ public static class MateriaEndPoints {
         .Produces<List<DTOs.Materia>>(StatusCodes.Status200OK)
         .WithOpenApi();
 
+
+      app.MapGet("/materiasplanesDescripcion", () =>
+        {
+            PlanService planService = new PlanService();
+
+            var planes = planService.GetAll();
+
+            var dtos = planes.Select(plan => new DTOs.Plan
+            {
+                Descripcion = plan.Descripcion,
+
+            }).ToList();
+
+            return Results.Ok(dtos);
+        })
+        .WithName("GetAllPlanesDescripcion")
+        .Produces<List<DTOs.Plan>>(StatusCodes.Status200OK)
+        .WithOpenApi();
+
         app.MapPost("/materias", (DTOs.Materia dto) =>
         {
             try

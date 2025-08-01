@@ -1,6 +1,7 @@
 ﻿using DTOs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,7 +10,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WindowsForms
+namespace WindowsForms.FormsMateria
 {
     internal class MateriaApiClient
     {
@@ -35,6 +36,18 @@ namespace WindowsForms
                 materias = await response.Content.ReadAsAsync<IEnumerable<Materia>>();
             }
             return materias;
+        }
+        public static async Task<List<int>> GetAllIDPlanessAsync()
+        {
+            IEnumerable<Plan> planes = null;
+            HttpResponseMessage response = await client.GetAsync("planes");
+            if (response.IsSuccessStatusCode)
+            {
+                planes = await response.Content.ReadAsAsync<IEnumerable<Plan> > ();
+            }
+            var idPlanes = planes.Select(p => p.IDEspecialidad).ToList();
+
+            return idPlanes;
         }
 
         public async static Task AddAsync(Materia materia)

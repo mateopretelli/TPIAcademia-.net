@@ -9,7 +9,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WindowsForms
+namespace WindowsForms.FormPlans
 {
     internal class PlanApiClient
     {
