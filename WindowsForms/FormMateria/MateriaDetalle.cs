@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DTOs;
+using WindowsForms.FormsMateria;
 
 namespace WindowsForms
 {
@@ -43,7 +44,7 @@ namespace WindowsForms
                 this.Materia.Descripcion = MateriaDescriptionTextBox.Text;
                 this.Materia.HSSemanales = int.Parse(weeklyHoursTextBox.Text);
                 this.Materia.HSTotales = int.Parse(totalHoursTextBox.Text);
-                this.Materia.IDPlan = int.Parse(MateriaIDPlanTextBox.Text);
+                this.Materia.IDPlan = int.Parse(IDPlanComboBox.Text);
 
                 //El Detalle se esta llevando la responsabilidad de llamar al servicio
                 //pero tal vez deberia ser solo una vista y que esta responsabilidad quede
@@ -68,12 +69,12 @@ namespace WindowsForms
 
         private void SetMateria()
         {
-            this.MateriaIDPlanTextBox.Text = this.Materia.ID.ToString();
+            this.MateriaIDTextBox.Text = this.Materia.ID.ToString();
             this.MateriaDescriptionTextBox.Text = this.Materia.Descripcion;
             this.weeklyHoursTextBox.Text = this.Materia.HSSemanales.ToString();
             this.totalHoursTextBox.Text = this.Materia.HSTotales.ToString();
             this.MateriaStateTextBox.Text = this.Materia.State;
-            this.MateriaIDPlanTextBox.Text = this.Materia.IDPlan.ToString();
+            this.IDPlanComboBox.Text = this.Materia.IDPlan.ToString();
         }
 
         private bool ValidateMateria(IEnumerable<Materia> materiasExistentes)
@@ -129,19 +130,19 @@ namespace WindowsForms
             }
 
             // Validar ID Materia
-            if (string.IsNullOrWhiteSpace(this.MateriaIDPlanTextBox.Text))
+            if (string.IsNullOrWhiteSpace(this.IDPlanComboBox.Text))
             {
                 isValid = false;
-                errorProvider.SetError(MateriaIDPlanTextBox, "El ID del plan es requerido");
+                errorProvider.SetError(IDPlanComboBox, "El ID del plan es requerido");
             }
-            else if (!int.TryParse(this.MateriaIDPlanTextBox.Text, out int idPlan) || idPlan < 1)
+            else if (!int.TryParse(this.IDPlanComboBox.Text, out int idPlan) || idPlan < 1)
             {
                 isValid = false;
-                errorProvider.SetError(MateriaIDPlanTextBox, "Ingrese un ID de plan válido mayor a 0");
+                errorProvider.SetError(IDPlanComboBox, "Ingrese un ID de plan válido mayor a 0");
             }
             else
             {
-                errorProvider.SetError(MateriaIDPlanTextBox, string.Empty);
+                errorProvider.SetError(IDPlanComboBox, string.Empty);
             }
 
             return isValid;
@@ -165,5 +166,11 @@ namespace WindowsForms
 
         }
 
+        private async void IDPlanComboBoxData(object sender, EventArgs e)
+        {
+            MateriaApiClient client = new MateriaApiClient();
+            List<int> idPlanes = await MateriaApiClient.GetAllIDPlanessAsync();
+            IDPlanComboBox.DataSource = idPlanes;
+        }
     }
 }
