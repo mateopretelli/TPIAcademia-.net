@@ -39,7 +39,7 @@
             // planesDataGridView
             // 
             planesDataGridView.AllowUserToOrderColumns = true;
-            planesDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            planesDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             planesDataGridView.Location = new Point(12, 15);
             planesDataGridView.Name = "planesDataGridView";
             planesDataGridView.ReadOnly = true;
