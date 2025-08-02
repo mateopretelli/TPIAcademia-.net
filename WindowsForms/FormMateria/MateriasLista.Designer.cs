@@ -39,7 +39,7 @@
             // materiasDataGridView
             // 
             materiasDataGridView.AllowUserToOrderColumns = true;
-            materiasDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            materiasDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             materiasDataGridView.Location = new Point(12, 15);
             materiasDataGridView.Name = "materiasDataGridView";
             materiasDataGridView.ReadOnly = true;

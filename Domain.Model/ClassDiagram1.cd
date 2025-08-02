@@ -8,17 +8,13 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Domain.Model.Materia">
-    <Position X="3.25" Y="4.5" Width="1.5" />
+    <Position X="3.75" Y="5.75" Width="1.5" />
     <InheritanceLine Type="Domain.Model.BusinessEntity" ManuallyRouted="true">
       <Path>
         <Point X="7.5" Y="4.189" />
-        <Point X="7.5" Y="4.765" />
-        <Point X="6.312" Y="4.765" />
-        <Point X="6.312" Y="5.016" />
-        <Point X="5.125" Y="5.016" />
-        <Point X="5.125" Y="4.125" />
-        <Point X="4" Y="4.125" />
-        <Point X="4" Y="4.5" />
+        <Point X="7.5" Y="5.63" />
+        <Point X="4.5" Y="5.63" />
+        <Point X="4.5" Y="5.75" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -27,20 +23,31 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Domain.Model.Plan">
-    <Position X="7.75" Y="6" Width="1.5" />
+    <Position X="5.5" Y="5.75" Width="1.5" />
     <InheritanceLine Type="Domain.Model.BusinessEntity" ManuallyRouted="true">
       <Path>
         <Point X="7.5" Y="4.189" />
-        <Point X="7.5" Y="4.535" />
-        <Point X="8.167" Y="4.535" />
-        <Point X="8.167" Y="5.625" />
-        <Point X="8.5" Y="5.625" />
-        <Point X="8.5" Y="6" />
+        <Point X="7.5" Y="5.625" />
+        <Point X="6.25" Y="5.625" />
+        <Point X="6.25" Y="5.75" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAABAAAAAAAAAAAAAABAAAAAAAAAAAAAEAAAQA=</HashCode>
       <FileName>Plan.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Domain.Model.Specialty">
+    <Position X="7.25" Y="5.75" Width="1.5" />
+    <InheritanceLine Type="Domain.Model.BusinessEntity" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.5" Y="4.19" />
+        <Point X="7.5" Y="5.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Specialty.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

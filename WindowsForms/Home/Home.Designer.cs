@@ -30,6 +30,7 @@
         {
             MateriasButton = new Button();
             PlanesButton = new Button();
+            SpecialtiesButton = new Button();
             SuspendLayout();
             // 
             // MateriasButton
@@ -52,11 +53,22 @@
             PlanesButton.UseVisualStyleBackColor = true;
             PlanesButton.Click += PlanesButton_Click;
             // 
+            // button1
+            // 
+            SpecialtiesButton.Location = new Point(201, 209);
+            SpecialtiesButton.Name = "SpecialtiesButton";
+            SpecialtiesButton.Size = new Size(368, 76);
+            SpecialtiesButton.TabIndex = 2;
+            SpecialtiesButton.Text = "Administrar Especialidades";
+            SpecialtiesButton.UseVisualStyleBackColor = true;
+            SpecialtiesButton.Click += SpecialtiesButton_Click;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(SpecialtiesButton);
             Controls.Add(PlanesButton);
             Controls.Add(MateriasButton);
             Name = "Home";
@@ -68,5 +80,6 @@
 
         private Button MateriasButton;
         private Button PlanesButton;
+        private Button SpecialtiesButton;
     }
 }

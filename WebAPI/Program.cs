@@ -23,5 +23,6 @@ app.UseHttpsRedirection();
 
 app.MapMateriaEndpoints();
 app.MapPlanEndpoints();
+app.MapSpecialtyEndPoints();
 
 app.Run();

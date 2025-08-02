@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace WindowsForms
+﻿namespace WindowsForms
 {
     public partial class Home : Form
     {
@@ -29,6 +19,12 @@ namespace WindowsForms
             PlanesLista planesLista = new PlanesLista(this);
             planesLista.Show();
             this.Hide();
+        }
+        private void SpecialtiesButton_Click(object sender, EventArgs e)
+        {
+            SpecialtiesLista specialtiesLista = new SpecialtiesLista(this);
+            specialtiesLista.Show();
+            this.Hide(); 
         }
     }
 }
