@@ -36,7 +36,7 @@
             PlanIDTextBox = new TextBox();
             PlanStateTextBox = new TextBox();
             PlanDescriptionTextBox = new TextBox();
-            PlanIDSpecialityTextBox = new TextBox();
+            SpecialtyIDComboBox = new ComboBox();
             cancelPlanButton = new Button();
             acceptPlanButton = new Button();
             errorProvider1 = new ErrorProvider(components);
@@ -102,12 +102,16 @@
             PlanDescriptionTextBox.Size = new Size(274, 23);
             PlanDescriptionTextBox.TabIndex = 6;
             // 
-            // PlanIDSpecialityTextBox
+            // SpecialtyIDComboBox
             // 
-            PlanIDSpecialityTextBox.Location = new Point(136, 124);
-            PlanIDSpecialityTextBox.Name = "PlanIDSpecialityTextBox";
-            PlanIDSpecialityTextBox.Size = new Size(274, 23);
-            PlanIDSpecialityTextBox.TabIndex = 7;
+            SpecialtyIDComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            SpecialtyIDComboBox.DropDownWidth = 280;
+            SpecialtyIDComboBox.FormattingEnabled = true;
+            SpecialtyIDComboBox.Location = new Point(136, 127);
+            SpecialtyIDComboBox.Name = "SpecialtyIDComboBox";
+            SpecialtyIDComboBox.Size = new Size(274, 23);
+            SpecialtyIDComboBox.TabIndex = 11;
+            SpecialtyIDComboBox.VisibleChanged += SpecialtyIDComboBoxData;
             // 
             // cancelPlanButton
             // 
@@ -140,7 +144,7 @@
             ClientSize = new Size(461, 224);
             Controls.Add(acceptPlanButton);
             Controls.Add(cancelPlanButton);
-            Controls.Add(PlanIDSpecialityTextBox);
+            Controls.Add(SpecialtyIDComboBox);
             Controls.Add(PlanDescriptionTextBox);
             Controls.Add(PlanStateTextBox);
             Controls.Add(PlanIDTextBox);
@@ -164,7 +168,7 @@
         private TextBox PlanIDTextBox;
         private TextBox PlanStateTextBox;
         private TextBox PlanDescriptionTextBox;
-        private TextBox PlanIDSpecialityTextBox;
+        private ComboBox SpecialtyIDComboBox;
         private Button cancelPlanButton;
         private Button acceptPlanButton;
         private ErrorProvider errorProvider1;
