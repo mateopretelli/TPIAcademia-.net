@@ -73,7 +73,7 @@ public static class MateriaEndPoints {
 
             return Results.Ok(dtos);
         })
-        .WithName("GetAllPlanesDescripcion")
+        .WithName("GetAllPlanesDescripcionForMateria")
         .Produces<List<DTOs.Plan>>(StatusCodes.Status200OK)
         .WithOpenApi();
 

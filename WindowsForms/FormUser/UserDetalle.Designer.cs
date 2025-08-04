@@ -29,7 +29,7 @@
             PhoneLabel = new Label();
             BirthDateTextBox = new TextBox();
             BirthDateLabel = new Label();
-            IDPlanTextBox = new TextBox();
+            IDPlanComboBox = new ComboBox();
             IDPlanLabel = new Label();
             UsernameTextBox = new TextBox();
             UsernameLabel = new Label();
@@ -45,153 +45,167 @@
             // 
             // NameTextBox
             // 
-            NameTextBox.Location = new Point(187, 56);
+            NameTextBox.Location = new Point(164, 44);
+            NameTextBox.Margin = new Padding(3, 2, 3, 2);
             NameTextBox.Name = "NameTextBox";
-            NameTextBox.Size = new Size(346, 26);
+            NameTextBox.Size = new Size(303, 23);
             NameTextBox.TabIndex = 3;
             // 
             // NameLabel
             // 
             NameLabel.AutoSize = true;
-            NameLabel.Location = new Point(32, 56);
+            NameLabel.Location = new Point(28, 44);
             NameLabel.Name = "NameLabel";
-            NameLabel.Size = new Size(64, 20);
+            NameLabel.Size = new Size(51, 15);
             NameLabel.TabIndex = 2;
             NameLabel.Text = "Nombre";
             // 
             // LastNameTextBox
             // 
-            LastNameTextBox.Location = new Point(187, 88);
+            LastNameTextBox.Location = new Point(164, 69);
+            LastNameTextBox.Margin = new Padding(3, 2, 3, 2);
             LastNameTextBox.Name = "LastNameTextBox";
-            LastNameTextBox.Size = new Size(346, 26);
+            LastNameTextBox.Size = new Size(303, 23);
             LastNameTextBox.TabIndex = 5;
             // 
             // LastNameLabel
             // 
             LastNameLabel.AutoSize = true;
-            LastNameLabel.Location = new Point(32, 88);
+            LastNameLabel.Location = new Point(28, 69);
             LastNameLabel.Name = "LastNameLabel";
-            LastNameLabel.Size = new Size(66, 20);
+            LastNameLabel.Size = new Size(51, 15);
             LastNameLabel.TabIndex = 4;
             LastNameLabel.Text = "Apellido";
             // 
             // EmailTextBox
             // 
-            EmailTextBox.Location = new Point(187, 120);
+            EmailTextBox.Location = new Point(164, 95);
+            EmailTextBox.Margin = new Padding(3, 2, 3, 2);
             EmailTextBox.Name = "EmailTextBox";
-            EmailTextBox.Size = new Size(346, 26);
+            EmailTextBox.Size = new Size(303, 23);
             EmailTextBox.TabIndex = 7;
             // 
             // EmailLabel
             // 
             EmailLabel.AutoSize = true;
-            EmailLabel.Location = new Point(32, 120);
+            EmailLabel.Location = new Point(28, 95);
             EmailLabel.Name = "EmailLabel";
-            EmailLabel.Size = new Size(46, 20);
+            EmailLabel.Size = new Size(36, 15);
             EmailLabel.TabIndex = 6;
             EmailLabel.Text = "Email";
             // 
             // AddressTextBox
             // 
-            AddressTextBox.Location = new Point(187, 152);
+            AddressTextBox.Location = new Point(164, 120);
+            AddressTextBox.Margin = new Padding(3, 2, 3, 2);
             AddressTextBox.Name = "AddressTextBox";
-            AddressTextBox.Size = new Size(346, 26);
+            AddressTextBox.Size = new Size(303, 23);
             AddressTextBox.TabIndex = 9;
             // 
             // AddressLabel
             // 
             AddressLabel.AutoSize = true;
-            AddressLabel.Location = new Point(32, 152);
+            AddressLabel.Location = new Point(28, 120);
             AddressLabel.Name = "AddressLabel";
-            AddressLabel.Size = new Size(72, 20);
+            AddressLabel.Size = new Size(57, 15);
             AddressLabel.TabIndex = 8;
             AddressLabel.Text = "Direccion";
             // 
             // PhoneTextBox
             // 
-            PhoneTextBox.Location = new Point(187, 184);
+            PhoneTextBox.Location = new Point(164, 145);
+            PhoneTextBox.Margin = new Padding(3, 2, 3, 2);
             PhoneTextBox.Name = "PhoneTextBox";
-            PhoneTextBox.Size = new Size(346, 26);
+            PhoneTextBox.Size = new Size(303, 23);
             PhoneTextBox.TabIndex = 11;
             // 
             // PhoneLabel
             // 
             PhoneLabel.AutoSize = true;
-            PhoneLabel.Location = new Point(32, 184);
+            PhoneLabel.Location = new Point(28, 145);
             PhoneLabel.Name = "PhoneLabel";
-            PhoneLabel.Size = new Size(67, 20);
+            PhoneLabel.Size = new Size(52, 15);
             PhoneLabel.TabIndex = 10;
             PhoneLabel.Text = "Telefono";
             // 
             // BirthDateTextBox
             // 
-            BirthDateTextBox.Location = new Point(187, 216);
+            BirthDateTextBox.Location = new Point(164, 171);
+            BirthDateTextBox.Margin = new Padding(3, 2, 3, 2);
             BirthDateTextBox.Name = "BirthDateTextBox";
-            BirthDateTextBox.Size = new Size(346, 26);
+            BirthDateTextBox.Size = new Size(303, 23);
             BirthDateTextBox.TabIndex = 15;
             // 
             // BirthDateLabel
             // 
             BirthDateLabel.AutoSize = true;
-            BirthDateLabel.Location = new Point(32, 216);
+            BirthDateLabel.Location = new Point(28, 171);
             BirthDateLabel.Name = "BirthDateLabel";
-            BirthDateLabel.Size = new Size(128, 20);
+            BirthDateLabel.Size = new Size(103, 15);
             BirthDateLabel.TabIndex = 14;
             BirthDateLabel.Text = "Fecha Nacimiento";
             // 
-            // IDPlanTextBox
+            // IDPlanComboBox
             // 
-            IDPlanTextBox.Location = new Point(187, 248);
-            IDPlanTextBox.Name = "IDPlanTextBox";
-            IDPlanTextBox.Size = new Size(346, 26);
-            IDPlanTextBox.TabIndex = 17;
+            IDPlanComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            IDPlanComboBox.DropDownWidth = 280;
+            IDPlanComboBox.FormattingEnabled = true;
+            IDPlanComboBox.Location = new Point(164, 198);
+            IDPlanComboBox.Margin = new Padding(3, 2, 3, 2);
+            IDPlanComboBox.Name = "IDPlanComboBox";
+            IDPlanComboBox.Size = new Size(302, 23);
+            IDPlanComboBox.TabIndex = 15;
+            IDPlanComboBox.VisibleChanged += IDPlanComboBoxData;
             // 
             // IDPlanLabel
             // 
             IDPlanLabel.AutoSize = true;
-            IDPlanLabel.Location = new Point(32, 248);
+            IDPlanLabel.Location = new Point(28, 196);
             IDPlanLabel.Name = "IDPlanLabel";
-            IDPlanLabel.Size = new Size(56, 20);
+            IDPlanLabel.Size = new Size(44, 15);
             IDPlanLabel.TabIndex = 16;
             IDPlanLabel.Text = "ID Plan";
             // 
             // UsernameTextBox
             // 
-            UsernameTextBox.Location = new Point(187, 328);
+            UsernameTextBox.Location = new Point(164, 259);
+            UsernameTextBox.Margin = new Padding(3, 2, 3, 2);
             UsernameTextBox.Name = "UsernameTextBox";
-            UsernameTextBox.Size = new Size(346, 26);
+            UsernameTextBox.Size = new Size(303, 23);
             UsernameTextBox.TabIndex = 19;
             // 
             // UsernameLabel
             // 
             UsernameLabel.AutoSize = true;
-            UsernameLabel.Location = new Point(32, 328);
+            UsernameLabel.Location = new Point(28, 259);
             UsernameLabel.Name = "UsernameLabel";
-            UsernameLabel.Size = new Size(137, 20);
+            UsernameLabel.Size = new Size(109, 15);
             UsernameLabel.TabIndex = 18;
             UsernameLabel.Text = "Nombre de usuario";
             // 
             // PasswordTextBox
             // 
-            PasswordTextBox.Location = new Point(187, 360);
+            PasswordTextBox.Location = new Point(164, 284);
+            PasswordTextBox.Margin = new Padding(3, 2, 3, 2);
             PasswordTextBox.Name = "PasswordTextBox";
-            PasswordTextBox.Size = new Size(346, 26);
+            PasswordTextBox.Size = new Size(303, 23);
             PasswordTextBox.TabIndex = 21;
             // 
             // PasswordLabel
             // 
             PasswordLabel.AutoSize = true;
-            PasswordLabel.Location = new Point(32, 360);
+            PasswordLabel.Location = new Point(28, 284);
             PasswordLabel.Name = "PasswordLabel";
-            PasswordLabel.Size = new Size(83, 20);
+            PasswordLabel.Size = new Size(67, 15);
             PasswordLabel.TabIndex = 20;
             PasswordLabel.Text = "Contraseña";
             // 
             // AcceptButton
             // 
-            AcceptButton.Location = new Point(315, 442);
+            AcceptButton.Location = new Point(276, 349);
+            AcceptButton.Margin = new Padding(3, 2, 3, 2);
             AcceptButton.Name = "AcceptButton";
-            AcceptButton.Size = new Size(102, 44);
+            AcceptButton.Size = new Size(89, 35);
             AcceptButton.TabIndex = 24;
             AcceptButton.Text = "Aceptar";
             AcceptButton.UseVisualStyleBackColor = true;
@@ -199,9 +213,10 @@
             // 
             // CancelButton
             // 
-            CancelButton.Location = new Point(431, 442);
+            CancelButton.Location = new Point(377, 349);
+            CancelButton.Margin = new Padding(3, 2, 3, 2);
             CancelButton.Name = "CancelButton";
-            CancelButton.Size = new Size(102, 44);
+            CancelButton.Size = new Size(89, 35);
             CancelButton.TabIndex = 25;
             CancelButton.Text = "Cancelar";
             CancelButton.UseVisualStyleBackColor = true;
@@ -210,42 +225,43 @@
             // PersonLabel
             // 
             PersonLabel.AutoSize = true;
-            PersonLabel.Location = new Point(32, 286);
+            PersonLabel.Location = new Point(28, 226);
             PersonLabel.Name = "PersonLabel";
-            PersonLabel.Size = new Size(50, 20);
+            PersonLabel.Size = new Size(113, 15);
             PersonLabel.TabIndex = 27;
             PersonLabel.Text = "Datos de la Persona:";
             // 
             // UserLabel
             // 
             UserLabel.AutoSize = true;
-            UserLabel.Location = new Point(32, 20);
+            UserLabel.Location = new Point(28, 16);
             UserLabel.Name = "UserLabel";
-            UserLabel.Size = new Size(50, 20);
+            UserLabel.Size = new Size(102, 15);
             UserLabel.TabIndex = 28;
             UserLabel.Text = "Datos del Usuario:";
             // 
             // ConfirmPasswordLabel
             // 
             ConfirmPasswordLabel.AutoSize = true;
-            ConfirmPasswordLabel.Location = new Point(32, 392);
+            ConfirmPasswordLabel.Location = new Point(28, 309);
             ConfirmPasswordLabel.Name = "ConfirmPasswordLabel";
-            ConfirmPasswordLabel.Size = new Size(83, 20);
+            ConfirmPasswordLabel.Size = new Size(122, 15);
             ConfirmPasswordLabel.TabIndex = 29;
             ConfirmPasswordLabel.Text = "Confirmar contraseña";
             // 
             // ConfirmPasswordTextBox
             // 
-            ConfirmPasswordTextBox.Location = new Point(187, 392);
+            ConfirmPasswordTextBox.Location = new Point(164, 309);
+            ConfirmPasswordTextBox.Margin = new Padding(3, 2, 3, 2);
             ConfirmPasswordTextBox.Name = "ConfirmPasswordTextBox";
-            ConfirmPasswordTextBox.Size = new Size(346, 26);
+            ConfirmPasswordTextBox.Size = new Size(303, 23);
             ConfirmPasswordTextBox.TabIndex = 30;
             // 
             // UserDetalle
             // 
-            AutoScaleDimensions = new SizeF(8F, 19F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(555, 523);
+            ClientSize = new Size(486, 413);
             Controls.Add(ConfirmPasswordLabel);
             Controls.Add(ConfirmPasswordTextBox);
             Controls.Add(UserLabel);
@@ -265,11 +281,12 @@
             Controls.Add(BirthDateLabel);
             Controls.Add(BirthDateTextBox);
             Controls.Add(IDPlanLabel);
-            Controls.Add(IDPlanTextBox);
+            Controls.Add(IDPlanComboBox);
             Controls.Add(UsernameLabel);
             Controls.Add(UsernameTextBox);
             Controls.Add(PasswordLabel);
             Controls.Add(PasswordTextBox);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "UserDetalle";
             Text = "Detalle de Usuario";
             ResumeLayout(false);
@@ -289,7 +306,7 @@
         private Label PhoneLabel;
         private TextBox BirthDateTextBox;
         private Label BirthDateLabel;
-        private TextBox IDPlanTextBox;
+        private ComboBox IDPlanComboBox;
         private Label IDPlanLabel;
         private TextBox UsernameTextBox;
         private Label UsernameLabel;

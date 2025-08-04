@@ -39,7 +39,7 @@
             // usersDataGridView
             // 
             userDataGridView.AllowUserToOrderColumns = true;
-            userDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            userDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             userDataGridView.Location = new Point(12, 15);
             userDataGridView.Name = "usersDataGridView";
             userDataGridView.ReadOnly = true;

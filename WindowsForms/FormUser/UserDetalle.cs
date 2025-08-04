@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTOs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DTOs;
+using WindowsForms.FormMateria;
 using WindowsForms.FormUser;
 
 namespace WindowsForms
@@ -48,7 +49,7 @@ namespace WindowsForms
                 this.User.Phone = PhoneTextBox.Text;
                 //this.User.Legajo = int.TryParse(LegajoTextBox.Text, out int legajo) ? legajo : 0;
                 this.User.BirthDate = DateTime.TryParse(BirthDateTextBox.Text, out DateTime birthDate) ? birthDate : DateTime.MinValue;
-                this.User.IDPlan = int.TryParse(IDPlanTextBox.Text, out int idPlan) ? idPlan : 0;
+                this.User.IDPlan = int.TryParse(IDPlanComboBox.Text, out int idPlan) ? idPlan : 0;
                 this.User.Username = UsernameTextBox.Text;
                 this.User.Password = PasswordTextBox.Text;
                 //this.User.State = StateTextBox.Text;
@@ -82,7 +83,7 @@ namespace WindowsForms
                 PhoneTextBox.Text = this.User.Phone;
                 //LegajoTextBox.Text = this.User.Legajo.ToString();
                 BirthDateTextBox.Text = this.User.BirthDate.ToString("yyyy-MM-dd");
-                IDPlanTextBox.Text = this.User.IDPlan.ToString();
+                IDPlanComboBox.Text = this.User.IDPlan.ToString();
                 UsernameTextBox.Text = this.User.Username;
                 PasswordTextBox.Text = this.User.Password;
                 ConfirmPasswordTextBox.Text = this.User.Password;
@@ -98,7 +99,7 @@ namespace WindowsForms
                 string.IsNullOrWhiteSpace(AddressTextBox.Text) ||
                 string.IsNullOrWhiteSpace(PhoneTextBox.Text) ||
                 string.IsNullOrWhiteSpace(BirthDateTextBox.Text) ||
-                string.IsNullOrWhiteSpace(IDPlanTextBox.Text) ||
+                string.IsNullOrWhiteSpace(IDPlanComboBox.Text) ||
                 string.IsNullOrWhiteSpace(UsernameTextBox.Text) ||
                 string.IsNullOrWhiteSpace(PasswordTextBox.Text) ||
                 string.IsNullOrWhiteSpace(ConfirmPasswordTextBox.Text))
@@ -119,8 +120,12 @@ namespace WindowsForms
             return true;
         }
 
-
-
+        private async void IDPlanComboBoxData(object sender, EventArgs e)
+        {
+            MateriaApiClient client = new MateriaApiClient();
+            List<int> idPlanes = await MateriaApiClient.GetAllIDPlanessAsync();
+            IDPlanComboBox.DataSource = idPlanes;
+        }
 
     }
 }

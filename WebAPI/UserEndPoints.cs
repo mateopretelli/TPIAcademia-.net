@@ -65,6 +65,24 @@ public static class UserEndPoints
           .Produces(StatusCodes.Status404NotFound)
           .WithOpenApi();
 
+        app.MapGet("/userPlanesDescripcion", () =>
+        {
+            PlanService planService = new PlanService();
+
+            var planes = planService.GetAll();
+
+            var dtos = planes.Select(plan => new DTOs.Plan
+            {
+                Descripcion = plan.Descripcion,
+
+            }).ToList();
+
+            return Results.Ok(dtos);
+        })
+        .WithName("GetAllPlanesDescripcionForUsers")
+        .Produces<List<DTOs.Plan>>(StatusCodes.Status200OK)
+        .WithOpenApi();
+
         app.MapPost("/users", (DTOs.User userDto) =>
         {
             try
