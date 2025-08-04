@@ -31,7 +31,6 @@
             components = new System.ComponentModel.Container();
             acceptMateriaButton = new Button();
             cancelMateriaButton = new Button();
-            MateriaIDPlanTextBox = new TextBox();
             MateriaDescriptionTextBox = new TextBox();
             weeklyHoursTextBox = new TextBox();
             totalHoursTextBox = new TextBox();
@@ -44,6 +43,8 @@
             MateriaIDPlanLabel = new Label();
             errorProvider = new ErrorProvider(components);
             MateriaIDTextBox = new TextBox();
+            IDPlanComboBox = new ComboBox();
+
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
             // 
@@ -66,14 +67,6 @@
             cancelMateriaButton.Text = "Cancelar";
             cancelMateriaButton.UseVisualStyleBackColor = true;
             cancelMateriaButton.Click += cancelMateriaButton_Click;
-            // 
-            // MateriaIDPlanTextBox
-            // 
-            MateriaIDPlanTextBox.Enabled = false;
-            MateriaIDPlanTextBox.Location = new Point(143, 184);
-            MateriaIDPlanTextBox.Name = "MateriaIDPlanTextBox";
-            MateriaIDPlanTextBox.Size = new Size(287, 23);
-            MateriaIDPlanTextBox.TabIndex = 13;
             // 
             // MateriaDescriptionTextBox
             // 
@@ -165,16 +158,28 @@
             // MateriaIDTextBox
             // 
             MateriaIDTextBox.Enabled = false;
-            MateriaIDTextBox.Location = new Point(143, 39);
+            MateriaIDTextBox.Location = new Point(143, 35);
             MateriaIDTextBox.Name = "MateriaIDTextBox";
             MateriaIDTextBox.Size = new Size(287, 23);
             MateriaIDTextBox.TabIndex = 14;
+            // 
+            // IDPlanComboBox
+            // 
+            IDPlanComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            IDPlanComboBox.DropDownWidth = 280;
+            IDPlanComboBox.FormattingEnabled = true;
+            IDPlanComboBox.Location = new Point(143, 187);
+            IDPlanComboBox.Name = "IDPlanComboBox";
+            IDPlanComboBox.Size = new Size(287, 23);
+            IDPlanComboBox.TabIndex = 15;
+            IDPlanComboBox.VisibleChanged += IDPlanComboBoxData;
             // 
             // MateriaDetalle
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(465, 286);
+            Controls.Add(IDPlanComboBox);
             Controls.Add(MateriaIDTextBox);
             Controls.Add(MateriaIDPlanLabel);
             Controls.Add(MateriaStateLabel);
@@ -186,7 +191,6 @@
             Controls.Add(totalHoursTextBox);
             Controls.Add(weeklyHoursTextBox);
             Controls.Add(MateriaDescriptionTextBox);
-            Controls.Add(MateriaIDPlanTextBox);
             Controls.Add(cancelMateriaButton);
             Controls.Add(acceptMateriaButton);
             Name = "MateriaDetalle";
@@ -200,18 +204,18 @@
 
         private Button acceptMateriaButton;
         private Button cancelMateriaButton;
+        private TextBox MateriaIDTextBox;
         private TextBox MateriaDescriptionTextBox;
         private TextBox weeklyHoursTextBox;
         private TextBox totalHoursTextBox;
         private TextBox MateriaStateTextBox;
-        private TextBox MateriaIDPlanTextBox;
+        private ComboBox IDPlanComboBox;
         private Label MateriaIDLabel;
         private Label MateriaDescriptionLabel;
         private Label weeklyHoursLabel;
         private Label totalHoursLabel;
         private Label MateriaStateLabel;
         private Label MateriaIDPlanLabel;
-        private ErrorProvider errorProvider;
-        private TextBox MateriaIDTextBox;
+        private ErrorProvider errorProvider;   
     }
 }

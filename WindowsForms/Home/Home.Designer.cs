@@ -31,6 +31,7 @@
             MateriasButton = new Button();
             PlanesButton = new Button();
             UsersButton = new Button();
+            SpecialtiesButton = new Button();
             SuspendLayout();
             // 
             // MateriasButton
@@ -55,7 +56,7 @@
             PlanesButton.UseVisualStyleBackColor = true;
             PlanesButton.Click += PlanesButton_Click;
             // 
-            // button1
+            // User
             // 
             UsersButton.Location = new Point(230, 265);
             UsersButton.Margin = new Padding(3, 4, 3, 4);
@@ -65,16 +66,26 @@
             UsersButton.Text = "Administrar Usuarios";
             UsersButton.UseVisualStyleBackColor = true;
             UsersButton.Click += UsersButton_Click;
+            //
+            // Specialties
+            //
+            SpecialtiesButton.Location = new Point(201, 209);
+            SpecialtiesButton.Name = "SpecialtiesButton";
+            SpecialtiesButton.Size = new Size(368, 76);
+            SpecialtiesButton.TabIndex = 2;
+            SpecialtiesButton.Text = "Administrar Especialidades";
+            SpecialtiesButton.UseVisualStyleBackColor = true;
+            SpecialtiesButton.Click += SpecialtiesButton_Click;
             // 
             // Home
             // 
-            AutoScaleDimensions = new SizeF(8F, 19F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(914, 570);
+            ClientSize = new Size(800, 450);
+            Controls.Add(SpecialtiesButton);
             Controls.Add(UsersButton);
             Controls.Add(PlanesButton);
             Controls.Add(MateriasButton);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Home";
             Text = "Sistema de Gestión Académica";
             ResumeLayout(false);
@@ -85,5 +96,6 @@
         private Button MateriasButton;
         private Button PlanesButton;
         private Button UsersButton;
+        private Button SpecialtiesButton;
     }
 }
