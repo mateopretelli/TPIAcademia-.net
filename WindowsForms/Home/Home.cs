@@ -1,4 +1,5 @@
-﻿namespace WindowsForms
+namespace WindowsForms
+
 {
     public partial class Home : Form
     {
@@ -20,6 +21,14 @@
             planesLista.Show();
             this.Hide();
         }
+
+        private void UsersButton_Click(object sender, EventArgs e)
+        {
+            UserLista usersLista = new UserLista(this);
+            usersLista.Show();
+            this.Hide();
+        }
+
         private void SpecialtiesButton_Click(object sender, EventArgs e)
         {
             SpecialtiesLista specialtiesLista = new SpecialtiesLista(this);

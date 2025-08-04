@@ -44,6 +44,7 @@
             errorProvider = new ErrorProvider(components);
             MateriaIDTextBox = new TextBox();
             IDPlanComboBox = new ComboBox();
+
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
             // 

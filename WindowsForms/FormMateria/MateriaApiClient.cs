@@ -1,7 +1,6 @@
 ﻿using DTOs;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -10,7 +9,9 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WindowsForms.FormsMateria
+
+namespace WindowsForms.FormMateria
+
 {
     internal class MateriaApiClient
     {
@@ -37,6 +38,7 @@ namespace WindowsForms.FormsMateria
             }
             return materias;
         }
+
         public static async Task<List<int>> GetAllIDPlanessAsync()
         {
             IEnumerable<Plan> planes = null;

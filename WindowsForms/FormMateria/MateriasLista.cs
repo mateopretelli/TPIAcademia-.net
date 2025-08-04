@@ -1,5 +1,6 @@
 using DTOs;
-using WindowsForms.FormsMateria;
+using WindowsForms.FormMateria;
+
 namespace WindowsForms
 {
     public partial class MateriasLista : Form
