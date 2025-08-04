@@ -1,6 +1,6 @@
 ﻿using DTOs;
 
-namespace WindowsForms
+namespace WindowsForms.FormUser
 {
     internal class UserApiClient
     {

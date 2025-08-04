@@ -1,4 +1,5 @@
 using DTOs;
+using WindowsForms.FormUser;
 namespace WindowsForms
 {
     public partial class UserLista : Form
