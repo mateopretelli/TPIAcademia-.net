@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <Compile Update="UserLista.cs" />
-    <Compile Update="FormPlans\PlanesLista.cs">
+    <Compile Update="FormPlan\PlanesLista.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

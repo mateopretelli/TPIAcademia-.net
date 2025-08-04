@@ -36,7 +36,7 @@
             // 
             // MateriasButton
             // 
-            MateriasButton.Location = new Point(230, 57);
+            MateriasButton.Location = new Point(125, 42);
             MateriasButton.Margin = new Padding(3, 4, 3, 4);
             MateriasButton.Name = "MateriasButton";
             MateriasButton.Size = new Size(421, 96);
@@ -47,7 +47,7 @@
             // 
             // PlanesButton
             // 
-            PlanesButton.Location = new Point(230, 161);
+            PlanesButton.Location = new Point(125, 146);
             PlanesButton.Margin = new Padding(3, 4, 3, 4);
             PlanesButton.Name = "PlanesButton";
             PlanesButton.Size = new Size(421, 96);
@@ -56,9 +56,9 @@
             PlanesButton.UseVisualStyleBackColor = true;
             PlanesButton.Click += PlanesButton_Click;
             // 
-            // User
+            // UsersButton
             // 
-            UsersButton.Location = new Point(230, 265);
+            UsersButton.Location = new Point(552, 42);
             UsersButton.Margin = new Padding(3, 4, 3, 4);
             UsersButton.Name = "UsersButton";
             UsersButton.Size = new Size(421, 96);
@@ -66,12 +66,12 @@
             UsersButton.Text = "Administrar Usuarios";
             UsersButton.UseVisualStyleBackColor = true;
             UsersButton.Click += UsersButton_Click;
-            //
-            // Specialties
-            //
-            SpecialtiesButton.Location = new Point(201, 209);
+            // 
+            // SpecialtiesButton
+            // 
+            SpecialtiesButton.Location = new Point(552, 146);
             SpecialtiesButton.Name = "SpecialtiesButton";
-            SpecialtiesButton.Size = new Size(368, 76);
+            SpecialtiesButton.Size = new Size(421, 94);
             SpecialtiesButton.TabIndex = 2;
             SpecialtiesButton.Text = "Administrar Especialidades";
             SpecialtiesButton.UseVisualStyleBackColor = true;
@@ -81,7 +81,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1124, 285);
             Controls.Add(SpecialtiesButton);
             Controls.Add(UsersButton);
             Controls.Add(PlanesButton);

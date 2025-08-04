@@ -1,5 +1,5 @@
 using DTOs;
-using WindowsForms.FormPlan;
+using WindowsForms.FormPlans;
 namespace WindowsForms
 {
     public partial class PlanesLista : Form

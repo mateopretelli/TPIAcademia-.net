@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using DTOs;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DTOs;
-using WindowsForms.FormPlan;
+using WindowsForms.FormPlans;
+
 
 namespace WindowsForms
 {
@@ -40,7 +33,7 @@ namespace WindowsForms
             if (this.ValidatePlan(planesExistentes))
             {
                 this.Plan.Descripcion = PlanDescriptionTextBox.Text;
-                this.Plan.IDEspecialidad = int.Parse(PlanIDSpecialityTextBox.Text);
+                this.Plan.IDEspecialidad = int.Parse(SpecialtyIDComboBox.Text);
                 this.Plan.State = PlanStateTextBox.Text;
                 if (this.EditMode)
                 {
@@ -63,7 +56,7 @@ namespace WindowsForms
             PlanIDTextBox.Text = this.Plan.ID.ToString();
             PlanStateTextBox.Text = this.Plan.State;
             PlanDescriptionTextBox.Text = this.Plan.Descripcion;
-            PlanIDSpecialityTextBox.Text = this.Plan.IDEspecialidad.ToString();
+            SpecialtyIDComboBox.Text = this.Plan.IDEspecialidad.ToString();
         }
 
         private bool ValidatePlan(IEnumerable<Plan> planesExistentes)
@@ -77,7 +70,7 @@ namespace WindowsForms
                 isValid = false;
 
             }
-            else if (ValidateDescription(PlanDescriptionTextBox.Text, PlanIDSpecialityTextBox.Text, planesExistentes))
+            else if (ValidateDescription(PlanDescriptionTextBox.Text,planesExistentes))
             {
                 errorProvider1.SetError(PlanDescriptionTextBox, "La descripción ya pertenece a otro plan de la especialidad");
                 isValid = false;
@@ -86,27 +79,12 @@ namespace WindowsForms
             {
                 errorProvider1.SetError(PlanDescriptionTextBox, string.Empty);
             }
-            // Validar IDEspecialidad
-            if (string.IsNullOrWhiteSpace(PlanIDSpecialityTextBox.Text))
-            {
-                errorProvider1.SetError(PlanIDSpecialityTextBox, "El ID de especialidad es requerido.");
-            }
-            else if (!int.TryParse(PlanIDSpecialityTextBox.Text, out int idEspecialidad) || idEspecialidad <= 0)
-            {
-                errorProvider1.SetError(PlanIDSpecialityTextBox, "El ID de especialidad debe ser un numero positivo.");
-                isValid = false;
-            }
-            else
-            {
-                errorProvider1.SetError(PlanIDSpecialityTextBox, string.Empty);
-            }
-
             return isValid;
         }
 
         // ID y State no se validan porque están disabled ya que se generan por sistema.
 
-        private bool ValidateDescription(string descripcion, string idEsp, IEnumerable<Plan> planesExistenes)
+        private bool ValidateDescription(string descripcion, IEnumerable<Plan> planesExistenes)
         {
             if (descripcion == this.Plan.Descripcion)
             {
@@ -116,12 +94,18 @@ namespace WindowsForms
             {
                 var planEncontrado = from Plan p in planesExistenes
                                      where p.Descripcion == descripcion &&
-                                     p.State == "Active" &&
-                                     p.IDEspecialidad.ToString() == idEsp
+                                     p.State == "Active"
                                      select p;
 
                 return planEncontrado.Any();
             }
+        }
+        
+        private async void SpecialtyIDComboBoxData(object sender, EventArgs e)
+        {
+            PlanApiClient client = new PlanApiClient();
+            List<int> specialtyIDs = await PlanApiClient.GetAllSpecialtyIDsAsync();
+            SpecialtyIDComboBox.DataSource = specialtyIDs;
         }
 
     }
