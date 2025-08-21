@@ -29,7 +29,7 @@ namespace WindowsForms
             IEnumerable<SpecialtyDTO> ExistantSpecialties = await SpecialtyApiClient.GetAllAsync();
             if (this.ValidateSpecialty(ExistantSpecialties))
             {
-                this.Specialty.Descripcion = SpecialtyDescriptionTextBox.Text;
+                this.Specialty.Descripcion = SpecialtyDescriptionTextBox.Text.TrimEnd().TrimStart();
                 this.Specialty.State = SpecialtyStateTextBox.Text;
                 if (this.EditMode)
                 {
@@ -81,14 +81,14 @@ namespace WindowsForms
 
         private bool ValidateDescription(string descripcion, IEnumerable<SpecialtyDTO> ExistantSpecialties)
         {
-            if (descripcion == this.Specialty.Descripcion)
+            if (descripcion.TrimEnd() == this.Specialty.Descripcion)
             {
                 return false; // Si la descripción no cambió, no es necesario validar
             }
             else
             {
                 var findedSpecialty = from SpecialtyDTO p in ExistantSpecialties
-                                      where p.Descripcion == descripcion &&
+                                      where p.Descripcion.TrimEnd().TrimStart() == descripcion.TrimEnd().TrimStart() &&
                                       p.State == "Active"
                                       select p;
 

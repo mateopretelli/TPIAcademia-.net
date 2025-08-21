@@ -13,6 +13,7 @@ namespace Data
         public TPIContext()
         {
             this.Database.EnsureCreated();
+            this.Database.Migrate(); //Una vez finalizada la BD esto se borra
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

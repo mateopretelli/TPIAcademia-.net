@@ -72,7 +72,11 @@ namespace Domain.Services
                 throw new ArgumentException("Ya existe una especialidad con esa descripción.", nameof(dto.Descripcion));
             }
 
-            Specialty specialty = new Specialty(dto.Descripcion);
+            Specialty specialty = new Specialty(dto.Descripcion) {
+                ID = dto.ID,
+                State = dto.State
+            };
+            
             return specialtyRePository.Update(specialty);
         }
 

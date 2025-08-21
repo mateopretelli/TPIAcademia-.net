@@ -1,5 +1,6 @@
 ﻿using Domain.Services;
 using DTOs;
+using Domain.Model;
 
 namespace Endpoints;
 public static class SpecialtyEndPoints
@@ -60,7 +61,7 @@ public static class SpecialtyEndPoints
         {
             try
             {
-                SpecialtyService specialtyService = new SpecialtyService();
+                SpecialtyService specialtyService = new SpecialtyService(); 
 
                 var found = specialtyService.Update(dto);
 

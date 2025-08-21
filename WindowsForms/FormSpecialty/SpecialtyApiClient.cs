@@ -10,7 +10,6 @@ using System.Linq.Expressions;
 
 
 
-
 namespace WindowsForms.FormSpecialty
 {
     internal class SpecialtyApiClient
@@ -114,11 +113,13 @@ namespace WindowsForms.FormSpecialty
         public static async Task UpdateAsync(SpecialtyDTO specialty)
         {
             try
-            {
+            {   
+
+
                 HttpResponseMessage response = await client.PutAsJsonAsync("specialties", specialty);
                 if (!response.IsSuccessStatusCode){
                     string errorContent = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Error al actualizar la especialidad. Status: {response.StatusCode} - Detalle: {errorContent}");
+                    throw new Exception($"Error al actualizar la especialidad con ID {specialty.ID}. Status: {response.StatusCode} - Detalle: {errorContent}");
                 }
             }
             catch (HttpRequestException ex)
