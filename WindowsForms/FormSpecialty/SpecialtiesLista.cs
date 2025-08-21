@@ -23,7 +23,7 @@ namespace WindowsForms
 
             id = this.SelectedItem().ID;
 
-            Specialty specialty = await SpecialtyApiClient.GetAsync(id);
+            SpecialtyDTO specialty = await SpecialtyApiClient.GetAsync(id);
 
             specialtyDetalle.EditMode = true;
             specialtyDetalle.Specialty = specialty;
@@ -46,7 +46,7 @@ namespace WindowsForms
         {
             SpecialtyDetalle specialtyDetalle = new SpecialtyDetalle();
 
-            Specialty specialtyNuevo = new Specialty();
+            SpecialtyDTO specialtyNuevo = new SpecialtyDTO();
 
             specialtyDetalle.Specialty = specialtyNuevo;
 
@@ -74,11 +74,11 @@ namespace WindowsForms
             }
         }
         
-        private Specialty SelectedItem()
+        private SpecialtyDTO SelectedItem()
         {
-            Specialty specialty;
+            SpecialtyDTO specialty;
 
-            specialty = (Specialty)specialtiesDataGridView.SelectedRows[0].DataBoundItem;
+            specialty = (SpecialtyDTO)specialtiesDataGridView.SelectedRows[0].DataBoundItem;
 
             return specialty;
         }

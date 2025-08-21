@@ -10,7 +10,7 @@ namespace Data
     {
         public DbSet<Specialty> Specialties { get; set; }
 
-        internal TPIContext()
+        public TPIContext()
         {
             this.Database.EnsureCreated();
         }
@@ -35,6 +35,8 @@ namespace Data
 
             modelBuilder.Entity<Specialty>(entity =>
             {
+                entity.ToTable("Specialties");
+
                 entity.HasKey(e => e.ID);
 
                 entity.Property(e => e.ID)

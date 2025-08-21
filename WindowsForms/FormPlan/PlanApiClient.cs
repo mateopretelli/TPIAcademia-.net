@@ -39,11 +39,11 @@ namespace WindowsForms.FormPlans
 
         public static async Task<List<int>> GetAllSpecialtyIDsAsync()
         {
-            IEnumerable<Specialty> specialties = null;
+            IEnumerable<SpecialtyDTO> specialties = null;
             HttpResponseMessage response = await client.GetAsync("specialties");
             if (response.IsSuccessStatusCode)
             {
-                specialties = await response.Content.ReadAsAsync<IEnumerable<Specialty>>();
+                specialties = await response.Content.ReadAsAsync<IEnumerable<SpecialtyDTO>>();
             }
             var specialtiesIDs = specialties.Select(p => p.ID).ToList();
 

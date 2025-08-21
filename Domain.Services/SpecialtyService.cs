@@ -1,76 +1,99 @@
 ﻿using Data;
 using Domain.Model;
+using DTOs;
 
 namespace Domain.Services
 {
     public class SpecialtyService
     {
-        public void Add(Specialty specialty)
+        public SpecialtyDTO Add(SpecialtyDTO dto)
         {
-            specialty.SetId(GetNextId());
+            var specialtyRepository = new SpecialtyRepository();
+
+            if (specialtyRepository.SpecialtyExists(dto.Descripcion))
+            {
+                throw new ArgumentException("Ya existe una especialidad con esa descripción.", nameof(dto.Descripcion));
+            }
+
+            Specialty specialty = new Specialty(dto.Descripcion);
             specialty.SetState("Active");
-            SpecialtyInMemory.Specialties.Add(specialty);
+
+            specialtyRepository.Add(specialty);
+
+            dto.ID = specialty.ID;
+            dto.State = specialty.State;
+
+            return dto;
         }
 
         public bool Delete(int id)
         {
-            Specialty? specialtyToDelete = SpecialtyInMemory.Specialties.Find(x => x.ID == id);
-
-            if (specialtyToDelete != null)
-            {
-                SpecialtyInMemory.Specialties.Remove(specialtyToDelete);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var specialtyRepositry = new SpecialtyRepository();
+            return specialtyRepositry.Delete(id);
         }
 
-        public Specialty Get(int id)
+        public SpecialtyDTO Get(int id)
         {
-            return SpecialtyInMemory.Specialties.Find(x => x.ID == id);
+            var specialtyRepository = new SpecialtyRepository();
+            Specialty? specialty = specialtyRepository.Get(id);
+
+            if (specialty == null)
+            {
+                return null;
+            }
+
+            return new SpecialtyDTO
+            {
+                ID = specialty.ID,
+                Descripcion = specialty.Descripcion,
+                State = specialty.State
+            };
         }
 
-        public IEnumerable<Specialty> GetAll()
+        public IEnumerable<SpecialtyDTO> GetAll()
         {
-            //Devuelvo una lista nueva cada vez que se llama a GetAll
-            //pero idealmente deberia implementar un Deep Clone
-            return SpecialtyInMemory.Specialties.ToList();
+            var specialtyRepository = new SpecialtyRepository();
+            return specialtyRepository.GetAll()
+                .Select(s => new SpecialtyDTO
+                {
+                    ID = s.ID,
+                    Descripcion = s.Descripcion,
+                    State = s.State
+                }).ToList();
+
         }
 
-        public bool Update(Specialty specialty)
+        public bool Update(SpecialtyDTO dto)
         {
-            Specialty? specialtyToUpdate = SpecialtyInMemory.Specialties.Find(x => x.ID == specialty.ID);
+            var specialtyRePository = new SpecialtyRepository();
 
-            if (specialtyToUpdate != null)
+            if (specialtyRePository.SpecialtyExists(dto.Descripcion, dto.ID))
             {
-                specialtyToUpdate.SetDescripcion(specialty.Descripcion);
-                specialtyToUpdate.SetState(specialty.State);
+                throw new ArgumentException("Ya existe una especialidad con esa descripción.", nameof(dto.Descripcion));
+            }
 
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            Specialty specialty = new Specialty(dto.Descripcion);
+            return specialtyRePository.Update(specialty);
         }
 
-        private static int GetNextId()
+        public IEnumerable<SpecialtyDTO> GetByCriteria(SpecialtyCriteriaDTO criteriaDTO)
         {
-            int nextId;
+            var specialtyRepository = new SpecialtyRepository();
 
-            if (SpecialtyInMemory.Specialties.Count > 0)
-            {
-                nextId = SpecialtyInMemory.Specialties.Max(x => x.ID) + 1;
-            }
-            else
-            {
-                nextId = 1;
-            }
 
-            return nextId;
+            //Mapea DTO a Domain Model
+            var criteria = new SpecialtyCriteria(criteriaDTO.Texto);
+
+            //Llama al repositorio para obtener las especialidades
+            var specialties = specialtyRepository.GetByCriteria(criteria);
+
+            //Mapea Domain Model a DTO
+            return specialties.Select(s => new SpecialtyDTO
+            {
+                ID = s.ID,
+                Descripcion = s.Descripcion,
+                State = s.State
+            });
         }
     }
 }

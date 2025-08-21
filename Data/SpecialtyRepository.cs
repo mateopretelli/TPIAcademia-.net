@@ -57,6 +57,17 @@ namespace Data
             return false;
         }
 
+        public bool SpecialtyExists(string descripcion, int? excludeId = null)
+        {
+            using var context = CreateContext();
+            var query = context.Specialties.Where(c => c.Descripcion.ToLower() == descripcion.ToLower());
+            if (excludeId.HasValue)
+            {
+                query = query.Where(s => s.ID != excludeId.Value);
+            }
+            return query.Any();
+        }
+
         public IEnumerable<Specialty> GetByCriteria(SpecialtyCriteria criteria)
         {
             const string sql = @"

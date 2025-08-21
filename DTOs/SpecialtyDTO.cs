@@ -1,7 +1,7 @@
 ﻿
 namespace DTOs
 {
-    public class Specialty
+    public class SpecialtyDTO
     {
         public int ID { get; set; }
         public string State { get; set; }

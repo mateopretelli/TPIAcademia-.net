@@ -17,7 +17,7 @@ namespace WindowsForms
             client.BaseAddress = new Uri("http://localhost:5130/");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+            new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public static HttpClient GetClient()
