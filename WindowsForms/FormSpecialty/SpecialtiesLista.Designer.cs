@@ -35,14 +35,19 @@ namespace WindowsForms
             deleteSpecialtyButton = new Button();
             updateSpecialtyButton = new Button();
             specialtiesHomeButton = new Button();
+            SpecialtySearchBar = new TextBox();
+            SpecialtySearchButton = new Button();
+            panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)specialtiesDataGridView).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // specialtiesDataGridView
             // 
             specialtiesDataGridView.AllowUserToOrderColumns = true;
-            specialtiesDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            specialtiesDataGridView.Location = new Point(12, 15);
+            specialtiesDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            specialtiesDataGridView.Dock = DockStyle.Fill;
+            specialtiesDataGridView.Location = new Point(0, 0);
             specialtiesDataGridView.Name = "specialtiesDataGridView";
             specialtiesDataGridView.ReadOnly = true;
             specialtiesDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -52,9 +57,9 @@ namespace WindowsForms
             // 
             // addSpecialtyButton
             // 
-            addSpecialtyButton.Location = new Point(551, 369);
+            addSpecialtyButton.Location = new Point(551, 388);
             addSpecialtyButton.Name = "addSpecialtyButton";
-            addSpecialtyButton.Size = new Size(75, 23);
+            addSpecialtyButton.Size = new Size(75, 50);
             addSpecialtyButton.TabIndex = 1;
             addSpecialtyButton.Text = "Agregar";
             addSpecialtyButton.UseVisualStyleBackColor = true;
@@ -62,9 +67,9 @@ namespace WindowsForms
             // 
             // deleteSpecialtyButton
             // 
-            deleteSpecialtyButton.Location = new Point(632, 369);
+            deleteSpecialtyButton.Location = new Point(632, 388);
             deleteSpecialtyButton.Name = "deleteSpecialtyButton";
-            deleteSpecialtyButton.Size = new Size(75, 23);
+            deleteSpecialtyButton.Size = new Size(75, 50);
             deleteSpecialtyButton.TabIndex = 2;
             deleteSpecialtyButton.Text = "Eliminar";
             deleteSpecialtyButton.UseVisualStyleBackColor = true;
@@ -72,17 +77,17 @@ namespace WindowsForms
             // 
             // updateSpecialtyButton
             // 
-            updateSpecialtyButton.Location = new Point(713, 369);
+            updateSpecialtyButton.Location = new Point(713, 388);
             updateSpecialtyButton.Name = "updateSpecialtyButton";
-            updateSpecialtyButton.Size = new Size(75, 23);
+            updateSpecialtyButton.Size = new Size(75, 50);
             updateSpecialtyButton.TabIndex = 3;
             updateSpecialtyButton.Text = "Modificar";
             updateSpecialtyButton.UseVisualStyleBackColor = true;
             updateSpecialtyButton.Click += updateButton_Click;
             // 
-            // SpecialtiesHomeButton
+            // specialtiesHomeButton
             // 
-            specialtiesHomeButton.Location = new Point(12, 369);
+            specialtiesHomeButton.Location = new Point(12, 388);
             specialtiesHomeButton.Name = "specialtiesHomeButton";
             specialtiesHomeButton.Size = new Size(111, 50);
             specialtiesHomeButton.TabIndex = 4;
@@ -90,21 +95,51 @@ namespace WindowsForms
             specialtiesHomeButton.UseVisualStyleBackColor = true;
             specialtiesHomeButton.Click += specialtiesHomeButton_Click;
             // 
+            // SpecialtySearchBar
+            // 
+            SpecialtySearchBar.Location = new Point(12, 12);
+            SpecialtySearchBar.Name = "SpecialtySearchBar";
+            SpecialtySearchBar.PlaceholderText = "Buscar Especialidad por descripcion";
+            SpecialtySearchBar.Size = new Size(304, 23);
+            SpecialtySearchBar.TabIndex = 5;
+            // 
+            // SpecialtySearchButton
+            // 
+            SpecialtySearchButton.Location = new Point(322, 12);
+            SpecialtySearchButton.Name = "SpecialtySearchButton";
+            SpecialtySearchButton.Size = new Size(75, 23);
+            SpecialtySearchButton.TabIndex = 6;
+            SpecialtySearchButton.Text = "Buscar";
+            SpecialtySearchButton.UseVisualStyleBackColor = true;
+            SpecialtySearchButton.Click += SpecialtySearchButton_Click;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(specialtiesDataGridView);
+            panel1.Location = new Point(12, 43);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(776, 339);
+            panel1.TabIndex = 7;
+            // 
             // SpecialtiesLista
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(panel1);
+            Controls.Add(SpecialtySearchButton);
+            Controls.Add(SpecialtySearchBar);
             Controls.Add(specialtiesHomeButton);
             Controls.Add(updateSpecialtyButton);
             Controls.Add(deleteSpecialtyButton);
             Controls.Add(addSpecialtyButton);
-            Controls.Add(specialtiesDataGridView);
             Name = "SpecialtiesLista";
             Text = "Specialties";
             Load += Specialties_Load;
             ((System.ComponentModel.ISupportInitialize)specialtiesDataGridView).EndInit();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -114,5 +149,8 @@ namespace WindowsForms
         private Button deleteSpecialtyButton;
         private Button updateSpecialtyButton;
         private Button specialtiesHomeButton;
+        private TextBox SpecialtySearchBar;
+        private Button SpecialtySearchButton;
+        private Panel panel1;
     }
 }
