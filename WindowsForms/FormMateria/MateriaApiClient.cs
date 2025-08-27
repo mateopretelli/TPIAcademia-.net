@@ -43,12 +43,12 @@ namespace WindowsForms.FormMateria
         public static async Task<List<int>> GetAllIDPlanessAsync()
         {
             IEnumerable<PlanDTO> planes = null;
-            HttpResponseMessage response = await client.GetAsync("planes");
+            HttpResponseMessage response = await client.GetAsync("plans");
             if (response.IsSuccessStatusCode)
             {
                 planes = await response.Content.ReadAsAsync<IEnumerable<PlanDTO> > ();
             }
-            var idPlanes = planes.Select(p => p.IDSpecialty).ToList();
+            var idPlanes = planes.Select(p => p.ID).ToList();
 
             return idPlanes;
         }

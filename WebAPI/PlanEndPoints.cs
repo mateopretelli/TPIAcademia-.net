@@ -37,6 +37,24 @@ public static class PlanEndPoints
         .Produces<List<PlanDTO>>(StatusCodes.Status200OK)
         .WithOpenApi();
 
+        app.MapGet("/planesEspecialidadesDescripcion", () =>
+        {
+            SpecialtyService specialtyService = new SpecialtyService();
+
+            var specialties = specialtyService.GetAll();
+
+            var dtos = specialties.Select(specialty => new SpecialtyDTO
+            {
+                Descripcion = specialty.Descripcion,
+
+            }).ToList();
+
+            return Results.Ok(dtos);
+        })
+        .WithName("GetAllSpecialtiesDescriptionsForPlans")
+        .Produces<List<SpecialtyDTO>>(StatusCodes.Status200OK)
+        .WithOpenApi();
+
         app.MapPost("/plans", (PlanDTO dto) =>
         {
             try
