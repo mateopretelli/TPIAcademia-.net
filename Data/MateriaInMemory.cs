@@ -1,4 +1,4 @@
-﻿using Domain.Model;
+﻿using Domain.Model.Subject;
 
 namespace Data
 {

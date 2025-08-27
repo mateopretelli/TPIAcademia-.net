@@ -1,4 +1,4 @@
-﻿namespace DTOs
+﻿namespace DTOs.Subject
 {
     public class Materia
     {

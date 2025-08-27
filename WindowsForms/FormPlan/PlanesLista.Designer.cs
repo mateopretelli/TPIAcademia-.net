@@ -1,4 +1,6 @@
-﻿namespace WindowsForms
+﻿using System.Windows.Forms;
+
+namespace WindowsForms
 {
     partial class PlanesLista
     {
@@ -28,31 +30,36 @@
         /// </summary>
         private void InitializeComponent()
         {
-            planesDataGridView = new DataGridView();
+            plansDataGridView = new DataGridView();
             addPlanButton = new Button();
             deletePlanButton = new Button();
             updatePlanButton = new Button();
-            PlanesHomeButton = new Button();
-            ((System.ComponentModel.ISupportInitialize)planesDataGridView).BeginInit();
+            PlanHomeButton = new Button();
+            PlanSearchBar = new TextBox();
+            PlanSearchButton = new Button();
+            PlanPanel = new Panel();
+            ((System.ComponentModel.ISupportInitialize)plansDataGridView).BeginInit();
+            PlanPanel.SuspendLayout();
             SuspendLayout();
             // 
-            // planesDataGridView
+            // plansDataGridView
             // 
-            planesDataGridView.AllowUserToOrderColumns = true;
-            planesDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            planesDataGridView.Location = new Point(12, 15);
-            planesDataGridView.Name = "planesDataGridView";
-            planesDataGridView.ReadOnly = true;
-            planesDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            planesDataGridView.Size = new Size(776, 339);
-            planesDataGridView.TabIndex = 0;
-            planesDataGridView.CellContentClick += planesDataGridView_CellContentClick;
+            plansDataGridView.AllowUserToOrderColumns = true;
+            plansDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            plansDataGridView.Dock = DockStyle.Fill;
+            plansDataGridView.Location = new Point(34, 27);
+            plansDataGridView.Name = "plansDataGridView";
+            plansDataGridView.ReadOnly = true;
+            plansDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            plansDataGridView.Size = new Size(690, 268);
+            plansDataGridView.TabIndex = 0;
+            plansDataGridView.CellContentClick += planesDataGridView_CellContentClick;
             // 
             // addPlanButton
             // 
-            addPlanButton.Location = new Point(551, 369);
+            addPlanButton.Location = new Point(551, 388);
             addPlanButton.Name = "addPlanButton";
-            addPlanButton.Size = new Size(75, 23);
+            addPlanButton.Size = new Size(75, 50);
             addPlanButton.TabIndex = 1;
             addPlanButton.Text = "Agregar";
             addPlanButton.UseVisualStyleBackColor = true;
@@ -60,9 +67,9 @@
             // 
             // deletePlanButton
             // 
-            deletePlanButton.Location = new Point(632, 369);
+            deletePlanButton.Location = new Point(632, 388);
             deletePlanButton.Name = "deletePlanButton";
-            deletePlanButton.Size = new Size(75, 23);
+            deletePlanButton.Size = new Size(75, 50);
             deletePlanButton.TabIndex = 2;
             deletePlanButton.Text = "Eliminar";
             deletePlanButton.UseVisualStyleBackColor = true;
@@ -70,47 +77,80 @@
             // 
             // updatePlanButton
             // 
-            updatePlanButton.Location = new Point(713, 369);
+            updatePlanButton.Location = new Point(713, 388);
             updatePlanButton.Name = "updatePlanButton";
-            updatePlanButton.Size = new Size(75, 23);
+            updatePlanButton.Size = new Size(75, 50);
             updatePlanButton.TabIndex = 3;
             updatePlanButton.Text = "Modificar";
             updatePlanButton.UseVisualStyleBackColor = true;
             updatePlanButton.Click += updateButton_Click;
             // 
-            // PlanesHomeButton
+            // PlanHomeButton
             // 
-            PlanesHomeButton.Location = new Point(12, 369);
-            PlanesHomeButton.Name = "PlanesHomeButton";
-            PlanesHomeButton.Size = new Size(111, 50);
-            PlanesHomeButton.TabIndex = 4;
-            PlanesHomeButton.Text = "Volver al Menu";
-            PlanesHomeButton.UseVisualStyleBackColor = true;
-            PlanesHomeButton.Click += PlanesHomeButton_Click;
+            PlanHomeButton.Location = new Point(12, 388);
+            PlanHomeButton.Name = "PlanHomeButton";
+            PlanHomeButton.Size = new Size(111, 50);
+            PlanHomeButton.TabIndex = 4;
+            PlanHomeButton.Text = "Volver al Menu";
+            PlanHomeButton.UseVisualStyleBackColor = true;
+            PlanHomeButton.Click += PlanesHomeButton_Click;
+            // 
+            // PlanSearchBar
+            // 
+            PlanSearchBar.Location = new Point(12, 12);
+            PlanSearchBar.Name = "PlanSearchBar";
+            PlanSearchBar.PlaceholderText = "Buscar Plan por descripcion";
+            PlanSearchBar.Size = new Size(304, 23);
+            PlanSearchBar.TabIndex = 5;
+            // 
+            // PlanSearchButton
+            // 
+            PlanSearchButton.Location = new Point(322, 12);
+            PlanSearchButton.Name = "PlanSearchButton";
+            PlanSearchButton.Size = new Size(75, 23);
+            PlanSearchButton.TabIndex = 6;
+            PlanSearchButton.Text = "Buscar";
+            PlanSearchButton.UseVisualStyleBackColor = true;
+            PlanSearchButton.Click += PlanSearchButton_Click;
+            // 
+            // PlanPanel
+            // 
+            PlanPanel.Controls.Add(plansDataGridView);
+            PlanPanel.Location = new Point(12, 41);
+            PlanPanel.Name = "PlanPanel";
+            PlanPanel.Size = new Size(776, 341);
+            PlanPanel.TabIndex = 7;
             // 
             // PlanesLista
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(PlanesHomeButton);
+            Controls.Add(PlanPanel);
+            Controls.Add(PlanHomeButton);
             Controls.Add(updatePlanButton);
             Controls.Add(deletePlanButton);
             Controls.Add(addPlanButton);
-            Controls.Add(planesDataGridView);
+            Controls.Add(PlanSearchBar);
+            Controls.Add(PlanSearchButton);
             Name = "PlanesLista";
             Text = "Planes";
-            Load += Planes_Load;
-            ((System.ComponentModel.ISupportInitialize)planesDataGridView).EndInit();
+            Load += Plans_Load;
+            ((System.ComponentModel.ISupportInitialize)plansDataGridView).EndInit();
+            PlanPanel.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private DataGridView planesDataGridView;
+        private DataGridView plansDataGridView;
         private Button addPlanButton;
         private Button deletePlanButton;
         private Button updatePlanButton;
-        private Button PlanesHomeButton;
+        private Button PlanHomeButton;
+        private TextBox PlanSearchBar;
+        private Button PlanSearchButton;
+        private Panel PlanPanel;
     }
 }

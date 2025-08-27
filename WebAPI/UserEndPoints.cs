@@ -1,6 +1,6 @@
 ﻿using Domain.Services;
-using Domain.Model;
-using DTOs;
+using DTOs.Plan;
+using DTOs.User;
 
 namespace Endpoints;
 
@@ -11,13 +11,13 @@ public static class UserEndPoints
         app.MapGet("/users/{ID}", (int id) =>
         {
             UserService userService = new UserService();
-            Domain.Model.User user = userService.Get(id);
+            Domain.Model.User.User user = userService.Get(id);
 
             if (user == null)
             {
                 return Results.NotFound();
             }
-            var dto = new DTOs.User
+            var dto = new DTOs.User.User
             {
                 ID = user.ID,
                 Name = user.Name,
@@ -35,7 +35,7 @@ public static class UserEndPoints
             return Results.Ok(dto);
         })
         .WithName("GetUser")
-        .Produces<DTOs.User>(StatusCodes.Status200OK)
+        .Produces<User>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound)
         .WithOpenApi();
 
@@ -43,7 +43,7 @@ public static class UserEndPoints
         {
             UserService userService = new UserService();
             var users = userService.GetAll();
-            var dtos = users.Select(user => new DTOs.User
+            var dtos = users.Select(user => new DTOs.User.User
             {
                 ID = user.ID,
                 Name = user.Name,
@@ -61,7 +61,7 @@ public static class UserEndPoints
             return Results.Ok(dtos);
         })
           .WithName("GetAllUsers")
-          .Produces<List<DTOs.User>>(StatusCodes.Status200OK)
+          .Produces<List<User>>(StatusCodes.Status200OK)
           .Produces(StatusCodes.Status404NotFound)
           .WithOpenApi();
 
@@ -71,28 +71,28 @@ public static class UserEndPoints
 
             var planes = planService.GetAll();
 
-            var dtos = planes.Select(plan => new DTOs.Plan
+            var dtos = planes.Select(plan => new DTOs.Plan.PlanDTO
             {
-                Descripcion = plan.Descripcion,
+                Description = plan.Description,
 
             }).ToList();
 
             return Results.Ok(dtos);
         })
         .WithName("GetAllPlanesDescripcionForUsers")
-        .Produces<List<DTOs.Plan>>(StatusCodes.Status200OK)
+        .Produces<List<PlanDTO>>(StatusCodes.Status200OK)
         .WithOpenApi();
 
-        app.MapPost("/users", (DTOs.User userDto) =>
+        app.MapPost("/users", (User userDto) =>
         {
             try
             {
                 UserService userService = new UserService();
-                Domain.Model.User user = new Domain.Model.User(userDto.Name, userDto.LastName, userDto.Email, userDto.Address, userDto.Phone, userDto.Legajo, userDto.BirthDate, userDto.IDPlan, userDto.Username, userDto.Password);
+                Domain.Model.User.User user = new Domain.Model.User.User(userDto.Name, userDto.LastName, userDto.Email, userDto.Address, userDto.Phone, userDto.Legajo, userDto.BirthDate, userDto.IDPlan, userDto.Username, userDto.Password);
 
                 userService.Add(user);
 
-                var dtoresultado = new DTOs.User
+                var dtoresultado = new DTOs.User.User
                 {
                     Name = userDto.Name,
                     LastName = userDto.LastName,
@@ -114,17 +114,17 @@ public static class UserEndPoints
             }
         })
           .WithName("AddUser")
-          .Accepts<DTOs.User>("application/json")
-          .Produces<DTOs.User>(StatusCodes.Status201Created)
+          .Accepts<User>("application/json")
+          .Produces<User>(StatusCodes.Status201Created)
           .Produces(StatusCodes.Status400BadRequest)
           .WithOpenApi();
 
-        app.MapPut("/users", (DTOs.User userDto) =>
+        app.MapPut("/users", (User userDto) =>
         {
             try
             {
                 UserService userService = new UserService();
-                Domain.Model.User user = new Domain.Model.User(userDto.Name, userDto.LastName, userDto.Email, userDto.Address, userDto.Phone, userDto.Legajo, userDto.BirthDate, userDto.IDPlan, userDto.Username, userDto.Password)
+                Domain.Model.User.User user = new Domain.Model.User.User(userDto.Name, userDto.LastName, userDto.Email, userDto.Address, userDto.Phone, userDto.Legajo, userDto.BirthDate, userDto.IDPlan, userDto.Username, userDto.Password)
                 {
                     ID = userDto.ID,
                     State = userDto.State
@@ -144,8 +144,8 @@ public static class UserEndPoints
             }
         })
           .WithName("UpdateUser")
-          .Accepts<DTOs.User>("application/json")
-          .Produces<DTOs.User>(StatusCodes.Status200OK)
+          .Accepts<User>("application/json")
+          .Produces<User>(StatusCodes.Status200OK)
           .Produces(StatusCodes.Status404NotFound)
           .WithOpenApi();
 

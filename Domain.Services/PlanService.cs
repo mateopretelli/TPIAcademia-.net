@@ -1,82 +1,108 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data;
-using Domain.Model;
+﻿using Data;
+using Domain.Model.Plan;
+using DTOs.Plan;
+using System.Numerics;
 
 namespace Domain.Services
 {
     public class PlanService
     {
-        public void Add(Plan plan)
+        public PlanDTO Add(PlanDTO dto)
         {
-            plan.SetId(GetNextId());
+            var planRepository = new PlanRepository();
+
+            if (planRepository.PlanExists(dto.Description))
+            {
+                throw new ArgumentException("Ya existe un plan con esa descripción.", nameof(dto.Description));
+            }
+
+            Plan plan = new Plan(dto.Description, dto.IDSpecialty);
             plan.SetState("Active");
-            PlanInMemory.Planes.Add(plan);
+
+            planRepository.Add(plan);
+
+            dto.ID = plan.ID;
+            dto.State = plan.State;
+
+            return dto;
         }
 
         public bool Delete(int id)
         {
-            Plan? planToDelete = PlanInMemory.Planes.Find(x => x.ID == id);
-
-            if (planToDelete != null)
-            {
-                PlanInMemory.Planes.Remove(planToDelete);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var planRepositry = new PlanRepository();
+            return planRepositry.Delete(id);
         }
 
-        public Plan Get(int id)
+        public PlanDTO Get(int id)
         {
-            return PlanInMemory.Planes.Find(x => x.ID == id);
+            var planRepository = new PlanRepository();
+            Plan? plan = planRepository.Get(id);
+
+            if (plan == null)
+            {
+                return null;
+            }
+
+            return new PlanDTO
+            {
+                ID = plan.ID,
+                Description = plan.Description,
+                IDSpecialty = plan.IDSpecialty,
+                State = plan.State
+            };
         }
 
-        public IEnumerable<Plan> GetAll()
+        public IEnumerable<PlanDTO> GetAll()
         {
-            //Devuelvo una lista nueva cada vez que se llama a GetAll
-            //pero idealmente deberia implementar un Deep Clone
-            return PlanInMemory.Planes.ToList();
+            var planRepository = new PlanRepository();
+            return planRepository.GetAll()
+                .Select(p => new PlanDTO
+                {
+                    ID = p.ID,
+                    Description = p.Description,
+                    IDSpecialty = p.IDSpecialty,
+                    State = p.State
+                }).ToList();
+
         }
 
-        public bool Update(Plan plan)
+        public bool Update(PlanDTO dto)
         {
-            Plan? planToUpdate = PlanInMemory.Planes.Find(x => x.ID == plan.ID);
+            var planRePository = new PlanRepository();
 
-            if (planToUpdate != null)
+            if (planRePository.PlanExists(dto.Description, dto.ID))
             {
-                planToUpdate.SetDescripcion(plan.Descripcion);
-                planToUpdate.SetIDEspecialidad(plan.IDEspecialidad);
-                planToUpdate.SetState(plan.State);
+                throw new ArgumentException("Ya existe un plan con esa descripción.", nameof(dto.Description));
+            }
 
-                return true;
-            }
-            else
+            Plan plan = new Plan(dto.Description, dto.IDSpecialty)
             {
-                return false;
-            }
+                ID = dto.ID,
+                State = dto.State
+            };
+
+            return planRePository.Update(plan);
         }
 
-        private static int GetNextId()
+        public IEnumerable<PlanDTO> GetByCriteria(PlanCriteriaDTO criteriaDTO)
         {
-            int nextId;
+            var planRepository = new PlanRepository();
 
-            if (PlanInMemory.Planes.Count > 0)
-            {
-                nextId = PlanInMemory.Planes.Max(x => x.ID) + 1;
-            }
-            else
-            {
-                nextId = 1;
-            }
 
-            return nextId;
+            //Mapea DTO a Domain Model
+            var criteria = new PlanCriteria(criteriaDTO.Texto);
+
+            //Llama al repositorio para obtener las especialidades
+            var specialties = planRepository.GetByCriteria(criteria);
+
+            //Mapea Domain Model a DTO
+            return specialties.Select(p => new PlanDTO
+            {
+                ID = p.ID,
+                Description = p.Description,
+                IDSpecialty = p.IDSpecialty,
+                State = p.State
+            });
         }
     }
 }

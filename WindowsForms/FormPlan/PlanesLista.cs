@@ -1,5 +1,7 @@
-using DTOs;
+using DTOs.Plan;
+using DTOs.Specialty;
 using WindowsForms.FormPlans;
+using WindowsForms.FormSpecialty;
 namespace WindowsForms
 {
     public partial class PlanesLista : Form
@@ -11,9 +13,9 @@ namespace WindowsForms
             this.home = home;
         }
 
-        private void Planes_Load(object sender, EventArgs e)
+        private void Plans_Load(object sender, EventArgs e)
         {
-            this.GetAllAndLoad();
+            this.GetByCriteriaAndLoad();
         }
 
         private async void updateButton_Click(object sender, EventArgs e)
@@ -24,14 +26,14 @@ namespace WindowsForms
 
             id = this.SelectedItem().ID;
 
-            Plan plan = await PlanApiClient.GetAsync(id);
+            PlanDTO plan = await PlanApiClient.GetAsync(id);
 
             planDetalle.EditMode = true;
             planDetalle.Plan = plan;
 
             planDetalle.ShowDialog();
 
-            this.GetAllAndLoad();
+            this.GetByCriteriaAndLoad();
         }
 
         private async void deleteButton_Click(object sender, EventArgs e)
@@ -41,46 +43,65 @@ namespace WindowsForms
             id = this.SelectedItem().ID;
             await PlanApiClient.DeleteAsync(id);
 
-            this.GetAllAndLoad();
+            this.GetByCriteriaAndLoad();
         }
         private void addButton_Click(object sender, EventArgs e)
         {
             PlanDetalle planDetalle = new PlanDetalle();
 
-            Plan planNuevo = new Plan();
+            PlanDTO planNuevo = new PlanDTO();
 
             planDetalle.Plan = planNuevo;
 
             planDetalle.ShowDialog();
 
-            this.GetAllAndLoad();
+            this.GetByCriteriaAndLoad();
         }
 
-        private async void GetAllAndLoad()
+        private async void GetByCriteriaAndLoad(string searchText = "")
         {
-            PlanApiClient client = new PlanApiClient();
-
-            this.planesDataGridView.DataSource = null;
-            this.planesDataGridView.DataSource = await PlanApiClient.GetAllAsync();
-
-            if (this.planesDataGridView.Rows.Count > 0)
+            try
             {
-                this.planesDataGridView.Rows[0].Selected = true;
-                this.deletePlanButton.Enabled = true;
-                this.updatePlanButton.Enabled = true;
+                this.plansDataGridView.DataSource = null;
+
+                IEnumerable<PlanDTO> specialties;
+
+                if (string.IsNullOrWhiteSpace(searchText))
+                {
+                    specialties = await PlanApiClient.GetAllAsync();
+                }
+                else
+                {
+                    specialties = await PlanApiClient.GetByCriteriaAsync(searchText);
+                }
+
+                this.plansDataGridView.DataSource = specialties;
+
+                if (this.plansDataGridView.Rows.Count > 0)
+                {
+                    this.plansDataGridView.Rows[0].Selected = true;
+                    this.deletePlanButton.Enabled = true;
+                    this.updatePlanButton.Enabled = true;
+                }
+                else
+                {
+                    this.deletePlanButton.Enabled = false;
+                    this.updatePlanButton.Enabled = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
+                MessageBox.Show($"Error al cargar la lista de planes: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.deletePlanButton.Enabled = false;
                 this.updatePlanButton.Enabled = false;
             }
         }
 
-        private Plan SelectedItem()
+        private PlanDTO SelectedItem()
         {
-            Plan plan;
+            PlanDTO plan;
 
-            plan = (Plan)planesDataGridView.SelectedRows[0].DataBoundItem;
+            plan = (PlanDTO)plansDataGridView.SelectedRows[0].DataBoundItem;
 
             return plan;
         }
@@ -94,6 +115,11 @@ namespace WindowsForms
         {
             this.Close();
             home.Show();
+        }
+        private void PlanSearchButton_Click(object sender, EventArgs e)
+        {
+            string searchText = this.PlanSearchBar.Text.Trim();
+            this.GetByCriteriaAndLoad(searchText);
         }
     }
 }

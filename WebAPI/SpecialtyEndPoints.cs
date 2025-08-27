@@ -1,6 +1,6 @@
 ﻿using Domain.Services;
-using DTOs;
 using Domain.Model;
+using DTOs.Specialty;
 
 namespace Endpoints;
 public static class SpecialtyEndPoints
@@ -21,7 +21,7 @@ public static class SpecialtyEndPoints
             return Results.Ok(dto);
         })
         .WithName("GetSpecialty")
-        .Produces<DTOs.SpecialtyDTO>(StatusCodes.Status200OK)
+        .Produces<SpecialtyDTO>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound)
         .WithOpenApi();
 
@@ -34,7 +34,7 @@ public static class SpecialtyEndPoints
             return Results.Ok(dtos);
         })
         .WithName("GetAllSpecialties")
-        .Produces<List<DTOs.SpecialtyDTO>>(StatusCodes.Status200OK)
+        .Produces<List<SpecialtyDTO>>(StatusCodes.Status200OK)
         .WithOpenApi();
 
         app.MapPost("/specialties", (SpecialtyDTO dto) =>
@@ -53,7 +53,7 @@ public static class SpecialtyEndPoints
             }
         })
         .WithName("AddSpecialty")
-        .Produces<DTOs.SpecialtyDTO>(StatusCodes.Status201Created)
+        .Produces<SpecialtyDTO>(StatusCodes.Status201Created)
         .Produces(StatusCodes.Status400BadRequest)
         .WithOpenApi();
 
@@ -119,7 +119,7 @@ public static class SpecialtyEndPoints
 
         })
          .WithName("GetSpecialtiesByCriteria")
-        .Produces<List<DTOs.SpecialtyDTO>>(StatusCodes.Status200OK)
+        .Produces<List<SpecialtyDTO>>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status400BadRequest)
         .WithOpenApi();
 

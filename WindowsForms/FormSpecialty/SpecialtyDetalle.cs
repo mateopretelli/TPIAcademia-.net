@@ -1,4 +1,4 @@
-﻿using DTOs;
+﻿using DTOs.Specialty;
 using System.Data;
 using WindowsForms.FormPlans;
 using WindowsForms.FormSpecialty;

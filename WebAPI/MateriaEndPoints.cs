@@ -1,6 +1,6 @@
 using Domain.Services;
-using Domain.Model;
-using DTOs;
+using DTOs.Plan;
+using DTOs.Subject;
 
 namespace Endpoints; 
 
@@ -12,14 +12,14 @@ public static class MateriaEndPoints {
         {
             MateriaService materiaService = new MateriaService();
 
-            Domain.Model.Materia materia = materiaService.Get(id);
+            Domain.Model.Subject.Materia materia = materiaService.Get(id);
 
             if (materia == null)
             {
                 return Results.NotFound();
             }
 
-            var dto = new DTOs.Materia
+            var dto = new DTOs.Subject.Materia
             {
                 ID = materia.ID,
                 Descripcion = materia.Descripcion,
@@ -32,7 +32,7 @@ public static class MateriaEndPoints {
             return Results.Ok(dto);
         })
         .WithName("GetMateria")
-        .Produces<DTOs.Materia>(StatusCodes.Status200OK)
+        .Produces<Materia>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound)
         .WithOpenApi();
 
@@ -42,7 +42,7 @@ public static class MateriaEndPoints {
 
             var materias = materiaService.GetAll();
 
-            var dtos = materias.Select(materia => new DTOs.Materia
+            var dtos = materias.Select(materia => new DTOs.Subject.Materia
             {
                 ID = materia.ID,
                 Descripcion = materia.Descripcion,
@@ -55,7 +55,7 @@ public static class MateriaEndPoints {
             return Results.Ok(dtos);
         })
         .WithName("GetAllMaterias")
-        .Produces<List<DTOs.Materia>>(StatusCodes.Status200OK)
+        .Produces<List<Materia>>(StatusCodes.Status200OK)
         .WithOpenApi();
 
 
@@ -65,29 +65,29 @@ public static class MateriaEndPoints {
 
             var planes = planService.GetAll();
 
-            var dtos = planes.Select(plan => new DTOs.Plan
+            var dtos = planes.Select(plan => new DTOs.Plan.PlanDTO
             {
-                Descripcion = plan.Descripcion,
+                Description = plan.Description,
 
             }).ToList();
 
             return Results.Ok(dtos);
         })
         .WithName("GetAllPlanesDescripcionForMateria")
-        .Produces<List<DTOs.Plan>>(StatusCodes.Status200OK)
+        .Produces<List<PlanDTO>>(StatusCodes.Status200OK)
         .WithOpenApi();
 
-        app.MapPost("/materias", (DTOs.Materia dto) =>
+        app.MapPost("/materias", (Materia dto) =>
         {
             try
             {
                 MateriaService materiaService = new MateriaService();
 
-                Domain.Model.Materia materia = new Domain.Model.Materia(dto.Descripcion, dto.HSSemanales, dto.HSTotales, dto.IDPlan);
+                Domain.Model.Subject.Materia materia = new Domain.Model.Subject.Materia(dto.Descripcion, dto.HSSemanales, dto.HSTotales, dto.IDPlan);
 
                 materiaService.Add(materia);
 
-                var dtoResultado = new DTOs.Materia
+                var dtoResultado = new DTOs.Subject.Materia
                 {
                     ID = materia.ID,
                     Descripcion = materia.Descripcion,
@@ -105,17 +105,17 @@ public static class MateriaEndPoints {
             }
         })
         .WithName("AddMateria")
-        .Produces<DTOs.Materia>(StatusCodes.Status201Created)
+        .Produces<Materia>(StatusCodes.Status201Created)
         .Produces(StatusCodes.Status400BadRequest)
         .WithOpenApi();
 
-        app.MapPut("/materias", (DTOs.Materia dto) =>
+        app.MapPut("/materias", (Materia dto) =>
         {
             try
             {
                 MateriaService materiaService = new MateriaService();
 
-                Domain.Model.Materia materia = new Domain.Model.Materia(dto.Descripcion, dto.HSSemanales, dto.HSTotales, dto.IDPlan);
+                Domain.Model.Subject.Materia materia = new Domain.Model.Subject.Materia(dto.Descripcion, dto.HSSemanales, dto.HSTotales, dto.IDPlan);
                 materia.SetId(dto.ID);
                 materia.SetState(dto.State);
 

@@ -1,55 +1,55 @@
-﻿using Domain.Model.Specialty;
+﻿using Domain.Model.Plan;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 
 namespace Data
 {
-    public class SpecialtyRepository
+    public class PlanRepository
     {
         private TPIContext CreateContext()
         {
             return new TPIContext();
         }
 
-        public void Add(Specialty specialty)
+        public void Add(Plan plan)
         {
             using var context = CreateContext();
-            context.Specialties.Add(specialty);
+            context.Plans.Add(plan);
             context.SaveChanges();
         }
 
         public bool Delete(int id)
         {
             using var context = CreateContext();
-            var specialty = context.Specialties.Find(id);
-            if (specialty != null)
+            var plan = context.Plans.Find(id);
+            if (plan != null)
             {
-                context.Specialties.Remove(specialty);
+                context.Plans.Remove(plan);
                 context.SaveChanges();
                 return true;
             }
             return false;
         }
 
-        public Specialty? Get(int id)
+        public Plan? Get(int id)
         {
             using var context = CreateContext();
-            return context.Specialties.Find(id);
+            return context.Plans.Find(id);
         }
 
-        public IEnumerable<Specialty> GetAll()
+        public IEnumerable<Plan> GetAll()
         {
             using var context = CreateContext();
-            return context.Specialties.ToList();
+            return context.Plans.ToList();
         }
 
-        public bool Update(Specialty specialty)
+        public bool Update(Plan plan)
         {
             using var context = CreateContext();
-            var existingSpecialty = context.Specialties.Find(specialty.ID);
-            if (existingSpecialty != null)
+            var existingPlan = context.Plans.Find(plan.ID);
+            if (existingPlan != null)
             {
-                existingSpecialty.SetDescripcion(specialty.Descripcion);
+                existingPlan.SetDescription(plan.Description);
 
                 context.SaveChanges();
                 return true;
@@ -57,10 +57,10 @@ namespace Data
             return false;
         }
 
-        public bool SpecialtyExists(string descripcion, int? excludeId = null)
+        public bool PlanExists(string description, int? excludeId = null)
         {
             using var context = CreateContext();
-            var query = context.Specialties.Where(c => c.Descripcion.ToLower() == descripcion.ToLower());
+            var query = context.Plans.Where(c => c.Description.ToLower() == description.ToLower());
             if (excludeId.HasValue)
             {
                 query = query.Where(s => s.ID != excludeId.Value);
@@ -68,15 +68,15 @@ namespace Data
             return query.Any();
         }
 
-        public IEnumerable<Specialty> GetByCriteria(SpecialtyCriteria criteria)
+        public IEnumerable<Plan> GetByCriteria(PlanCriteria criteria)
         {
             const string sql = @"
-                SELECT ID, State, Descripcion
-                FROM Specialties
-                WHERE Descripcion LIKE @SearchTerm 
-                ORDER BY Descripcion";
+                SELECT ID, State, Description, IDSpecialty
+                FROM Plans
+                WHERE Description LIKE @SearchTerm 
+                ORDER BY Description";
 
-            var specialties = new List<Specialty>();
+            var plans = new List<Plan>();
             string connectionString = new TPIContext().Database.GetConnectionString();
             string searchPattern = $"%{criteria.Texto}%";
 
@@ -90,17 +90,18 @@ namespace Data
 
             while (reader.Read())
             {
-                var specialty = new Specialty(
-                    reader.GetString(2)  // Descripcion
+                var plan = new Plan(
+                    reader.GetString(2),  // Descripcion
+                    reader.GetInt32(3)   // ID especialidad
                 );
 
-                specialty.SetId(reader.GetInt32(0)); // ID
-                specialty.SetState(reader.GetString(1)); // State
+                plan.SetId(reader.GetInt32(0)); // ID
+                plan.SetState(reader.GetString(1)); // State
 
-                specialties.Add(specialty);
+                plans.Add(plan);
             }
 
-            return specialties;
+            return plans;
         }
 
     }

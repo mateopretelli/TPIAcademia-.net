@@ -1,8 +1,8 @@
-﻿namespace DTOs
+﻿namespace DTOs.Plan
 {
-    public class SpecialtyCriteriaDTO
+    public class PlanCriteriaDTO
     {
         public string Texto { get; set; } = string.Empty;
-        
+
     }
 }
