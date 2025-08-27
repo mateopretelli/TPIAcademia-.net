@@ -1,4 +1,4 @@
-﻿using DTOs;
+﻿using DTOs.Plan;
 using System.Data;
 using WindowsForms.FormPlans;
 
@@ -8,8 +8,8 @@ namespace WindowsForms
     public partial class PlanDetalle : Form
     {
 
-        private Plan plan;
-        public Plan Plan
+        private PlanDTO plan;
+        public PlanDTO Plan
         {
             get { return plan; }
             set
@@ -29,11 +29,11 @@ namespace WindowsForms
         private async void acceptPlanButton_Click(object sender, EventArgs e)
         {
             PlanApiClient client = new PlanApiClient();
-            IEnumerable<Plan> planesExistentes = await PlanApiClient.GetAllAsync();
-            if (this.ValidatePlan(planesExistentes))
+            IEnumerable<PlanDTO> Existantplans = await PlanApiClient.GetAllAsync();
+            if (this.ValidatePlan(Existantplans))
             {
-                this.Plan.Descripcion = PlanDescriptionTextBox.Text;
-                this.Plan.IDEspecialidad = int.Parse(SpecialtyIDComboBox.Text);
+                this.Plan.Description = PlanDescriptionTextBox.Text.TrimEnd().TrimStart(); ;
+                this.Plan.IDSpecialty = int.Parse(SpecialtyIDComboBox.Text);
                 this.Plan.State = PlanStateTextBox.Text;
                 if (this.EditMode)
                 {
@@ -55,11 +55,11 @@ namespace WindowsForms
         {
             PlanIDTextBox.Text = this.Plan.ID.ToString();
             PlanStateTextBox.Text = this.Plan.State;
-            PlanDescriptionTextBox.Text = this.Plan.Descripcion;
-            SpecialtyIDComboBox.Text = this.Plan.IDEspecialidad.ToString();
+            PlanDescriptionTextBox.Text = this.Plan.Description;
+            SpecialtyIDComboBox.Text = this.Plan.IDSpecialty.ToString();
         }
 
-        private bool ValidatePlan(IEnumerable<Plan> planesExistentes)
+        private bool ValidatePlan(IEnumerable<PlanDTO> Existantplans)
         {
             bool isValid = true;
 
@@ -70,7 +70,7 @@ namespace WindowsForms
                 isValid = false;
 
             }
-            else if (ValidateDescription(PlanDescriptionTextBox.Text,planesExistentes))
+            else if (ValidateDescription(PlanDescriptionTextBox.Text, Existantplans))
             {
                 errorProvider1.SetError(PlanDescriptionTextBox, "La descripción ya pertenece a otro plan de la especialidad");
                 isValid = false;
@@ -84,20 +84,20 @@ namespace WindowsForms
 
         // ID y State no se validan porque están disabled ya que se generan por sistema.
 
-        private bool ValidateDescription(string descripcion, IEnumerable<Plan> planesExistenes)
+        private bool ValidateDescription(string description, IEnumerable<PlanDTO> Existantplans)
         {
-            if (descripcion == this.Plan.Descripcion)
+            if (description.TrimEnd() == this.Plan.Description)
             {
                 return false; // Si la descripción no cambió, no es necesario validar
             }
             else
             {
-                var planEncontrado = from Plan p in planesExistenes
-                                     where p.Descripcion == descripcion &&
+                var findedPlan = from PlanDTO p in Existantplans
+                                     where p.Description == description &&
                                      p.State == "Active"
                                      select p;
 
-                return planEncontrado.Any();
+                return findedPlan.Any();
             }
         }
         

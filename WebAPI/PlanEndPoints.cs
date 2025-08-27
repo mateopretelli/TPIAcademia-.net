@@ -1,80 +1,51 @@
 ﻿using Domain.Services;
-using Domain.Model;
-using DTOs;
-using System.Numerics;
+using DTOs.Plan;
+using DTOs.Specialty;
 
 namespace Endpoints;
-
 public static class PlanEndPoints
 {
-
     public static void MapPlanEndpoints(this WebApplication app)
     {
-        app.MapGet("/planes/{ID}", (int id) =>
+        app.MapGet("/plans/{ID}", (int id) =>
         {
             PlanService planService = new PlanService();
 
-            Domain.Model.Plan plan = planService.Get(id);
+            PlanDTO dto = planService.Get(id);
 
-            if (plan == null)
+            if (dto == null)
             {
                 return Results.NotFound();
             }
 
-            var dto = new DTOs.Plan
-            {
-                ID = plan.ID,
-                State = plan.State,
-                Descripcion = plan.Descripcion,
-                IDEspecialidad = plan.IDEspecialidad,
-            };
-
             return Results.Ok(dto);
         })
         .WithName("GetPlan")
-        .Produces<DTOs.Plan>(StatusCodes.Status200OK)
+        .Produces<PlanDTO>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound)
         .WithOpenApi();
 
-        app.MapGet("/planes", () =>
+        app.MapGet("/plans", () =>
         {
             PlanService planService = new PlanService();
 
-            var planes = planService.GetAll();
-
-            var dtos = planes.Select(plan => new DTOs.Plan
-            {
-                ID = plan.ID,
-                State = plan.State,
-                Descripcion = plan.Descripcion,
-                IDEspecialidad = plan.IDEspecialidad,
-            }).ToList();
+            var dtos = planService.GetAll();
 
             return Results.Ok(dtos);
         })
-        .WithName("GetAllPlanes")
-        .Produces<List<DTOs.Plan>>(StatusCodes.Status200OK)
+        .WithName("GetAllPlans")
+        .Produces<List<PlanDTO>>(StatusCodes.Status200OK)
         .WithOpenApi();
 
-        app.MapPost("/planes", (DTOs.Plan dto) =>
+        app.MapPost("/plans", (PlanDTO dto) =>
         {
             try
             {
                 PlanService planService = new PlanService();
 
-                Domain.Model.Plan plan = new Domain.Model.Plan(dto.Descripcion, dto.IDEspecialidad);
+                PlanDTO planDTO = planService.Add(dto);
 
-                planService.Add(plan);
-
-                var dtoResultado = new DTOs.Plan
-                {
-                    ID = plan.ID,
-                    State = plan.State,
-                    Descripcion = plan.Descripcion,
-                    IDEspecialidad = plan.IDEspecialidad,
-                };
-
-                return Results.Created($"/planes/{dtoResultado.ID}", dtoResultado);
+                return Results.Created($"/plans/{planDTO.ID}", planDTO);
             }
             catch (ArgumentException ex)
             {
@@ -82,21 +53,17 @@ public static class PlanEndPoints
             }
         })
         .WithName("AddPlan")
-        .Produces<DTOs.Plan>(StatusCodes.Status201Created)
+        .Produces<PlanDTO>(StatusCodes.Status201Created)
         .Produces(StatusCodes.Status400BadRequest)
         .WithOpenApi();
 
-        app.MapPut("/planes", (DTOs.Plan dto) =>
+        app.MapPut("/plans", (PlanDTO dto) =>
         {
             try
             {
                 PlanService planService = new PlanService();
 
-                Domain.Model.Plan plan = new Domain.Model.Plan(dto.Descripcion, dto.IDEspecialidad);
-                plan.SetId(dto.ID);
-                plan.SetState(dto.State);
-
-                var found = planService.Update(plan);
+                var found = planService.Update(dto);
 
                 if (!found)
                 {
@@ -116,7 +83,7 @@ public static class PlanEndPoints
         .Produces(StatusCodes.Status400BadRequest)
         .WithOpenApi();
 
-        app.MapDelete("/planes/{ID}", (int id) =>
+        app.MapDelete("/plans/{ID}", (int id) =>
         {
             PlanService planService = new PlanService();
 
@@ -135,5 +102,26 @@ public static class PlanEndPoints
         .Produces(StatusCodes.Status404NotFound)
         .Produces(StatusCodes.Status400BadRequest)
         .WithOpenApi();
+
+        app.MapGet("/plans/criteria", (string texto) =>
+        {
+            try
+            {
+                PlanService planService = new PlanService();
+                var criteria = new PlanCriteriaDTO { Texto = texto };
+                var dtos = planService.GetByCriteria(criteria);
+                return Results.Ok(dtos);
+            }
+            catch (ArgumentException ex)
+            {
+                return Results.BadRequest(new { error = ex.Message });
+            }
+
+        })
+         .WithName("GetPlansByCriteria")
+        .Produces<List<PlanDTO>>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status400BadRequest)
+        .WithOpenApi();
+    
     }
 }

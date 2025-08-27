@@ -1,4 +1,5 @@
-﻿using DTOs;
+﻿using DTOs.Plan;
+using DTOs.Subject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,13 +42,13 @@ namespace WindowsForms.FormMateria
 
         public static async Task<List<int>> GetAllIDPlanessAsync()
         {
-            IEnumerable<Plan> planes = null;
+            IEnumerable<PlanDTO> planes = null;
             HttpResponseMessage response = await client.GetAsync("planes");
             if (response.IsSuccessStatusCode)
             {
-                planes = await response.Content.ReadAsAsync<IEnumerable<Plan> > ();
+                planes = await response.Content.ReadAsAsync<IEnumerable<PlanDTO> > ();
             }
-            var idPlanes = planes.Select(p => p.IDEspecialidad).ToList();
+            var idPlanes = planes.Select(p => p.IDSpecialty).ToList();
 
             return idPlanes;
         }

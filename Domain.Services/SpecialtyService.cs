@@ -1,6 +1,7 @@
 ﻿using Data;
 using Domain.Model;
-using DTOs;
+using Domain.Model.Specialty;
+using DTOs.Specialty;
 
 namespace Domain.Services
 {

@@ -1,4 +1,4 @@
-using DTOs;
+using DTOs.Plan;
 using WindowsForms.FormPlans;
 namespace WindowsForms
 {
@@ -24,7 +24,7 @@ namespace WindowsForms
 
             id = this.SelectedItem().ID;
 
-            Plan plan = await PlanApiClient.GetAsync(id);
+            PlanDTO plan = await PlanApiClient.GetAsync(id);
 
             planDetalle.EditMode = true;
             planDetalle.Plan = plan;
@@ -47,7 +47,7 @@ namespace WindowsForms
         {
             PlanDetalle planDetalle = new PlanDetalle();
 
-            Plan planNuevo = new Plan();
+            PlanDTO planNuevo = new PlanDTO();
 
             planDetalle.Plan = planNuevo;
 
@@ -76,11 +76,11 @@ namespace WindowsForms
             }
         }
 
-        private Plan SelectedItem()
+        private PlanDTO SelectedItem()
         {
-            Plan plan;
+            PlanDTO plan;
 
-            plan = (Plan)planesDataGridView.SelectedRows[0].DataBoundItem;
+            plan = (PlanDTO)planesDataGridView.SelectedRows[0].DataBoundItem;
 
             return plan;
         }
