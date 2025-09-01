@@ -1,4 +1,4 @@
-﻿using DTOs;
+﻿using DTOs.Specialty;
 using System.Data;
 using WindowsForms.FormPlans;
 using WindowsForms.FormSpecialty;
@@ -7,8 +7,8 @@ namespace WindowsForms
 {
     public partial class SpecialtyDetalle : Form
     {
-        private Specialty specialty;
-        public Specialty Specialty
+        private SpecialtyDTO specialty;
+        public SpecialtyDTO Specialty
         {
             get { return specialty; }
             set
@@ -26,10 +26,10 @@ namespace WindowsForms
         private async void acceptSpecialtyButton_Click(object sender, EventArgs e)
         {
             SpecialtyApiClient client = new SpecialtyApiClient();
-            IEnumerable<Specialty> ExistantSpecialties = await SpecialtyApiClient.GetAllAsync();
+            IEnumerable<SpecialtyDTO> ExistantSpecialties = await SpecialtyApiClient.GetAllAsync();
             if (this.ValidateSpecialty(ExistantSpecialties))
             {
-                this.Specialty.Descripcion = SpecialtyDescriptionTextBox.Text;
+                this.Specialty.Descripcion = SpecialtyDescriptionTextBox.Text.TrimEnd().TrimStart();
                 this.Specialty.State = SpecialtyStateTextBox.Text;
                 if (this.EditMode)
                 {
@@ -53,7 +53,7 @@ namespace WindowsForms
             SpecialtyStateTextBox.Text = this.Specialty.State;
             SpecialtyDescriptionTextBox.Text = this.Specialty.Descripcion;
         }
-        private bool ValidateSpecialty(IEnumerable<Specialty> ExistantSpecialties)
+        private bool ValidateSpecialty(IEnumerable<SpecialtyDTO> ExistantSpecialties)
         {
             bool isValid = true;
 
@@ -79,16 +79,16 @@ namespace WindowsForms
 
         // ID y State no se validan porque están disabled ya que se generan por sistema.
 
-        private bool ValidateDescription(string descripcion, IEnumerable<Specialty> ExistantSpecialties)
+        private bool ValidateDescription(string descripcion, IEnumerable<SpecialtyDTO> ExistantSpecialties)
         {
-            if (descripcion == this.Specialty.Descripcion)
+            if (descripcion.TrimEnd() == this.Specialty.Descripcion)
             {
                 return false; // Si la descripción no cambió, no es necesario validar
             }
             else
             {
-                var findedSpecialty = from Specialty p in ExistantSpecialties
-                                      where p.Descripcion == descripcion &&
+                var findedSpecialty = from SpecialtyDTO p in ExistantSpecialties
+                                      where p.Descripcion.TrimEnd().TrimStart() == descripcion.TrimEnd().TrimStart() &&
                                       p.State == "Active"
                                       select p;
 

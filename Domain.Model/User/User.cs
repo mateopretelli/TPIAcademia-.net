@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Model.Person;
 
-namespace Domain.Model
+namespace Domain.Model.User
 {
-    public class User : Person
+    public class User : Person.Person
     {
         public string Username { get; private set; }
         public string Password { get; private set; }

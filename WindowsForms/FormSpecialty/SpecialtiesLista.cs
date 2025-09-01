@@ -1,4 +1,4 @@
-﻿using DTOs;
+﻿using DTOs.Specialty;
 using WindowsForms.FormSpecialty;
 
 namespace WindowsForms
@@ -13,7 +13,7 @@ namespace WindowsForms
         }
         private void Specialties_Load(object sender, EventArgs e)
         {
-            this.GetAllAndLoad();
+            this.GetByCriteriaAndLoad();
         }
         private async void updateButton_Click(object sender, EventArgs e)
         {
@@ -23,14 +23,14 @@ namespace WindowsForms
 
             id = this.SelectedItem().ID;
 
-            Specialty specialty = await SpecialtyApiClient.GetAsync(id);
+            SpecialtyDTO specialty = await SpecialtyApiClient.GetAsync(id);
 
             specialtyDetalle.EditMode = true;
             specialtyDetalle.Specialty = specialty;
 
             specialtyDetalle.ShowDialog();
 
-            this.GetAllAndLoad();
+            this.GetByCriteriaAndLoad();
         }
         private async void deleteButton_Click(object sender, EventArgs e)
         {
@@ -39,56 +39,81 @@ namespace WindowsForms
             id = this.SelectedItem().ID;
             await SpecialtyApiClient.DeleteAsync(id);
 
-            this.GetAllAndLoad();
+            this.GetByCriteriaAndLoad();
         }
 
         private void addButton_Click(object sender, EventArgs e)
         {
             SpecialtyDetalle specialtyDetalle = new SpecialtyDetalle();
 
-            Specialty specialtyNuevo = new Specialty();
+            SpecialtyDTO specialtyNuevo = new SpecialtyDTO();
 
             specialtyDetalle.Specialty = specialtyNuevo;
 
             specialtyDetalle.ShowDialog();
 
-            this.GetAllAndLoad();
+            this.GetByCriteriaAndLoad();
         }
-        private async void GetAllAndLoad()
+        private async void GetByCriteriaAndLoad(string searchText= "")
         {
-            SpecialtyApiClient client = new SpecialtyApiClient();
-
-            this.specialtiesDataGridView.DataSource = null;
-            this.specialtiesDataGridView.DataSource = await SpecialtyApiClient.GetAllAsync();
-
-            if (this.specialtiesDataGridView.Rows.Count > 0)
+            try
             {
-                this.specialtiesDataGridView.Rows[0].Selected = true;
-                this.deleteSpecialtyButton.Enabled = true;
-                this.updateSpecialtyButton.Enabled = true;
+                this.specialtiesDataGridView.DataSource = null;
+
+                IEnumerable<SpecialtyDTO> specialties;
+
+                if (string.IsNullOrWhiteSpace(searchText))
+                {
+                    specialties = await SpecialtyApiClient.GetAllAsync();
+                }
+                else
+                {
+                    specialties = await SpecialtyApiClient.GetByCriteriaAsync(searchText);
+                }
+
+                this.specialtiesDataGridView.DataSource = specialties;
+
+                if (this.specialtiesDataGridView.Rows.Count > 0)
+                {
+                    this.specialtiesDataGridView.Rows[0].Selected = true;
+                    this.deleteSpecialtyButton.Enabled = true;
+                    this.updateSpecialtyButton.Enabled = true;
+                }
+                else
+                {
+                    this.deleteSpecialtyButton.Enabled = false;
+                    this.updateSpecialtyButton.Enabled = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
+                MessageBox.Show($"Error al cargar la lista de especialidades: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.deleteSpecialtyButton.Enabled = false;
                 this.updateSpecialtyButton.Enabled = false;
             }
         }
-        
-        private Specialty SelectedItem()
-        {
-            Specialty specialty;
 
-            specialty = (Specialty)specialtiesDataGridView.SelectedRows[0].DataBoundItem;
+        private SpecialtyDTO SelectedItem()
+        {
+            SpecialtyDTO specialty;
+
+            specialty = (SpecialtyDTO)specialtiesDataGridView.SelectedRows[0].DataBoundItem;
 
             return specialty;
         }
         private void specialtiesDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {}
+        { }
 
         private void specialtiesHomeButton_Click(object sender, EventArgs e)
         {
             this.Close();
             home.Show();
+        }
+
+        private void SpecialtySearchButton_Click(object sender, EventArgs e)
+        {
+            string searchText = this.SpecialtySearchBar.Text.Trim();
+            this.GetByCriteriaAndLoad(searchText);
         }
     }
 }

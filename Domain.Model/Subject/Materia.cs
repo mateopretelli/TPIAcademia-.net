@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Domain.Model
+namespace Domain.Model.Subject
 {
     public class Materia : BusinessEntity
     {

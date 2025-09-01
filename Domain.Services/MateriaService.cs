@@ -1,5 +1,5 @@
-﻿using Domain.Model;
-using Data;
+﻿using Data;
+using Domain.Model.Subject;
 
 namespace Domain.Services
 {
