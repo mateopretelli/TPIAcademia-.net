@@ -50,6 +50,9 @@ namespace Data
             if (existingSubject != null)
             {
                 existingSubject.SetDescription(subject.Description);
+                existingSubject.SetIDPlan(subject.IDPlan);
+                existingSubject.SetWeeklyHS(subject.WeeklyHS);
+                existingSubject.SetTotalHS(subject.TotalHS);
 
                 context.SaveChanges();
                 return true;
