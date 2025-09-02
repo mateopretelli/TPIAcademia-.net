@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            acceptMateriaButton = new Button();
-            cancelMateriaButton = new Button();
+            acceptSubjectButton = new Button();
+            cancelSubjectButton = new Button();
             MateriaDescriptionTextBox = new TextBox();
             weeklyHoursTextBox = new TextBox();
             totalHoursTextBox = new TextBox();
@@ -44,29 +44,28 @@
             errorProvider = new ErrorProvider(components);
             MateriaIDTextBox = new TextBox();
             IDPlanComboBox = new ComboBox();
-
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
             // 
-            // acceptMateriaButton
+            // acceptSubjectButton
             // 
-            acceptMateriaButton.Location = new Point(226, 234);
-            acceptMateriaButton.Name = "acceptMateriaButton";
-            acceptMateriaButton.Size = new Size(99, 40);
-            acceptMateriaButton.TabIndex = 0;
-            acceptMateriaButton.Text = "Aceptar";
-            acceptMateriaButton.UseVisualStyleBackColor = true;
-            acceptMateriaButton.Click += acceptMateriaButton_Click;
+            acceptSubjectButton.Location = new Point(226, 234);
+            acceptSubjectButton.Name = "acceptSubjectButton";
+            acceptSubjectButton.Size = new Size(99, 40);
+            acceptSubjectButton.TabIndex = 0;
+            acceptSubjectButton.Text = "Aceptar";
+            acceptSubjectButton.UseVisualStyleBackColor = true;
+            acceptSubjectButton.Click += acceptSubjectButton_Click;
             // 
-            // cancelMateriaButton
+            // cancelSubjectButton
             // 
-            cancelMateriaButton.Location = new Point(331, 234);
-            cancelMateriaButton.Name = "cancelMateriaButton";
-            cancelMateriaButton.Size = new Size(99, 40);
-            cancelMateriaButton.TabIndex = 1;
-            cancelMateriaButton.Text = "Cancelar";
-            cancelMateriaButton.UseVisualStyleBackColor = true;
-            cancelMateriaButton.Click += cancelMateriaButton_Click;
+            cancelSubjectButton.Location = new Point(331, 234);
+            cancelSubjectButton.Name = "cancelSubjectButton";
+            cancelSubjectButton.Size = new Size(99, 40);
+            cancelSubjectButton.TabIndex = 1;
+            cancelSubjectButton.Text = "Cancelar";
+            cancelSubjectButton.UseVisualStyleBackColor = true;
+            cancelSubjectButton.Click += cancelSubjectButton_Click;
             // 
             // MateriaDescriptionTextBox
             // 
@@ -129,7 +128,7 @@
             totalHoursLabel.AutoSize = true;
             totalHoursLabel.Location = new Point(31, 129);
             totalHoursLabel.Name = "totalHoursLabel";
-            totalHoursLabel.Size = new Size(77, 15);
+            totalHoursLabel.Size = new Size(78, 15);
             totalHoursLabel.TabIndex = 10;
             totalHoursLabel.Text = "Horas Totales";
             // 
@@ -191,8 +190,8 @@
             Controls.Add(totalHoursTextBox);
             Controls.Add(weeklyHoursTextBox);
             Controls.Add(MateriaDescriptionTextBox);
-            Controls.Add(cancelMateriaButton);
-            Controls.Add(acceptMateriaButton);
+            Controls.Add(cancelSubjectButton);
+            Controls.Add(acceptSubjectButton);
             Name = "MateriaDetalle";
             Text = "Plan Seleccionada";
             ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
@@ -202,8 +201,8 @@
 
         #endregion
 
-        private Button acceptMateriaButton;
-        private Button cancelMateriaButton;
+        private Button acceptSubjectButton;
+        private Button cancelSubjectButton;
         private TextBox MateriaIDTextBox;
         private TextBox MateriaDescriptionTextBox;
         private TextBox weeklyHoursTextBox;

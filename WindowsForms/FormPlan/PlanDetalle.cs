@@ -1,6 +1,8 @@
 ﻿using DTOs.Plan;
+using DTOs.Specialty;
 using System.Data;
 using WindowsForms.FormPlans;
+using WindowsForms.FormSpecialty;
 
 
 namespace WindowsForms
@@ -9,6 +11,7 @@ namespace WindowsForms
     {
 
         private PlanDTO plan;
+        private IEnumerable<SpecialtyDTO> Specialties {get; set; }
         public PlanDTO Plan
         {
             get { return plan; }
@@ -32,8 +35,9 @@ namespace WindowsForms
             IEnumerable<PlanDTO> Existantplans = await PlanApiClient.GetAllAsync();
             if (this.ValidatePlan(Existantplans))
             {
-                this.Plan.Description = PlanDescriptionTextBox.Text.TrimEnd().TrimStart(); ;
-                this.Plan.IDSpecialty = int.Parse(SpecialtyIDComboBox.Text);
+                this.Plan.Description = PlanDescriptionTextBox.Text.TrimEnd().TrimStart();
+                MessageBox.Show("SelectedValue: " + SpecialtyIDComboBox.SelectedValue);
+                this.Plan.IDSpecialty = Convert.ToInt32(SpecialtyIDComboBox.SelectedValue);
                 this.Plan.State = PlanStateTextBox.Text;
                 if (this.EditMode)
                 {
@@ -51,12 +55,26 @@ namespace WindowsForms
         {
             this.Close();
         }
-        private void SetPlan()
+        private async void SetPlan()
         {
+            
+            Specialties = await SpecialtyApiClient.GetAllAsync();
+
             PlanIDTextBox.Text = this.Plan.ID.ToString();
             PlanStateTextBox.Text = this.Plan.State;
             PlanDescriptionTextBox.Text = this.Plan.Description;
-            SpecialtyIDComboBox.Text = this.Plan.IDSpecialty.ToString();
+
+            SpecialtyIDComboBox.DataSource = Specialties;
+            SpecialtyIDComboBox.DisplayMember = "Description";
+            SpecialtyIDComboBox.ValueMember = "ID";
+
+            // Forzar refresh del binding
+            SpecialtyIDComboBox.BindingContext = new BindingContext();
+
+            // Asignar SelectedValue después de un delay mínimo para que el ComboBox procese su DataSource
+            await Task.Delay(10);
+            if (this.Plan.IDSpecialty != 0)
+                SpecialtyIDComboBox.SelectedValue = this.Plan.IDSpecialty;
         }
 
         private bool ValidatePlan(IEnumerable<PlanDTO> Existantplans)
@@ -100,13 +118,7 @@ namespace WindowsForms
                 return findedPlan.Any();
             }
         }
-        
-        private async void SpecialtyIDComboBoxData(object sender, EventArgs e)
-        {
-            PlanApiClient client = new PlanApiClient();
-            List<int> specialtyIDs = await PlanApiClient.GetAllSpecialtyIDsAsync();
-            SpecialtyIDComboBox.DataSource = specialtyIDs;
-        }
+
 
     }
 }

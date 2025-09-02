@@ -50,7 +50,8 @@ namespace Data
             if (existingPlan != null)
             {
                 existingPlan.SetDescription(plan.Description);
-
+                existingPlan.SetState(plan.State);
+                existingPlan.SetIDSpecialty(plan.IDSpecialty);
                 context.SaveChanges();
                 return true;
             }
@@ -91,7 +92,7 @@ namespace Data
             while (reader.Read())
             {
                 var plan = new Plan(
-                    reader.GetString(2),  // Descripcion
+                    reader.GetString(2),  // Description
                     reader.GetInt32(3)   // ID especialidad
                 );
 

@@ -1,55 +1,55 @@
-﻿using Domain.Model.Specialty;
+﻿using Domain.Model.Subject;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 
 namespace Data
 {
-    public class SpecialtyRepository
+    public class SubjectRepository
     {
         private TPIContext CreateContext()
         {
             return new TPIContext();
         }
 
-        public void Add(Specialty specialty)
+        public void Add(Subject subject)
         {
             using var context = CreateContext();
-            context.Specialties.Add(specialty);
+            context.Subjects.Add(subject);
             context.SaveChanges();
         }
 
         public bool Delete(int id)
         {
             using var context = CreateContext();
-            var specialty = context.Specialties.Find(id);
-            if (specialty != null)
+            var subject = context.Subjects.Find(id);
+            if (subject != null)
             {
-                context.Specialties.Remove(specialty);
+                context.Subjects.Remove(subject);
                 context.SaveChanges();
                 return true;
             }
             return false;
         }
 
-        public Specialty? Get(int id)
+        public Subject? Get(int id)
         {
             using var context = CreateContext();
-            return context.Specialties.Find(id);
+            return context.Subjects.Find(id);
         }
 
-        public IEnumerable<Specialty> GetAll()
+        public IEnumerable<Subject> GetAll()
         {
             using var context = CreateContext();
-            return context.Specialties.ToList();
+            return context.Subjects.ToList();
         }
 
-        public bool Update(Specialty specialty)
+        public bool Update(Subject subject)
         {
             using var context = CreateContext();
-            var existingSpecialty = context.Specialties.Find(specialty.ID);
-            if (existingSpecialty != null)
+            var existingSubject = context.Subjects.Find(subject.ID);
+            if (existingSubject != null)
             {
-                existingSpecialty.SetDescription(specialty.Description);
+                existingSubject.SetDescription(subject.Description);
 
                 context.SaveChanges();
                 return true;
@@ -57,10 +57,10 @@ namespace Data
             return false;
         }
 
-        public bool SpecialtyExists(string descripcion, int? excludeId = null)
+        public bool SubjectExists(string description, int? excludeId = null)
         {
             using var context = CreateContext();
-            var query = context.Specialties.Where(c => c.Description.ToLower() == descripcion.ToLower());
+            var query = context.Subjects.Where(c => c.Description.ToLower() == description.ToLower());
             if (excludeId.HasValue)
             {
                 query = query.Where(s => s.ID != excludeId.Value);
@@ -68,17 +68,17 @@ namespace Data
             return query.Any();
         }
 
-        public IEnumerable<Specialty> GetByCriteria(SpecialtyCriteria criteria)
+        public IEnumerable<Subject> GetByCriteria(SubjectCriteria criteria)
         {
             const string sql = @"
-                SELECT ID, State, Description
-                FROM Specialties
+                SELECT ID, State, Description, WeeklyHS, TotalHS, IDPlan
+                FROM Subjects
                 WHERE Description LIKE @SearchTerm 
                 ORDER BY Description";
 
-            var specialties = new List<Specialty>();
+            var subjects = new List<Subject>();
             string connectionString = new TPIContext().Database.GetConnectionString();
-            string searchPattern = $"%{criteria.Texto}%";
+            string searchPattern = $"%{criteria.Text}%";
 
             using var connection = new SqlConnection(connectionString);
             using var command = new SqlCommand(sql, connection);
@@ -90,17 +90,20 @@ namespace Data
 
             while (reader.Read())
             {
-                var specialty = new Specialty(
-                    reader.GetString(2)  // Description
+                var subject = new Subject(
+                    reader.GetString(2),  // Description
+                    reader.GetInt32(3),   // WeeklyHS
+                    reader.GetInt32(4),   // TotalHS
+                    reader.GetInt32(5)   // ID Plan
                 );
 
-                specialty.SetId(reader.GetInt32(0)); // ID
-                specialty.SetState(reader.GetString(1)); // State
+                subject.SetId(reader.GetInt32(0)); // ID
+                subject.SetState(reader.GetString(1)); // State
 
-                specialties.Add(specialty);
+                subjects.Add(subject);
             }
 
-            return specialties;
+            return subjects;
         }
 
     }

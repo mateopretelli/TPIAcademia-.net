@@ -9,22 +9,25 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DTOs.Subject;
-using WindowsForms.FormMateria;
+using WindowsForms.FormSubject;
+using DTOs.Subject;
+using WindowsForms.FormPlans;
+using DTOs.Plan;
 
 
 namespace WindowsForms
 {
     public partial class MateriaDetalle : Form
     {
-        private Materia materia;
+        private SubjectDTO subject;
 
-        public Materia Materia
+        public SubjectDTO Subject
         {
-            get { return materia; }
+            get { return subject; }
             set
             {
-                materia = value;
-                this.SetMateria();
+                subject = value;
+                this.SetSubject();
             }
         }
 
@@ -35,50 +38,45 @@ namespace WindowsForms
             InitializeComponent();
         }
 
-        private async void acceptMateriaButton_Click(object sender, EventArgs e)
+        private async void acceptSubjectButton_Click(object sender, EventArgs e)
         {
-            MateriaApiClient client = new MateriaApiClient();
-            IEnumerable<Materia> materiasExistentes = await MateriaApiClient.GetAllAsync();
+            IEnumerable<SubjectDTO> materiasExistentes = await SubjectApiClient.GetAllAsync();
 
             if (this.ValidateMateria(materiasExistentes))
             {
-                this.Materia.Descripcion = MateriaDescriptionTextBox.Text;
-                this.Materia.HSSemanales = int.Parse(weeklyHoursTextBox.Text);
-                this.Materia.HSTotales = int.Parse(totalHoursTextBox.Text);
-                this.Materia.IDPlan = int.Parse(IDPlanComboBox.Text);
-
-                //El Detalle se esta llevando la responsabilidad de llamar al servicio
-                //pero tal vez deberia ser solo una vista y que esta responsabilidad quede
-                //en la Lista o tal vez en un Presenter o Controler
+                this.Subject.WeeklyHS = int.Parse(weeklyHoursTextBox.Text);
+                this.Subject.TotalHS = int.Parse(totalHoursTextBox.Text);
+                this.Subject.IDPlan = (int)IDPlanComboBox.SelectedValue;
+                this.Subject.Description = MateriaDescriptionTextBox.Text;
 
                 if (this.EditMode)
                 {
-                    await MateriaApiClient.UpdateAsync(this.Materia);
+                    await SubjectApiClient.UpdateAsync(this.Subject);
                 }
                 else
                 {
-                    await MateriaApiClient.AddAsync(this.Materia);
+                    await SubjectApiClient.AddAsync(this.Subject);
                 }
 
                 this.Close();
             }
         }
-        private void cancelMateriaButton_Click(object sender, EventArgs e)
+        private void cancelSubjectButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void SetMateria()
+        private void SetSubject()
         {
-            this.MateriaIDTextBox.Text = this.Materia.ID.ToString();
-            this.MateriaDescriptionTextBox.Text = this.Materia.Descripcion;
-            this.weeklyHoursTextBox.Text = this.Materia.HSSemanales.ToString();
-            this.totalHoursTextBox.Text = this.Materia.HSTotales.ToString();
-            this.MateriaStateTextBox.Text = this.Materia.State;
-            this.IDPlanComboBox.Text = this.Materia.IDPlan.ToString();
+            this.MateriaIDTextBox.Text = this.Subject.ID.ToString();
+            this.MateriaDescriptionTextBox.Text = this.Subject.Description;
+            this.weeklyHoursTextBox.Text = this.Subject.WeeklyHS.ToString();
+            this.totalHoursTextBox.Text = this.Subject.TotalHS.ToString();
+            this.MateriaStateTextBox.Text = this.Subject.State;
+            this.IDPlanComboBox.Text = this.Subject.IDPlan.ToString();
         }
 
-        private bool ValidateMateria(IEnumerable<Materia> materiasExistentes)
+        private bool ValidateMateria(IEnumerable<SubjectDTO> materiasExistentes)
         {
             bool isValid = true;
 
@@ -130,16 +128,11 @@ namespace WindowsForms
                 errorProvider.SetError(totalHoursTextBox, string.Empty);
             }
 
-            // Validar ID Materia
-            if (string.IsNullOrWhiteSpace(this.IDPlanComboBox.Text))
+            // Validar ID Plan
+            if (IDPlanComboBox.SelectedValue == null)
             {
                 isValid = false;
                 errorProvider.SetError(IDPlanComboBox, "El ID del plan es requerido");
-            }
-            else if (!int.TryParse(this.IDPlanComboBox.Text, out int idPlan) || idPlan < 1)
-            {
-                isValid = false;
-                errorProvider.SetError(IDPlanComboBox, "Ingrese un ID de plan válido mayor a 0");
             }
             else
             {
@@ -149,16 +142,16 @@ namespace WindowsForms
             return isValid;
         }
 
-        private bool ValidDescription(string descripcion, IEnumerable<Materia> materias)
+        private bool ValidDescription(string descripcion, IEnumerable<SubjectDTO> materias)
         {
-            if (descripcion == this.Materia.Descripcion)
+            if (descripcion == this.Subject.Description)
             {
                 return false; // Si la descripción no cambió, no es necesario validar
             }
             else
             {
-                var materiaEncontrada = from Materia m in materias
-                                        where m.Descripcion == descripcion &&
+                var materiaEncontrada = from SubjectDTO m in materias
+                                        where m.Description == descripcion &&
                                         m.State == "Active"
                                         select m;
 
@@ -169,9 +162,10 @@ namespace WindowsForms
 
         private async void IDPlanComboBoxData(object sender, EventArgs e)
         {
-            MateriaApiClient client = new MateriaApiClient();
-            List<int> idPlanes = await MateriaApiClient.GetAllIDPlanessAsync();
-            IDPlanComboBox.DataSource = idPlanes;
+            List<PlanDTO> plans = (await PlanApiClient.GetAllAsync()).ToList();
+            IDPlanComboBox.DataSource = plans;
+            IDPlanComboBox.DisplayMember = "Description";
+            IDPlanComboBox.ValueMember = "ID";
         }
     }
 }

@@ -45,7 +45,7 @@ public static class PlanEndPoints
 
             var dtos = specialties.Select(specialty => new SpecialtyDTO
             {
-                Descripcion = specialty.Descripcion,
+                Description = specialty.Description,
 
             }).ToList();
 
