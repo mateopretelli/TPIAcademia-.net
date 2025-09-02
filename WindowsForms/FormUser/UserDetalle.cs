@@ -16,9 +16,9 @@ namespace WindowsForms
     public partial class UserDetalle : Form
     {
 
-        private User user;
+        private UserDTO user;
 
-        public User User
+        public UserDTO User
         {
             get { return user; }
             set
@@ -38,7 +38,7 @@ namespace WindowsForms
         private async void AcceptUserButton_Click(object sender, EventArgs e)
         {
             UserApiClient client = new UserApiClient();
-            IEnumerable<User> existingUsers = await UserApiClient.GetAllAsync();
+            IEnumerable<UserDTO> existingUsers = await UserApiClient.GetAllAsync();
 
             if (this.ValidateUser(existingUsers))
             {
@@ -91,7 +91,7 @@ namespace WindowsForms
             }
         }
 
-        private bool ValidateUser(IEnumerable<User> existingUsers)
+        private bool ValidateUser(IEnumerable<UserDTO> existingUsers)
         {
             if (string.IsNullOrWhiteSpace(NameTextBox.Text) ||
                 string.IsNullOrWhiteSpace(LastNameTextBox.Text) ||

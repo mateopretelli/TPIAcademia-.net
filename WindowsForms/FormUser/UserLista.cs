@@ -24,7 +24,7 @@ namespace WindowsForms
 
             id = this.SelectedItem().ID;
 
-            User user = await UserApiClient.GetAsync(id);
+            UserDTO user = await UserApiClient.GetAsync(id);
 
             userDetalle.EditMode = true;
             userDetalle.User = user;
@@ -47,7 +47,7 @@ namespace WindowsForms
         {
             UserDetalle userDetalle = new UserDetalle();
 
-            User userNuevo = new User();
+            UserDTO userNuevo = new UserDTO();
 
             userDetalle.User = userNuevo;
 
@@ -77,11 +77,11 @@ namespace WindowsForms
             }
         }
 
-        private User SelectedItem()
+        private UserDTO SelectedItem()
         {
-            User user;
+            UserDTO user;
 
-            user = (User)userDataGridView.SelectedRows[0].DataBoundItem;
+            user = (UserDTO)userDataGridView.SelectedRows[0].DataBoundItem;
 
             return user;
         }
