@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DTOs.Subject;
 using WindowsForms.FormSubject;
-using DTOs.Subject;
 using WindowsForms.FormPlans;
 using DTOs.Plan;
 
@@ -49,14 +48,22 @@ namespace WindowsForms
                 this.Subject.IDPlan = (int)IDPlanComboBox.SelectedValue;
                 this.Subject.Description = MateriaDescriptionTextBox.Text;
 
-                if (this.EditMode)
+                try
                 {
-                    await SubjectApiClient.UpdateAsync(this.Subject);
+                    if (this.EditMode)
+                    {
+                        await SubjectApiClient.UpdateAsync(this.Subject);
+                    }
+                    else
+                    {
+                        await SubjectApiClient.AddAsync(this.Subject);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    await SubjectApiClient.AddAsync(this.Subject);
+                    MessageBox.Show($"Error al cargar Materia: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                
 
                 this.Close();
             }
@@ -86,11 +93,7 @@ namespace WindowsForms
                 isValid = false;
                 errorProvider.SetError(MateriaDescriptionTextBox, "La descripción es requerida");
             }
-            else if (ValidDescription(this.MateriaDescriptionTextBox.Text, materiasExistentes))
-            {
-                isValid = false;
-                errorProvider.SetError(MateriaDescriptionTextBox, "Ya existe una plan con esa descripcion");
-            }
+            
             else
             {
                 errorProvider.SetError(MateriaDescriptionTextBox, string.Empty);

@@ -60,10 +60,10 @@ namespace Data
             return false;
         }
 
-        public bool SubjectExists(string description, int? excludeId = null)
+        public bool SubjectExists(string description, int idPlan, int? excludeId = null)
         {
             using var context = CreateContext();
-            var query = context.Subjects.Where(c => c.Description.ToLower() == description.ToLower());
+            var query = context.Subjects.Where(c => c.Description.ToLower() == description.ToLower() && c.IDPlan==idPlan);
             if (excludeId.HasValue)
             {
                 query = query.Where(s => s.ID != excludeId.Value);

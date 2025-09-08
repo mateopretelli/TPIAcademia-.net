@@ -9,7 +9,7 @@ namespace Domain.Services
         public SubjectDTO Add(SubjectDTO dto)
         {
             var subjectRepository = new SubjectRepository();
-            if (subjectRepository.SubjectExists(dto.Description))
+            if (subjectRepository.SubjectExists(dto.Description, dto.IDPlan))
             {
                 throw new ArgumentException("Ya existe una materia con esa descripción");
             }
@@ -72,7 +72,7 @@ namespace Domain.Services
         {
             var subjectRepository = new SubjectRepository();
 
-            if(subjectRepository.SubjectExists(dto.Description, dto.ID))
+            if(subjectRepository.SubjectExists(dto.Description, dto.IDPlan, dto.ID))
             {
                 throw new ArgumentException("Ya existe una materia con esa descripcion");
             }
