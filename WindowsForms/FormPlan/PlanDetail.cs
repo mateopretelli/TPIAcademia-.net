@@ -7,7 +7,7 @@ using WindowsForms.FormSpecialty;
 
 namespace WindowsForms
 {
-    public partial class PlanDetalle : Form
+    public partial class PlanDetail : Form
     {
 
         private PlanDTO plan;
@@ -24,7 +24,7 @@ namespace WindowsForms
 
         public bool EditMode { get; set; } = false;
 
-        public PlanDetalle()
+        public PlanDetail()
         {
             InitializeComponent();
         }

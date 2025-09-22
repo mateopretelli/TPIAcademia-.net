@@ -2,7 +2,7 @@
 
 namespace WindowsForms
 {
-    partial class SpecialtyDetalle
+    partial class SpecialtyDetail
     {
         /// <summary>
         /// Required designer variable.

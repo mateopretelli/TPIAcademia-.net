@@ -15,7 +15,7 @@ using WindowsForms.FormUser;
 
 namespace WindowsForms
 {
-    public partial class UserDetalle : Form
+    public partial class UserDetail : Form
     {
 
         private User user;
@@ -32,7 +32,7 @@ namespace WindowsForms
 
         public bool EditMode { get; set; } = false;
 
-        public UserDetalle()
+        public UserDetail()
         {
             InitializeComponent();
         }

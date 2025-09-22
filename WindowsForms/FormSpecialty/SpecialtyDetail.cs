@@ -5,7 +5,7 @@ using WindowsForms.FormSpecialty;
 
 namespace WindowsForms
 {
-    public partial class SpecialtyDetalle : Form
+    public partial class SpecialtyDetail : Form
     {
         private SpecialtyDTO specialty;
         public SpecialtyDTO Specialty
@@ -19,7 +19,7 @@ namespace WindowsForms
         }
         public bool EditMode { get; set; } = false;
 
-        public SpecialtyDetalle()
+        public SpecialtyDetail()
         {
             InitializeComponent();
         }

@@ -3,10 +3,10 @@ using WindowsForms.FormSubject;
 
 namespace WindowsForms
 {
-    public partial class MateriasLista : Form
+    public partial class SubjectsList : Form
     {
         private Home home;
-        public MateriasLista(Home home)
+        public SubjectsList(Home home)
         {
             InitializeComponent();
             this.home = home;
@@ -19,7 +19,7 @@ namespace WindowsForms
 
         private async void updateMateriaButton_Click(object sender, EventArgs e)
         {
-            MateriaDetalle materiaDetalle = new MateriaDetalle();
+            SubjectDetail materiaDetalle = new SubjectDetail();
 
             int id;
 
@@ -46,7 +46,7 @@ namespace WindowsForms
         }
         private void addMateriaButton_Click(object sender, EventArgs e)
         {
-            MateriaDetalle materiaDetalle = new MateriaDetalle();
+            SubjectDetail materiaDetalle = new SubjectDetail();
 
             SubjectDTO newSubject = new SubjectDTO();
 
