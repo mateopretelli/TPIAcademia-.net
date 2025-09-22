@@ -53,14 +53,22 @@ namespace WindowsForms
                 this.Subject.IDPlan = Convert.ToInt32(IDPlanComboBox.SelectedValue);
                 this.Subject.Description = MateriaDescriptionTextBox.Text;
 
-                if (this.EditMode)
+                try
                 {
-                    await SubjectApiClient.UpdateAsync(this.Subject);
+                    if (this.EditMode)
+                    {
+                        await SubjectApiClient.UpdateAsync(this.Subject);
+                    }
+                    else
+                    {
+                        await SubjectApiClient.AddAsync(this.Subject);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    await SubjectApiClient.AddAsync(this.Subject);
+                    MessageBox.Show($"Error al cargar Materia: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                
 
                 this.Close();
             }
