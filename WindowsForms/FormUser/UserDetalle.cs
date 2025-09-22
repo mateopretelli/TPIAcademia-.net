@@ -1,4 +1,5 @@
-﻿using DTOs.User;
+﻿using DTOs.Plan;
+using DTOs.User;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WindowsForms.FormMateria;
+using WindowsForms.FormPlans;
+using WindowsForms.FormSubject;
 using WindowsForms.FormUser;
 
 namespace WindowsForms
@@ -49,7 +51,7 @@ namespace WindowsForms
                 this.User.Phone = PhoneTextBox.Text;
                 //this.User.Legajo = int.TryParse(LegajoTextBox.Text, out int legajo) ? legajo : 0;
                 this.User.BirthDate = DateTime.TryParse(BirthDateTextBox.Text, out DateTime birthDate) ? birthDate : DateTime.MinValue;
-                this.User.IDPlan = int.TryParse(IDPlanComboBox.Text, out int idPlan) ? idPlan : 0;
+                this.User.IDPlan = (int)IDPlanComboBox.SelectedValue;
                 this.User.Username = UsernameTextBox.Text;
                 this.User.Password = PasswordTextBox.Text;
                 //this.User.State = StateTextBox.Text;
@@ -99,7 +101,7 @@ namespace WindowsForms
                 string.IsNullOrWhiteSpace(AddressTextBox.Text) ||
                 string.IsNullOrWhiteSpace(PhoneTextBox.Text) ||
                 string.IsNullOrWhiteSpace(BirthDateTextBox.Text) ||
-                string.IsNullOrWhiteSpace(IDPlanComboBox.Text) ||
+                IDPlanComboBox.SelectedValue == null ||
                 string.IsNullOrWhiteSpace(UsernameTextBox.Text) ||
                 string.IsNullOrWhiteSpace(PasswordTextBox.Text) ||
                 string.IsNullOrWhiteSpace(ConfirmPasswordTextBox.Text))
@@ -122,9 +124,10 @@ namespace WindowsForms
 
         private async void IDPlanComboBoxData(object sender, EventArgs e)
         {
-            MateriaApiClient client = new MateriaApiClient();
-            List<int> idPlanes = await MateriaApiClient.GetAllIDPlanessAsync();
-            IDPlanComboBox.DataSource = idPlanes;
+            List<PlanDTO> plans = (await PlanApiClient.GetAllAsync()).ToList();
+            IDPlanComboBox.DataSource = plans;
+            IDPlanComboBox.DisplayMember = "Description";
+            IDPlanComboBox.ValueMember = "ID";
         }
 
     }

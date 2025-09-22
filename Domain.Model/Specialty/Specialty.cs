@@ -2,18 +2,18 @@
 {
     public class Specialty : BusinessEntity
     {
-        public string Descripcion { get; private set; }
+        public string Description { get; private set; }
 
-        public Specialty(string descripcion)
+        public Specialty(string description)
         {
-            Descripcion = descripcion;
+            Description = description;
         }
 
-        public void SetDescripcion(string descripcion)
+        public void SetDescription(string description)
         {
-            if (string.IsNullOrWhiteSpace(descripcion))
-                throw new ArgumentException("La descripción no puede estar vacía.", nameof(descripcion));
-            Descripcion = descripcion;
+            if (string.IsNullOrWhiteSpace(description))
+                throw new ArgumentException("La descripción no puede estar vacía.", nameof(description));
+            Description = description;
         }
     }
 }

@@ -7,5 +7,7 @@
         public string Description { get; set; }
         public int IDSpecialty { get; set; }
 
+        public string? SpecialtyDescription { get; set; }
+
     }
 }

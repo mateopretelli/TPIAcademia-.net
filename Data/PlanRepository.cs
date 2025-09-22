@@ -34,13 +34,17 @@ namespace Data
         public Plan? Get(int id)
         {
             using var context = CreateContext();
-            return context.Plans.Find(id);
+            return context.Plans
+                .Include(c => c.Specialty)
+                .FirstOrDefault(c => c.ID == id); 
         }
 
         public IEnumerable<Plan> GetAll()
         {
             using var context = CreateContext();
-            return context.Plans.ToList();
+            return context.Plans
+                .Include(c => c.Specialty)
+                .ToList();
         }
 
         public bool Update(Plan plan)
@@ -50,7 +54,8 @@ namespace Data
             if (existingPlan != null)
             {
                 existingPlan.SetDescription(plan.Description);
-
+                existingPlan.SetState(plan.State);
+                existingPlan.SetIDSpecialty(plan.IDSpecialty);
                 context.SaveChanges();
                 return true;
             }
@@ -91,7 +96,7 @@ namespace Data
             while (reader.Read())
             {
                 var plan = new Plan(
-                    reader.GetString(2),  // Descripcion
+                    reader.GetString(2),  // Description
                     reader.GetInt32(3)   // ID especialidad
                 );
 

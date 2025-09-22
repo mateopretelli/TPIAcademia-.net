@@ -11,12 +11,12 @@ namespace Domain.Services
         {
             var specialtyRepository = new SpecialtyRepository();
 
-            if (specialtyRepository.SpecialtyExists(dto.Descripcion))
+            if (specialtyRepository.SpecialtyExists(dto.Description))
             {
-                throw new ArgumentException("Ya existe una especialidad con esa descripción.", nameof(dto.Descripcion));
+                throw new ArgumentException("Ya existe una especialidad con esa descripción.", nameof(dto.Description));
             }
 
-            Specialty specialty = new Specialty(dto.Descripcion);
+            Specialty specialty = new Specialty(dto.Description);
             specialty.SetState("Active");
 
             specialtyRepository.Add(specialty);
@@ -29,8 +29,8 @@ namespace Domain.Services
 
         public bool Delete(int id)
         {
-            var specialtyRepositry = new SpecialtyRepository();
-            return specialtyRepositry.Delete(id);
+            var specialtyRepository = new SpecialtyRepository();
+            return specialtyRepository.Delete(id);
         }
 
         public SpecialtyDTO Get(int id)
@@ -46,7 +46,7 @@ namespace Domain.Services
             return new SpecialtyDTO
             {
                 ID = specialty.ID,
-                Descripcion = specialty.Descripcion,
+                Description = specialty.Description,
                 State = specialty.State
             };
         }
@@ -58,7 +58,7 @@ namespace Domain.Services
                 .Select(s => new SpecialtyDTO
                 {
                     ID = s.ID,
-                    Descripcion = s.Descripcion,
+                    Description = s.Description,
                     State = s.State
                 }).ToList();
 
@@ -68,12 +68,12 @@ namespace Domain.Services
         {
             var specialtyRePository = new SpecialtyRepository();
 
-            if (specialtyRePository.SpecialtyExists(dto.Descripcion, dto.ID))
+            if (specialtyRePository.SpecialtyExists(dto.Description, dto.ID))
             {
-                throw new ArgumentException("Ya existe una especialidad con esa descripción.", nameof(dto.Descripcion));
+                throw new ArgumentException("Ya existe una especialidad con esa descripción.", nameof(dto.Description));
             }
 
-            Specialty specialty = new Specialty(dto.Descripcion) {
+            Specialty specialty = new Specialty(dto.Description) {
                 ID = dto.ID,
                 State = dto.State
             };
@@ -96,7 +96,7 @@ namespace Domain.Services
             return specialties.Select(s => new SpecialtyDTO
             {
                 ID = s.ID,
-                Descripcion = s.Descripcion,
+                Description = s.Description,
                 State = s.State
             });
         }

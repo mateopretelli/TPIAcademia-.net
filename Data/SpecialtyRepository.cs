@@ -49,7 +49,7 @@ namespace Data
             var existingSpecialty = context.Specialties.Find(specialty.ID);
             if (existingSpecialty != null)
             {
-                existingSpecialty.SetDescripcion(specialty.Descripcion);
+                existingSpecialty.SetDescription(specialty.Description);
 
                 context.SaveChanges();
                 return true;
@@ -60,7 +60,7 @@ namespace Data
         public bool SpecialtyExists(string descripcion, int? excludeId = null)
         {
             using var context = CreateContext();
-            var query = context.Specialties.Where(c => c.Descripcion.ToLower() == descripcion.ToLower());
+            var query = context.Specialties.Where(c => c.Description.ToLower() == descripcion.ToLower());
             if (excludeId.HasValue)
             {
                 query = query.Where(s => s.ID != excludeId.Value);
@@ -71,10 +71,10 @@ namespace Data
         public IEnumerable<Specialty> GetByCriteria(SpecialtyCriteria criteria)
         {
             const string sql = @"
-                SELECT ID, State, Descripcion
+                SELECT ID, State, Description
                 FROM Specialties
-                WHERE Descripcion LIKE @SearchTerm 
-                ORDER BY Descripcion";
+                WHERE Description LIKE @SearchTerm 
+                ORDER BY Description";
 
             var specialties = new List<Specialty>();
             string connectionString = new TPIContext().Database.GetConnectionString();
@@ -91,7 +91,7 @@ namespace Data
             while (reader.Read())
             {
                 var specialty = new Specialty(
-                    reader.GetString(2)  // Descripcion
+                    reader.GetString(2)  // Description
                 );
 
                 specialty.SetId(reader.GetInt32(0)); // ID
