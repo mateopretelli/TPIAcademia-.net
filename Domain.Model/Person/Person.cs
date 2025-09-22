@@ -10,11 +10,11 @@
         public string Phone { get; private set; }
         public int Legajo { get; private set; }
         public DateTime BirthDate { get; private set; }
-        public string Type { get; private set; }
+        public string? Type { get; private set; }
         public int IDPlan { get; private set; }
 
         public Person() { }
-        public Person(string name, string lastName, string email, string address, string phone, int legajo, DateTime birthDate, string type, int idPlan)
+        public Person(string name, string lastName, string email, string address, string phone, int legajo, DateTime birthDate, string? type, int idPlan)
         {
             Name = name;
             LastName = lastName;

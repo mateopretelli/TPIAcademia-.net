@@ -16,7 +16,7 @@ namespace DTOs.User
         public string Phone { get; set; }
         public int Legajo { get; set; }
         public DateTime BirthDate { get; set; }
-        public string Type { get; set; } // e.g., "Admin", "Student", etc.
+        public string? Type { get; set; } // e.g., "Admin", "Student", etc.
         public int IDPlan { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }

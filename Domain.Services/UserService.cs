@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using System.Diagnostics;
+using Data;
 using Domain.Model.User;
 using DTOs.User;
 
@@ -15,9 +16,12 @@ namespace Domain.Services
                 throw new ArgumentException("Ya existe un usuario con ese email.", nameof(dto.Email));
             }
 
-            User user = new User(dto.Name, dto.LastName, dto.Email, dto.Address, dto.Phone, dto.Legajo, dto.BirthDate, dto.Type, dto.IDPlan, dto.Username, dto.Password);
+            User user = new User(dto.Name, dto.LastName, dto.Email, dto.Address, dto.Phone, dto.Legajo, dto.BirthDate, dto.Type = "Pou", dto.IDPlan, dto.Username, dto.Password);
             user.SetState("Active");
 
+            Debug.WriteLine(
+                $"Name: {user.Name}, LastName: {user.LastName}, Email: {user.Email}, Address: {user.Address}, Phone: {user.Phone}, Legajo: {user.Legajo}, BirthDate: {user.BirthDate}, Type: {user.Type}, IDPlan: {user.IDPlan}, Username: {user.Username}, Password: {user.Password}, State: {user.State}"
+            );
             userRepository.Add(user);
 
             dto.ID = user.ID;

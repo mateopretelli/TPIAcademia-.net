@@ -1,6 +1,7 @@
 ﻿using Domain.Model.User;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace Data
 {
@@ -14,6 +15,7 @@ namespace Data
         public void Add(User user)
         {
             using var context = CreateContext();
+            Debug.WriteLine(user);
             context.Users.Add(user);
             context.SaveChanges();
         }

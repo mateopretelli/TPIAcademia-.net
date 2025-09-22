@@ -47,22 +47,27 @@ namespace WindowsForms
                 this.User.Email = EmailTextBox.Text;
                 this.User.Address = AddressTextBox.Text;
                 this.User.Phone = PhoneTextBox.Text;
-                //this.User.Legajo = int.TryParse(LegajoTextBox.Text, out int legajo) ? legajo : 0;
+                //this.User.Legajo = 10;
                 this.User.BirthDate = DateTime.TryParse(BirthDateTextBox.Text, out DateTime birthDate) ? birthDate : DateTime.MinValue;
                 this.User.IDPlan = int.TryParse(IDPlanComboBox.Text, out int idPlan) ? idPlan : 0;
                 this.User.Username = UsernameTextBox.Text;
                 this.User.Password = PasswordTextBox.Text;
-                //this.User.State = StateTextBox.Text;
+                //this.User.State = "Active";
 
-                if (this.EditMode)
+                try
                 {
-                    await UserApiClient.UpdateAsync(this.User);
-                }
-                else
+                    if (this.EditMode)
+                    {
+                        await UserApiClient.UpdateAsync(this.User);
+                    }
+                    else
+                    {
+                        await UserApiClient.AddAsync(this.User);
+                    }
+                } catch (Exception ex)
                 {
-                    await UserApiClient.AddAsync(this.User);
+                    MessageBox.Show($"Error al cargar Usuario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
                 this.DialogResult = DialogResult.OK;
             }
         }
