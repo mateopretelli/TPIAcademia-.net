@@ -36,7 +36,6 @@ namespace WindowsForms
             if (this.ValidatePlan(Existantplans))
             {
                 this.Plan.Description = PlanDescriptionTextBox.Text.TrimEnd().TrimStart();
-                MessageBox.Show("SelectedValue: " + SpecialtyIDComboBox.SelectedValue);
                 this.Plan.IDSpecialty = Convert.ToInt32(SpecialtyIDComboBox.SelectedValue);
                 this.Plan.State = PlanStateTextBox.Text;
                 if (this.EditMode)
@@ -68,13 +67,7 @@ namespace WindowsForms
             SpecialtyIDComboBox.DisplayMember = "Description";
             SpecialtyIDComboBox.ValueMember = "ID";
 
-            // Forzar refresh del binding
-            SpecialtyIDComboBox.BindingContext = new BindingContext();
-
-            // Asignar SelectedValue después de un delay mínimo para que el ComboBox procese su DataSource
-            await Task.Delay(10);
-            if (this.Plan.IDSpecialty != 0)
-                SpecialtyIDComboBox.SelectedValue = this.Plan.IDSpecialty;
+            SpecialtyIDComboBox.SelectedValue = this.Plan.IDSpecialty;
         }
 
         private bool ValidatePlan(IEnumerable<PlanDTO> Existantplans)

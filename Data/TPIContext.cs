@@ -74,7 +74,15 @@ namespace Data
                     .HasMaxLength(250);
 
                 entity.Property(e => e.IDSpecialty)
-                    .IsRequired();
+                    .IsRequired()
+                    .HasField("_idSpecialty");
+
+                entity.Navigation(e => e.Specialty)
+                    .HasField("_specialty");
+
+                entity.HasOne(e => e.Specialty)
+                    .WithMany()
+                    .HasForeignKey(e => e.IDSpecialty);
             });
             modelBuilder.Entity<Subject>(entity =>
             {
@@ -94,13 +102,22 @@ namespace Data
                     .HasMaxLength(250);
 
                 entity.Property(e => e.WeeklyHS)
-                .IsRequired();
+                    .IsRequired();
 
                 entity.Property(e => e.TotalHS)
-                .IsRequired();
+                    .IsRequired();
 
                 entity.Property(e => e.IDPlan)
-                .IsRequired();
+                    .IsRequired()
+                    .HasField("_idPlan");
+
+                entity.Navigation(e => e.Plan)
+                    .HasField("_plan"); 
+
+                entity.HasOne(e => e.Plan)
+                    .WithMany()
+                    .HasForeignKey(e => e.IDPlan);
+
             });
         }
     }

@@ -61,6 +61,7 @@ namespace Domain.Services
                     ID = p.ID,
                     Description = p.Description,
                     IDSpecialty = p.IDSpecialty,
+                    SpecialtyDescription = p.Specialty?.Description,
                     State = p.State
                 }).ToList();
 

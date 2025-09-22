@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Domain.Model.Specialty;
+using System.ComponentModel.DataAnnotations.Schema;
+using SpecialtyEntity = Domain.Model.Specialty.Specialty;
 
 namespace Domain.Model.Plan
 {
@@ -6,8 +8,26 @@ namespace Domain.Model.Plan
     {
         public string Description { get; private set; }
 
-        [ForeignKey("Specialty")]
-        public int IDSpecialty { get; private set; }
+        private int _idSpecialty;
+        private SpecialtyEntity _specialty;
+        public int IDSpecialty
+        {
+            get => _specialty?.ID ?? _idSpecialty;
+            private set => _idSpecialty = value;
+        }
+        public SpecialtyEntity Specialty
+        {
+            get => _specialty;
+            private set
+            {
+                _specialty = value;
+                if (value != null && _idSpecialty != value.ID)
+                {
+                    _idSpecialty = value.ID;
+                }
+            }
+        }
+
 
         private Plan() { }
         public Plan(string description, int idSpecialty) 
@@ -28,6 +48,13 @@ namespace Domain.Model.Plan
             if (idSpecialty < 0)
                 throw new ArgumentException("El ID de la especialidad debe ser mayor que 0.", nameof(idSpecialty));
             IDSpecialty = idSpecialty;
+        }
+
+        public void SetSpecialty(SpecialtyEntity specialty)
+        {
+            ArgumentNullException.ThrowIfNull(specialty);
+            _specialty = specialty;
+            _idSpecialty = specialty.ID;
         }
     }
 }

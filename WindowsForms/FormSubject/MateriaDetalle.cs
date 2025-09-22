@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using DTOs.Plan;
+using DTOs.Specialty;
+using DTOs.Subject;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DTOs.Subject;
-using WindowsForms.FormSubject;
-using DTOs.Subject;
+using WindowsForms.FormSpecialty;
 using WindowsForms.FormPlans;
-using DTOs.Plan;
-
+using WindowsForms.FormSubject;
+using System.Security.AccessControl;
+using System.Diagnostics;
 
 namespace WindowsForms
 {
@@ -21,6 +14,17 @@ namespace WindowsForms
     {
         private SubjectDTO subject;
 
+        private PlanDTO plan;
+
+        private SpecialtyDTO specialty;
+
+        private IEnumerable<SpecialtyDTO> Specialties { get; set; }
+
+        private IEnumerable<PlanDTO> Plans { get; set; }
+
+        public PlanDTO Plan { get; set; }
+
+        private SpecialtyDTO Specialty { get; set; }
         public SubjectDTO Subject
         {
             get { return subject; }
@@ -46,7 +50,7 @@ namespace WindowsForms
             {
                 this.Subject.WeeklyHS = int.Parse(weeklyHoursTextBox.Text);
                 this.Subject.TotalHS = int.Parse(totalHoursTextBox.Text);
-                this.Subject.IDPlan = (int)IDPlanComboBox.SelectedValue;
+                this.Subject.IDPlan = Convert.ToInt32(IDPlanComboBox.SelectedValue);
                 this.Subject.Description = MateriaDescriptionTextBox.Text;
 
                 if (this.EditMode)
@@ -66,14 +70,24 @@ namespace WindowsForms
             this.Close();
         }
 
-        private void SetSubject()
+        private async void SetSubject()
         {
-            this.MateriaIDTextBox.Text = this.Subject.ID.ToString();
-            this.MateriaDescriptionTextBox.Text = this.Subject.Description;
-            this.weeklyHoursTextBox.Text = this.Subject.WeeklyHS.ToString();
-            this.totalHoursTextBox.Text = this.Subject.TotalHS.ToString();
-            this.MateriaStateTextBox.Text = this.Subject.State;
-            this.IDPlanComboBox.Text = this.Subject.IDPlan.ToString();
+            Plans = await PlanApiClient.GetAllAsync();
+            Specialties = await SpecialtyApiClient.GetAllAsync();
+
+            MateriaIDTextBox.Text = this.Subject.ID.ToString();
+            MateriaDescriptionTextBox.Text = this.Subject.Description;
+            weeklyHoursTextBox.Text = this.Subject.WeeklyHS.ToString();
+            totalHoursTextBox.Text = this.Subject.TotalHS.ToString();
+            MateriaStateTextBox.Text = this.Subject.State;
+
+            IDSpecialtyComboBox.SelectedValue = this.Plan?.SpecialtyDescription;
+            Debug.WriteLine(this.Plan?.SpecialtyDescription);
+
+            IDSpecialtyComboBox.DataSource = Specialties;
+            IDSpecialtyComboBox.DisplayMember = "Description";
+            IDSpecialtyComboBox.ValueMember = "ID";
+
         }
 
         private bool ValidateMateria(IEnumerable<SubjectDTO> materiasExistentes)
@@ -89,7 +103,7 @@ namespace WindowsForms
             else if (ValidDescription(this.MateriaDescriptionTextBox.Text, materiasExistentes))
             {
                 isValid = false;
-                errorProvider.SetError(MateriaDescriptionTextBox, "Ya existe una plan con esa descripcion");
+                errorProvider.SetError(MateriaDescriptionTextBox, "Ya existe una materia con esa descripcion");
             }
             else
             {
@@ -159,13 +173,27 @@ namespace WindowsForms
             }
 
         }
-
-        private async void IDPlanComboBoxData(object sender, EventArgs e)
+        private void IDSpecialtyComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            List<PlanDTO> plans = (await PlanApiClient.GetAllAsync()).ToList();
-            IDPlanComboBox.DataSource = plans;
-            IDPlanComboBox.DisplayMember = "Description";
-            IDPlanComboBox.ValueMember = "ID";
+            if (IDSpecialtyComboBox.SelectedValue != null)
+            {
+                var specialty = (SpecialtyDTO)IDSpecialtyComboBox.SelectedItem;
+
+                // Obtener el ID
+                int selectedSpecialtyId = specialty.ID;
+
+                // Filtrar planes por specialty
+                var filteredPlans = Plans
+                    .Where(p => p.IDSpecialty == selectedSpecialtyId)
+                    .ToList();
+
+                IDPlanComboBox.DataSource = filteredPlans;
+                IDPlanComboBox.DisplayMember = "Description";
+                IDPlanComboBox.ValueMember = "ID";
+
+                // Habilitar si hay resultados
+                IDPlanComboBox.Enabled = filteredPlans.Count > 0;
+            }
         }
     }
 }

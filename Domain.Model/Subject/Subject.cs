@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using PlanEntity = Domain.Model.Plan.Plan;
 
 namespace Domain.Model.Subject
 {
@@ -10,7 +7,26 @@ namespace Domain.Model.Subject
         public string Description { get; private set; }
         public int WeeklyHS { get; private set; }
         public int TotalHS { get; private set; }
-        public int IDPlan { get; private set; }
+
+        private int _idPlan;
+        private PlanEntity _plan;
+        public int IDPlan
+        {
+            get => _plan?.ID ?? _idPlan;
+            private set => _idPlan = value;
+        }
+        public PlanEntity Plan
+        {
+            get => _plan;
+            private set
+            {
+                _plan = value;
+                if (value != null && _idPlan != value.ID)
+                {
+                    _idPlan = value.ID;
+                }
+            }
+        }
 
         public Subject(string description, int weeklyHS, int totalHS, int iDPlan)
         {
@@ -47,6 +63,13 @@ namespace Domain.Model.Subject
                 throw new ArgumentException("El ID del plan debe ser mayor que 0.", nameof(idPlan));
             IDPlan = idPlan;
 
+        }
+
+        public void SetPlan(PlanEntity plan)
+        {
+            ArgumentNullException.ThrowIfNull(plan);
+            _plan = plan;
+            _idPlan = plan.ID;
         }
     }
 }

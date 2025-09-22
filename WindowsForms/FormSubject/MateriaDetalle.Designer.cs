@@ -44,12 +44,14 @@
             errorProvider = new ErrorProvider(components);
             MateriaIDTextBox = new TextBox();
             IDPlanComboBox = new ComboBox();
+            IDSpecialtyComboBox = new ComboBox();
+            SubjectIDSpecialtyLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
             // 
             // acceptSubjectButton
             // 
-            acceptSubjectButton.Location = new Point(226, 234);
+            acceptSubjectButton.Location = new Point(226, 265);
             acceptSubjectButton.Name = "acceptSubjectButton";
             acceptSubjectButton.Size = new Size(99, 40);
             acceptSubjectButton.TabIndex = 0;
@@ -59,7 +61,7 @@
             // 
             // cancelSubjectButton
             // 
-            cancelSubjectButton.Location = new Point(331, 234);
+            cancelSubjectButton.Location = new Point(331, 265);
             cancelSubjectButton.Name = "cancelSubjectButton";
             cancelSubjectButton.Size = new Size(99, 40);
             cancelSubjectButton.TabIndex = 1;
@@ -128,7 +130,7 @@
             totalHoursLabel.AutoSize = true;
             totalHoursLabel.Location = new Point(31, 129);
             totalHoursLabel.Name = "totalHoursLabel";
-            totalHoursLabel.Size = new Size(78, 15);
+            totalHoursLabel.Size = new Size(77, 15);
             totalHoursLabel.TabIndex = 10;
             totalHoursLabel.Text = "Horas Totales";
             // 
@@ -144,11 +146,11 @@
             // MateriaIDPlanLabel
             // 
             MateriaIDPlanLabel.AutoSize = true;
-            MateriaIDPlanLabel.Location = new Point(31, 187);
+            MateriaIDPlanLabel.Location = new Point(33, 222);
             MateriaIDPlanLabel.Name = "MateriaIDPlanLabel";
-            MateriaIDPlanLabel.Size = new Size(44, 15);
+            MateriaIDPlanLabel.Size = new Size(30, 15);
             MateriaIDPlanLabel.TabIndex = 12;
-            MateriaIDPlanLabel.Text = "ID Plan";
+            MateriaIDPlanLabel.Text = "Plan";
             // 
             // errorProvider
             // 
@@ -167,17 +169,40 @@
             IDPlanComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             IDPlanComboBox.DropDownWidth = 280;
             IDPlanComboBox.FormattingEnabled = true;
-            IDPlanComboBox.Location = new Point(143, 187);
+            IDPlanComboBox.Location = new Point(143, 219);
             IDPlanComboBox.Name = "IDPlanComboBox";
             IDPlanComboBox.Size = new Size(287, 23);
             IDPlanComboBox.TabIndex = 15;
-            IDPlanComboBox.VisibleChanged += IDPlanComboBoxData;
+            IDPlanComboBox.DataSource = null;
+            IDPlanComboBox.Enabled = false;
+            // 
+            // IDSpecialtyComboBox
+            // 
+            IDSpecialtyComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            IDSpecialtyComboBox.DropDownWidth = 280;
+            IDSpecialtyComboBox.FormattingEnabled = true;
+            IDSpecialtyComboBox.Location = new Point(143, 187);
+            IDSpecialtyComboBox.Name = "IDSpecialtyComboBox";
+            IDSpecialtyComboBox.Size = new Size(287, 23);
+            IDSpecialtyComboBox.TabIndex = 16;
+            IDSpecialtyComboBox.SelectedIndexChanged += IDSpecialtyComboBox_SelectedIndexChanged;
+            // 
+            // SubjectIDSpecialtyLabel
+            // 
+            SubjectIDSpecialtyLabel.AutoSize = true;
+            SubjectIDSpecialtyLabel.Location = new Point(33, 190);
+            SubjectIDSpecialtyLabel.Name = "SubjectIDSpecialtyLabel";
+            SubjectIDSpecialtyLabel.Size = new Size(45, 15);
+            SubjectIDSpecialtyLabel.TabIndex = 17;
+            SubjectIDSpecialtyLabel.Text = "Carrera";
             // 
             // MateriaDetalle
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(465, 286);
+            ClientSize = new Size(465, 317);
+            Controls.Add(SubjectIDSpecialtyLabel);
+            Controls.Add(IDSpecialtyComboBox);
             Controls.Add(IDPlanComboBox);
             Controls.Add(MateriaIDTextBox);
             Controls.Add(MateriaIDPlanLabel);
@@ -215,6 +240,8 @@
         private Label totalHoursLabel;
         private Label MateriaStateLabel;
         private Label MateriaIDPlanLabel;
-        private ErrorProvider errorProvider;   
+        private ErrorProvider errorProvider;
+        private Label SubjectIDSpecialtyLabel;
+        private ComboBox IDSpecialtyComboBox;
     }
 }

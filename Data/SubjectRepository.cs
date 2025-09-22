@@ -34,13 +34,18 @@ namespace Data
         public Subject? Get(int id)
         {
             using var context = CreateContext();
-            return context.Subjects.Find(id);
+            return context.Subjects
+                .Include(c => c.Plan)
+                .FirstOrDefault(c => c.ID == id);
         }
 
         public IEnumerable<Subject> GetAll()
         {
             using var context = CreateContext();
-            return context.Subjects.ToList();
+            return context.Subjects
+                .Include(c => c.Plan)
+                     .ThenInclude(p => p.Specialty)
+                .ToList();
         }
 
         public bool Update(Subject subject)

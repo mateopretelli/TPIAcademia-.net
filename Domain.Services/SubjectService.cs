@@ -63,7 +63,8 @@ namespace Domain.Services
                 Description = s.Description,
                 WeeklyHS = s.WeeklyHS,
                 TotalHS = s.TotalHS,
-                IDPlan = s.IDPlan
+                IDPlan = s.IDPlan,
+                PlanDescription = s.Plan?.Description,
             }).ToList();
             
         }
