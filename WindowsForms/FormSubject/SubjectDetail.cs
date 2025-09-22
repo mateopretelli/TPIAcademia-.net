@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace WindowsForms
 {
-    public partial class MateriaDetalle : Form
+    public partial class SubjectDetail : Form
     {
         private SubjectDTO subject;
 
@@ -37,7 +37,7 @@ namespace WindowsForms
 
         public bool EditMode { get; set; } = false;
 
-        public MateriaDetalle()
+        public SubjectDetail()
         {
             InitializeComponent();
         }

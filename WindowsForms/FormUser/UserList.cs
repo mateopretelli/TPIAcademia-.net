@@ -2,10 +2,10 @@ using DTOs.User;
 using WindowsForms.FormUser;
 namespace WindowsForms
 {
-    public partial class UserLista : Form
+    public partial class UserList : Form
     {
         private Home home;
-        public UserLista(Home home)
+        public UserList(Home home)
         {
             InitializeComponent();
             this.home = home;
@@ -18,7 +18,7 @@ namespace WindowsForms
 
         private async void updateButton_Click(object sender, EventArgs e)
         {
-            UserDetalle userDetalle = new UserDetalle();
+            UserDetail userDetalle = new UserDetail();
 
             int id;
 
@@ -45,7 +45,7 @@ namespace WindowsForms
         }
         private void addButton_Click(object sender, EventArgs e)
         {
-            UserDetalle userDetalle = new UserDetalle();
+            UserDetail userDetalle = new UserDetail();
 
             User userNuevo = new User();
 

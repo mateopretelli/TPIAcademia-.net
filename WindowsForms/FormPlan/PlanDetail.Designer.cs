@@ -1,6 +1,6 @@
 ﻿namespace WindowsForms
 {
-    partial class PlanDetalle
+    partial class PlanDetail
     {
         /// <summary>
         /// Required designer variable.

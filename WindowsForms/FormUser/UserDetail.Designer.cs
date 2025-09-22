@@ -1,6 +1,6 @@
 ﻿namespace WindowsForms
 {
-    partial class UserDetalle
+    partial class UserDetail
     {
         private System.ComponentModel.IContainer components = null;
 
