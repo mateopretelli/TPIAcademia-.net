@@ -36,7 +36,7 @@ app.UseHttpsRedirection();
 // Use CORS
 app.UseCors("AllowBlazorWasm");
 
-app.MapMateriaEndpoints();
+app.MapSubjectEndpoints();
 app.MapPlanEndpoints();
 app.MapUserEndPoints();
 app.MapSpecialtyEndPoints();

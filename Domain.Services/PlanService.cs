@@ -1,7 +1,7 @@
 ﻿using Data;
 using Domain.Model.Plan;
-using DTOs.Plan;
-using System.Numerics;
+using Domain.Model;
+using DTOs;
 
 namespace Domain.Services
 {
@@ -85,13 +85,13 @@ namespace Domain.Services
             return planRePository.Update(plan);
         }
 
-        public IEnumerable<PlanDTO> GetByCriteria(PlanCriteriaDTO criteriaDTO)
+        public IEnumerable<PlanDTO> GetByCriteria(SearchCriteriaDTO criteriaDTO)
         {
             var planRepository = new PlanRepository();
 
 
             //Mapea DTO a Domain Model
-            var criteria = new PlanCriteria(criteriaDTO.Texto);
+            var criteria = new SearchCriteria(criteriaDTO.Text);
 
             //Llama al repositorio para obtener las especialidades
             var specialties = planRepository.GetByCriteria(criteria);

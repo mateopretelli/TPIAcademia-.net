@@ -1,12 +1,11 @@
 using Domain.Services;
-using DTOs.Plan;
-using DTOs.Subject;
+using DTOs;
 
 namespace Endpoints; 
 
 public static class SubjectEndPoints { 
 
-    public static void MapMateriaEndpoints(this WebApplication app) 
+    public static void MapSubjectEndpoints(this WebApplication app) 
     { 
         app.MapGet("/subjects/{ID}", (int id) =>
         {
@@ -117,7 +116,7 @@ public static class SubjectEndPoints {
             return Results.NoContent();
 
         })
-        .WithName("DeleteMateria")
+        .WithName("DeleteSubject")
         .Produces(StatusCodes.Status204NoContent)
         .Produces(StatusCodes.Status404NotFound)
         .Produces(StatusCodes.Status400BadRequest)
@@ -128,7 +127,7 @@ public static class SubjectEndPoints {
             try
             {
                 SubjectService subjectService = new SubjectService();
-                var criteria = new SubjectCriteriaDTO { Text = text };
+                var criteria = new SearchCriteriaDTO { Text = text };
                 var dtos = subjectService.GetByCriteria(criteria);
                 return Results.Ok(dtos);
             }
@@ -139,7 +138,7 @@ public static class SubjectEndPoints {
 
         })
          .WithName("GetSubjectsByCriteria")
-        .Produces<List<PlanDTO>>(StatusCodes.Status200OK)
+        .Produces<List<SubjectDTO>>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status400BadRequest)
         .WithOpenApi();
     }

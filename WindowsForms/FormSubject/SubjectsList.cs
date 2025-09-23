@@ -1,4 +1,4 @@
-using DTOs.Subject;
+using DTOs;
 using WindowsForms.FormSubject;
 
 namespace WindowsForms

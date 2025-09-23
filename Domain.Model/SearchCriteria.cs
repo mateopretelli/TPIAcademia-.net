@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Model.Subject
+namespace Domain.Model
 {
-    public class SubjectCriteria
+    public class SearchCriteria
     {
         public string Text { get; private set; }
 
-        public SubjectCriteria(string text)
+        public SearchCriteria(string text)
         {
             Text = text.Trim();
         }

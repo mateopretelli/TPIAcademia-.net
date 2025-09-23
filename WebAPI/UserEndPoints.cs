@@ -1,6 +1,5 @@
 ﻿using Domain.Services;
-using DTOs.Plan;
-using DTOs.User;
+using DTOs;
 
 namespace Endpoints;
 

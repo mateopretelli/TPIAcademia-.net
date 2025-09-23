@@ -5,6 +5,7 @@ using System.Reflection.Emit;
 using Domain.Model.Plan;
 using Domain.Model.Specialty;
 using Domain.Model.Subject;
+using Domain.Model.Section;
 
 namespace Data
 {
@@ -13,6 +14,7 @@ namespace Data
         public DbSet<Specialty> Specialties { get; set; }
         public DbSet<Plan> Plans { get; set; }
         public DbSet<Subject> Subjects { get; set; }
+        public DbSet<Section> Sections { get; set; }
         public TPIContext()
         { 
             //this.Database.EnsureDeleted();
@@ -113,6 +115,38 @@ namespace Data
 
                 entity.Navigation(e => e.Plan)
                     .HasField("_plan"); 
+
+                entity.HasOne(e => e.Plan)
+                    .WithMany()
+                    .HasForeignKey(e => e.IDPlan);
+
+            });
+            modelBuilder.Entity<Section>(entity =>
+            {
+                entity.ToTable("Sections");
+
+                entity.HasKey(e => e.ID);
+
+                entity.Property(e => e.ID)
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.State)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.SpecialtyYear)
+                    .IsRequired();
+
+                entity.Property(e => e.IDPlan)
+                    .IsRequired()
+                    .HasField("_idPlan");
+
+                entity.Navigation(e => e.Plan)
+                    .HasField("_plan");
 
                 entity.HasOne(e => e.Plan)
                     .WithMany()

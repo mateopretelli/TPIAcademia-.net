@@ -1,6 +1,5 @@
 ﻿using Domain.Services;
-using DTOs.Plan;
-using DTOs.Specialty;
+using DTOs;
 
 namespace Endpoints;
 public static class PlanEndPoints
@@ -126,7 +125,7 @@ public static class PlanEndPoints
             try
             {
                 PlanService planService = new PlanService();
-                var criteria = new PlanCriteriaDTO { Texto = texto };
+                var criteria = new SearchCriteriaDTO { Text = texto };
                 var dtos = planService.GetByCriteria(criteria);
                 return Results.Ok(dtos);
             }

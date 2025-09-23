@@ -1,6 +1,7 @@
 ﻿using Data;
 using Domain.Model.Subject;
-using DTOs.Subject;
+using Domain.Model;
+using DTOs;
 
 namespace Domain.Services
 {
@@ -87,11 +88,11 @@ namespace Domain.Services
             return subjectRepository.Update(subject);
         }
      
-        public IEnumerable<SubjectDTO> GetByCriteria(SubjectCriteriaDTO criteriaDTO)
+        public IEnumerable<SubjectDTO> GetByCriteria(SearchCriteriaDTO criteriaDTO)
         {
             var subjectRepository = new SubjectRepository();
 
-            var criteria = new SubjectCriteria(criteriaDTO.Text);
+            var criteria = new SearchCriteria(criteriaDTO.Text);
 
             var subjects = subjectRepository.GetByCriteria(criteria);
 

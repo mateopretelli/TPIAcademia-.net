@@ -1,4 +1,4 @@
-﻿namespace DTOs.Specialty
+﻿namespace DTOs
 {
     public class SpecialtyDTO
     {

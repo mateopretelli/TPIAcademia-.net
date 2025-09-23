@@ -1,4 +1,4 @@
-﻿namespace DTOs.Subject
+﻿namespace DTOs
 {
     public class SubjectDTO
     {

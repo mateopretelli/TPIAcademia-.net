@@ -1,4 +1,4 @@
-﻿using DTOs.Specialty;
+﻿using DTOs;
 using WindowsForms.FormSpecialty;
 
 namespace WindowsForms

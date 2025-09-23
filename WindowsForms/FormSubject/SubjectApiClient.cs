@@ -1,5 +1,5 @@
-﻿using DTOs.Plan;
-using DTOs.Subject;
+﻿using DTOs;
+using DTOs.Plan;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
