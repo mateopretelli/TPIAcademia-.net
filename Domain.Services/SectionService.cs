@@ -11,12 +11,12 @@ namespace Domain.Services
         public SectionDTO Add(SectionDTO dto)
         {
             var sectionRepository = new SectionRepository();
-            if (sectionRepository.SectionExists(dto.Description, dto.SpecialtyYear, dto.IDPlan))
+            if (sectionRepository.SectionExists(dto.Description, dto.IDPlan, dto.SpecialtyYear))
             {
                 throw new ArgumentException("Ya existe una comisión con esa descripcion, ese año de especialidad y plan");
             }
 
-            Section section = new Section(dto.Description, dto.SpecialtyYear, dto.IDPlan);
+            Section section = new Section(dto.Description, dto.IDPlan, dto.SpecialtyYear);
             section.SetState("Active");
 
             sectionRepository.Add(section);

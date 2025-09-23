@@ -33,12 +33,15 @@
             UsersButton = new Button();
             SpecialtiesButton = new Button();
             contenedorHome = new FlowLayoutPanel();
+            SectionsButton = new Button();
+            flowLayoutPanel1 = new FlowLayoutPanel();
             contenedorHome.SuspendLayout();
+            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // MateriasButton
             // 
-            MateriasButton.Location = new Point(3, 108);
+            MateriasButton.Location = new Point(3, 208);
             MateriasButton.Margin = new Padding(3, 4, 3, 4);
             MateriasButton.Name = "MateriasButton";
             MateriasButton.Size = new Size(421, 96);
@@ -49,7 +52,7 @@
             // 
             // PlanesButton
             // 
-            PlanesButton.Location = new Point(3, 4);
+            PlanesButton.Location = new Point(3, 104);
             PlanesButton.Margin = new Padding(3, 4, 3, 4);
             PlanesButton.Name = "PlanesButton";
             PlanesButton.Size = new Size(421, 96);
@@ -60,7 +63,7 @@
             // 
             // UsersButton
             // 
-            UsersButton.Location = new Point(3, 212);
+            UsersButton.Location = new Point(3, 312);
             UsersButton.Margin = new Padding(3, 4, 3, 4);
             UsersButton.Name = "UsersButton";
             UsersButton.Size = new Size(421, 96);
@@ -71,7 +74,7 @@
             // 
             // SpecialtiesButton
             // 
-            SpecialtiesButton.Location = new Point(3, 315);
+            SpecialtiesButton.Location = new Point(3, 3);
             SpecialtiesButton.Name = "SpecialtiesButton";
             SpecialtiesButton.Size = new Size(421, 94);
             SpecialtiesButton.TabIndex = 2;
@@ -79,32 +82,53 @@
             SpecialtiesButton.UseVisualStyleBackColor = true;
             SpecialtiesButton.Click += SpecialtiesButton_Click;
             // 
-            // flowLayoutPanel1
+            // contenedorHome
             // 
             contenedorHome.Anchor = AnchorStyles.None;
             contenedorHome.AutoSize = true;
             contenedorHome.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            contenedorHome.Controls.Add(SpecialtiesButton);
             contenedorHome.Controls.Add(PlanesButton);
             contenedorHome.Controls.Add(MateriasButton);
             contenedorHome.Controls.Add(UsersButton);
-            contenedorHome.Controls.Add(SpecialtiesButton);
+            contenedorHome.Controls.Add(SectionsButton);
             contenedorHome.FlowDirection = FlowDirection.TopDown;
-            contenedorHome.Location = new Point(50, 32);
+            contenedorHome.Location = new Point(3, 3);
             contenedorHome.Name = "contenedorHome";
-            contenedorHome.Size = new Size(427, 412);
+            contenedorHome.Size = new Size(854, 412);
             contenedorHome.TabIndex = 3;
+            // 
+            // SectionsButton
+            // 
+            SectionsButton.Location = new Point(430, 4);
+            SectionsButton.Margin = new Padding(3, 4, 3, 4);
+            SectionsButton.Name = "SectionsButton";
+            SectionsButton.Size = new Size(421, 96);
+            SectionsButton.TabIndex = 5;
+            SectionsButton.Text = "Administrar Comisiones";
+            SectionsButton.UseVisualStyleBackColor = true;
+            SectionsButton.Click += SectionsButton_Click;
+            // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Controls.Add(contenedorHome);
+            flowLayoutPanel1.Location = new Point(157, 34);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(867, 422);
+            flowLayoutPanel1.TabIndex = 4;
             // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(537, 484);
-            Controls.Add(contenedorHome);
+            ClientSize = new Size(1143, 484);
+            Controls.Add(flowLayoutPanel1);
             Name = "Home";
             Text = "Sistema de Gestión Académica";
             contenedorHome.ResumeLayout(false);
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -114,5 +138,7 @@
         private Button UsersButton;
         private Button SpecialtiesButton;
         private FlowLayoutPanel contenedorHome;
+        private Button SectionsButton;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }

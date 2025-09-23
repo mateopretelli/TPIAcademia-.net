@@ -12,6 +12,7 @@ namespace Domain.Model.Section
     {
         public string Description { get; private set; }
         public int SpecialtyYear { get; private set; }
+
         private int _idPlan;
         private PlanEntity _plan;
 
@@ -39,9 +40,9 @@ namespace Domain.Model.Section
         
         public Section(string description, int planID, int specialtyYear)
         {
-            Description = description;
-            _idPlan = planID;
-            SpecialtyYear = specialtyYear;
+            SetDescription(description);
+            SetIDPlan(planID);
+            SetSpecialtyYear(specialtyYear);
         }
 
         public void SetDescription(string description)
@@ -60,16 +61,10 @@ namespace Domain.Model.Section
 
         public void SetSpecialtyYear(int year)
         {
-            if (year < 1948)
-                throw new ArgumentException("El año de la especialidad debe ser mayor o igual que 1948.", nameof(year));
+            if (year < 1 || year > 6)
+                throw new ArgumentException("El año de la especialidad debe estar entre 1 y 6", nameof(year));
             SpecialtyYear = year;
         }
 
-        public void SetSpecialty(PlanEntity plan)
-        {
-            ArgumentNullException.ThrowIfNull(plan);
-            _plan = plan;
-            _idPlan = plan.ID;
-        }
     }
 }

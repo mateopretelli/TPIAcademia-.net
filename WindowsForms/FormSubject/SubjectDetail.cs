@@ -12,17 +12,12 @@ namespace WindowsForms
     {
         private SubjectDTO subject;
 
-        private PlanDTO plan;
-
-        private SpecialtyDTO specialty;
-
         private IEnumerable<SpecialtyDTO> Specialties { get; set; }
 
         private IEnumerable<PlanDTO> Plans { get; set; }
 
         public PlanDTO Plan { get; set; }
 
-        private SpecialtyDTO Specialty { get; set; }
         public SubjectDTO Subject
         {
             get { return subject; }

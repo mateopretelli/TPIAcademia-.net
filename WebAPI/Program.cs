@@ -1,4 +1,5 @@
 ﻿using Endpoints;
+using WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,5 +41,5 @@ app.MapSubjectEndpoints();
 app.MapPlanEndpoints();
 app.MapUserEndPoints();
 app.MapSpecialtyEndPoints();
-
+app.MapSectionEndpoints();
 app.Run();

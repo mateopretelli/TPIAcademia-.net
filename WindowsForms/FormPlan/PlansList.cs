@@ -1,13 +1,12 @@
 using DTOs;
-using DTOs.Specialty;
 using WindowsForms.FormPlans;
 using WindowsForms.FormSpecialty;
 namespace WindowsForms
 {
-    public partial class PlanesList : Form
+    public partial class PlansList : Form
     {
         private Home home;
-        public PlanesList(Home home)
+        public PlansList(Home home)
         {
             InitializeComponent();
             this.home = home;

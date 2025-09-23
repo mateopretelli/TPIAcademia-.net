@@ -5,7 +5,7 @@ namespace WebAPI
 {
     public static class SectionEndPoints
     {
-        public static void MapSubjectEndpoints(this WebApplication app)
+        public static void MapSectionEndpoints(this WebApplication app)
         {
             app.MapGet("/sections/{ID}", (int id) =>
             {
@@ -45,7 +45,7 @@ namespace WebAPI
 
                     SectionDTO sectionDTO = sectionService.Add(dto);
 
-                    return Results.Created($"/subjects/{sectionDTO.ID}", sectionDTO);
+                    return Results.Created($"/sections/{sectionDTO.ID}", sectionDTO);
                 }
                 catch (ArgumentException ex)
                 {

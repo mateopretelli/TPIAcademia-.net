@@ -16,7 +16,7 @@ public static class UserEndPoints
             {
                 return Results.NotFound();
             }
-            var dto = new DTOs.User.User
+            var dto = new User
             {
                 ID = user.ID,
                 Name = user.Name,
@@ -42,7 +42,7 @@ public static class UserEndPoints
         {
             UserService userService = new UserService();
             var users = userService.GetAll();
-            var dtos = users.Select(user => new DTOs.User.User
+            var dtos = users.Select(user => new User
             {
                 ID = user.ID,
                 Name = user.Name,
@@ -70,7 +70,7 @@ public static class UserEndPoints
 
             var planes = planService.GetAll();
 
-            var dtos = planes.Select(plan => new DTOs.Plan.PlanDTO
+            var dtos = planes.Select(plan => new PlanDTO
             {
                 Description = plan.Description,
 
@@ -91,7 +91,7 @@ public static class UserEndPoints
 
                 userService.Add(user);
 
-                var dtoresultado = new DTOs.User.User
+                var dtoresultado = new User
                 {
                     Name = userDto.Name,
                     LastName = userDto.LastName,

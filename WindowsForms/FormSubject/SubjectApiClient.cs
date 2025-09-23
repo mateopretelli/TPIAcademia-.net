@@ -1,5 +1,4 @@
 ﻿using DTOs;
-using DTOs.Plan;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -85,11 +84,11 @@ namespace WindowsForms.FormSubject
             }
             catch (HttpRequestException ex)
             {
-                throw new Exception($"Error de conexión al agregar especialidad: {ex.Message}", ex);
+                throw new Exception($"Error de conexión al agregar materia: {ex.Message}", ex);
             }
             catch (TaskCanceledException ex)
             {
-                throw new Exception($"Timeout al agregar especialidad: {ex.Message}", ex);
+                throw new Exception($"Timeout al agregar materia: {ex.Message}", ex);
             }
         }
 
@@ -127,11 +126,11 @@ namespace WindowsForms.FormSubject
             }
             catch (HttpRequestException ex)
             {
-                throw new Exception($"Error de conexión al actualizar especialidad: {ex.Message}", ex);
+                throw new Exception($"Error de conexión al actualizar materia: {ex.Message}", ex);
             }
             catch (TaskCanceledException ex)
             {
-                throw new Exception($"Timeout al actualizar especialidad: {ex.Message}", ex);
+                throw new Exception($"Timeout al actualizar materia: {ex.Message}", ex);
             }
         }
     }
