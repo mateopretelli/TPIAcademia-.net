@@ -1,16 +1,28 @@
-﻿using System.Windows.Forms;
+﻿using DTOs.Plan;
 using DTOs.User;
-using WindowsForms.FormMateria;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using WindowsForms.FormPlans;
+using WindowsForms.FormSubject;
 using WindowsForms.FormUser;
 
 namespace WindowsForms
 {
-    public partial class UserDetalle : Form
+
+    public partial class UserDetail : Form
     {
 
         private UserDTO user;
 
         public UserDTO User
+
         {
             get { return user; }
             set
@@ -35,6 +47,7 @@ namespace WindowsForms
         {
             UserApiClient client = new UserApiClient();
             IEnumerable<UserDTO> existingUsers = await UserApiClient.GetAllAsync();
+
 
             if (this.ValidateUser(existingUsers))
             {
@@ -226,5 +239,6 @@ namespace WindowsForms
         {
 
         }
+
     }
 }

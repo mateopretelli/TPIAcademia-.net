@@ -1,6 +1,6 @@
 ﻿namespace WindowsForms
 {
-    partial class MateriasLista
+    partial class SubjectsList
     {
         /// <summary>
         ///  Required designer variable.

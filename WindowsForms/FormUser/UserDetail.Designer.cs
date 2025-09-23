@@ -1,6 +1,8 @@
 ﻿namespace WindowsForms
 {
-    partial class UserDetalle
+
+    partial class UserDetail
+
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -17,7 +19,9 @@
 
         private void InitializeComponent()
         {
+
             components = new System.ComponentModel.Container();
+          
             NameTextBox = new TextBox();
             NameLabel = new Label();
             LastNameTextBox = new TextBox();
@@ -46,6 +50,7 @@
             TypeComboBox = new ComboBox();
             errorProvider1 = new ErrorProvider(components);
             ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
+
             SuspendLayout();
             // 
             // NameTextBox

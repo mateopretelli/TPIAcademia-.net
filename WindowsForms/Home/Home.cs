@@ -10,14 +10,14 @@ namespace WindowsForms
 
         private void MateriasButton_Click(object sender, EventArgs e)
         {
-            MateriasLista materiasLista = new MateriasLista(this);
+            SubjectsList materiasLista = new SubjectsList(this);
             materiasLista.Show();
             this.Hide();
         }
 
         private void PlanesButton_Click(object sender, EventArgs e)
         {
-            PlanesLista planesLista = new PlanesLista(this);
+            PlanesList planesLista = new PlanesList(this);
             planesLista.Show();
             this.Hide();
         }
@@ -31,7 +31,7 @@ namespace WindowsForms
 
         private void SpecialtiesButton_Click(object sender, EventArgs e)
         {
-            SpecialtiesLista specialtiesLista = new SpecialtiesLista(this);
+            SpecialtiesList specialtiesLista = new SpecialtiesList(this);
             specialtiesLista.Show();
             this.Hide(); 
         }

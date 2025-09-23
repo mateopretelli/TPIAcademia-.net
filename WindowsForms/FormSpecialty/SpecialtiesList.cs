@@ -3,10 +3,10 @@ using WindowsForms.FormSpecialty;
 
 namespace WindowsForms
 {
-    public partial class SpecialtiesLista : Form
+    public partial class SpecialtiesList : Form
     {
         private Home home;
-        public SpecialtiesLista(Home home)
+        public SpecialtiesList(Home home)
         {
             InitializeComponent();
             this.home = home;
@@ -17,7 +17,7 @@ namespace WindowsForms
         }
         private async void updateButton_Click(object sender, EventArgs e)
         {
-            SpecialtyDetalle specialtyDetalle = new SpecialtyDetalle();
+            SpecialtyDetail specialtyDetalle = new SpecialtyDetail();
 
             int id;
 
@@ -44,7 +44,7 @@ namespace WindowsForms
 
         private void addButton_Click(object sender, EventArgs e)
         {
-            SpecialtyDetalle specialtyDetalle = new SpecialtyDetalle();
+            SpecialtyDetail specialtyDetalle = new SpecialtyDetail();
 
             SpecialtyDTO specialtyNuevo = new SpecialtyDTO();
 

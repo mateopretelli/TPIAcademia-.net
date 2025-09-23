@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <EnableDefaultNamespace>false</EnableDefaultNamespace>
+    <RootNamespace>Domain.Model</RootNamespace>
   </PropertyGroup>
 
 </Project>

@@ -1,12 +1,12 @@
 using DTOs.Subject;
-using WindowsForms.FormMateria;
+using WindowsForms.FormSubject;
 
 namespace WindowsForms
 {
-    public partial class MateriasLista : Form
+    public partial class SubjectsList : Form
     {
         private Home home;
-        public MateriasLista(Home home)
+        public SubjectsList(Home home)
         {
             InitializeComponent();
             this.home = home;
@@ -19,16 +19,16 @@ namespace WindowsForms
 
         private async void updateMateriaButton_Click(object sender, EventArgs e)
         {
-            MateriaDetalle materiaDetalle = new MateriaDetalle();
+            SubjectDetail materiaDetalle = new SubjectDetail();
 
             int id;
 
             id = this.SelectedItem().ID;
 
-            Materia materia = await MateriaApiClient.GetAsync(id);
+            SubjectDTO subject = await SubjectApiClient.GetAsync(id);
 
             materiaDetalle.EditMode = true;
-            materiaDetalle.Materia = materia;
+            materiaDetalle.Subject = subject;
 
             materiaDetalle.ShowDialog();
 
@@ -40,17 +40,17 @@ namespace WindowsForms
             int id;
 
             id = this.SelectedItem().ID;
-            await MateriaApiClient.DeleteAsync(id);
+            await SubjectApiClient.DeleteAsync(id);
 
             this.GetAllAndLoad();
         }
         private void addMateriaButton_Click(object sender, EventArgs e)
         {
-            MateriaDetalle materiaDetalle = new MateriaDetalle();
+            SubjectDetail materiaDetalle = new SubjectDetail();
 
-            Materia materiaNueva = new Materia();
+            SubjectDTO newSubject = new SubjectDTO();
 
-            materiaDetalle.Materia = materiaNueva;
+            materiaDetalle.Subject = newSubject;
 
             materiaDetalle.ShowDialog();
 
@@ -59,10 +59,10 @@ namespace WindowsForms
 
         private async void GetAllAndLoad()
         {
-            MateriaApiClient client = new MateriaApiClient();
+            SubjectApiClient client = new SubjectApiClient();
 
             this.materiasDataGridView.DataSource = null;
-            this.materiasDataGridView.DataSource = await MateriaApiClient.GetAllAsync();
+            this.materiasDataGridView.DataSource = await SubjectApiClient.GetAllAsync();
 
             if (this.materiasDataGridView.Rows.Count > 0)
             {
@@ -77,13 +77,13 @@ namespace WindowsForms
             }
         }
 
-        private Materia SelectedItem()
+        private SubjectDTO SelectedItem()
         {
-            Materia materia;
+            SubjectDTO subject;
 
-            materia = (Materia)materiasDataGridView.SelectedRows[0].DataBoundItem;
+            subject = (SubjectDTO)materiasDataGridView.SelectedRows[0].DataBoundItem;
 
-            return materia;
+            return subject;
         }
 
         private void materiasDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)

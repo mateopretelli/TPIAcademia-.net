@@ -1,6 +1,6 @@
 ﻿namespace WindowsForms
 {
-    partial class PlanDetalle
+    partial class PlanDetail
     {
         /// <summary>
         /// Required designer variable.
@@ -111,7 +111,7 @@
             SpecialtyIDComboBox.Name = "SpecialtyIDComboBox";
             SpecialtyIDComboBox.Size = new Size(274, 23);
             SpecialtyIDComboBox.TabIndex = 11;
-            SpecialtyIDComboBox.VisibleChanged += SpecialtyIDComboBoxData;
+            //SpecialtyIDComboBox.VisibleChanged += SpecialtyIDComboBoxData;
             // 
             // cancelPlanButton
             // 

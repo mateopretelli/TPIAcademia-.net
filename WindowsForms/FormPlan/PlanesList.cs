@@ -4,10 +4,10 @@ using WindowsForms.FormPlans;
 using WindowsForms.FormSpecialty;
 namespace WindowsForms
 {
-    public partial class PlanesLista : Form
+    public partial class PlanesList : Form
     {
         private Home home;
-        public PlanesLista(Home home)
+        public PlanesList(Home home)
         {
             InitializeComponent();
             this.home = home;
@@ -20,7 +20,7 @@ namespace WindowsForms
 
         private async void updateButton_Click(object sender, EventArgs e)
         {
-            PlanDetalle planDetalle = new PlanDetalle();
+            PlanDetail planDetalle = new PlanDetail();
 
             int id;
 
@@ -47,7 +47,7 @@ namespace WindowsForms
         }
         private void addButton_Click(object sender, EventArgs e)
         {
-            PlanDetalle planDetalle = new PlanDetalle();
+            PlanDetail planDetalle = new PlanDetail();
 
             PlanDTO planNuevo = new PlanDTO();
 

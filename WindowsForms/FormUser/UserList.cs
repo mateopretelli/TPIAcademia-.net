@@ -18,7 +18,8 @@ namespace WindowsForms
 
         private async void updateButton_Click(object sender, EventArgs e)
         {
-            UserDetalle userDetalle = new UserDetalle();
+
+            UserDetail userDetalle = new UserDetail();
 
             int id;
 
@@ -45,7 +46,7 @@ namespace WindowsForms
         }
         private void addButton_Click(object sender, EventArgs e)
         {
-            UserDetalle userDetalle = new UserDetalle();
+            UserDetail userDetalle = new UserDetail();
 
             UserDTO userNuevo = new UserDTO();
 
@@ -82,6 +83,7 @@ namespace WindowsForms
             UserDTO user;
 
             user = (UserDTO)userDataGridView.SelectedRows[0].DataBoundItem;
+
 
             return user;
         }
