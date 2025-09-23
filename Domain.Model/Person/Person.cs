@@ -1,5 +1,5 @@
 ﻿namespace Domain.Model.Person
-{
+{ 
     public class Person : BusinessEntity
     {
 
@@ -10,7 +10,7 @@
         public string Phone { get; private set; }
         public int Legajo { get; private set; }
         public DateTime BirthDate { get; private set; }
-        public string? Type { get; private set; }
+        public string Type { get; private set; }
         public int IDPlan { get; private set; }
 
         public Person() { }

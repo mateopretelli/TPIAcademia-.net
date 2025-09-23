@@ -24,7 +24,7 @@ namespace WindowsForms
 
         private void UsersButton_Click(object sender, EventArgs e)
         {
-            UserLista usersLista = new UserLista(this);
+            UserList usersLista = new UserList(this);
             usersLista.Show();
             this.Hide();
         }

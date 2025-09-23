@@ -2,10 +2,10 @@ using DTOs.User;
 using WindowsForms.FormUser;
 namespace WindowsForms
 {
-    public partial class UserLista : Form
+    public partial class UserList : Form
     {
         private Home home;
-        public UserLista(Home home)
+        public UserList(Home home)
         {
             InitializeComponent();
             this.home = home;
