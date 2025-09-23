@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DTOs.User
 {
-    public class User
+    public class UserDTO
     {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -16,6 +16,7 @@ namespace DTOs.User
         public string Phone { get; set; }
         public int Legajo { get; set; }
         public DateTime BirthDate { get; set; }
+        public string? Type { get; set; } // e.g., "Admin", "Student", etc.
         public int IDPlan { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }

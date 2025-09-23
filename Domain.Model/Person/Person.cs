@@ -1,26 +1,29 @@
 ﻿namespace Domain.Model.Person
-{
+{ 
     public class Person : BusinessEntity
     {
 
         public string Name { get; private set; }
         public string LastName { get; private set; }
-        public string email { get; private set; }
+        public string Email { get; private set; }
         public string Address { get; private set; }
         public string Phone { get; private set; }
         public int Legajo { get; private set; }
-        public DateTime birthDate { get; private set; }
+        public DateTime BirthDate { get; private set; }
+        public string Type { get; private set; }
         public int IDPlan { get; private set; }
 
-        public Person(string name, string lastName, string email, string address, string phone, int legajo, DateTime birthDate, int idPlan)
+        public Person() { }
+        public Person(string name, string lastName, string email, string address, string phone, int legajo, DateTime birthDate, string? type, int idPlan)
         {
             Name = name;
             LastName = lastName;
-            this.email = email;
+            Email = email;
             Address = address;
             Phone = phone;
             Legajo = legajo;
-            this.birthDate = birthDate;
+            BirthDate = birthDate;
+            Type = type;
             IDPlan = idPlan;
         }
 
@@ -42,7 +45,7 @@
         {
             if (string.IsNullOrWhiteSpace(email))
                 throw new ArgumentException("El email no puede estar vacío.", nameof(email));
-            this.email = email;
+            Email = email;
         }
 
         public void SetAddress(string address)
@@ -68,9 +71,15 @@
         {
             if (birthDate > DateTime.Now)
                 throw new ArgumentException("La fecha de nacimiento no puede ser fuTURA.", nameof(birthDate));
-            this.birthDate = birthDate;
+            BirthDate = birthDate;
         }
 
+        public void SetType(string type)
+        {
+            if (string.IsNullOrWhiteSpace(type))
+                throw new ArgumentException("El tipo no puede estar vacío.", nameof(type));
+            Type = type;
+        }
 
         public void SetIDPlan(int idPlan)
         {

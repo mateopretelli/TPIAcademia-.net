@@ -7,8 +7,9 @@ namespace Domain.Model.User
         public string Username { get; private set; }
         public string Password { get; private set; }
 
-        public User(string name, string lastName, string email, string address, string phone, int legajo, DateTime birthDate, int idPlan, string username, string password)
-            : base(name, lastName, email, address, phone, legajo, birthDate, idPlan)
+        public User(): base() {}
+        public User(string name, string lastName, string email, string address, string phone, int legajo, DateTime birthDate,string? type, int idPlan, string username, string password)
+            : base(name, lastName, email, address, phone, legajo, birthDate, type, idPlan)
         {
             Username = username;
             Password = password;

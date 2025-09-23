@@ -1,80 +1,128 @@
-﻿using Data;
+﻿using System.Diagnostics;
+using Data;
 using Domain.Model.User;
+using DTOs.User;
 
 namespace Domain.Services
 {
     public class UserService
     {
-        public void Add(User user)
+        public UserDTO Add(UserDTO dto)
         {
-            user.SetId(GetNextId());
-            user.SetLegajo();
+            var userRepository = new UserRepository();
+
+            if (userRepository.UserExists(dto.Email))
+            {
+                throw new ArgumentException("Ya existe un usuario con ese email.", nameof(dto.Email));
+            }
+
+            User user = new User(dto.Name, dto.LastName, dto.Email, dto.Address, dto.Phone, dto.Legajo, dto.BirthDate, dto.Type, dto.IDPlan, dto.Username, dto.Password);
             user.SetState("Active");
-            UserInMemory.Users.Add(user);
+
+            userRepository.Add(user);
+
+            dto.ID = user.ID;
+            dto.State = user.State;
+
+            return dto;
         }
 
         public bool Delete(int id)
         {
-            User? userToDelete = UserInMemory.Users.Find(x => x.ID == id);
-            if (userToDelete != null)
-            {
-                UserInMemory.Users.Remove(userToDelete);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var userRepository = new UserRepository();
+            return userRepository.Delete(id);
         }
 
-        public User Get(int id)
+        public UserDTO Get(int id)
         {
-            var user = UserInMemory.Users.Find(x => x.ID == id);
+            var userRepository = new UserRepository();
+
+            User? user = userRepository.Get(id);
 
             if (user == null)
             {
-                throw new Exception($"No se encontro el usuario con id {id}");
+                return null;
             }
 
-            return user;
-        }
-
-        public IEnumerable<User> GetAll()
-        {
-            return UserInMemory.Users.ToList();
-        }
-
-        public bool Update(User user)
-        {
-            User? userToUpdate = UserInMemory.Users.Find(x => x.ID == user.ID);
-            if (userToUpdate != null)
+            return new UserDTO
             {
-                userToUpdate.SetName(user.Name);
-                userToUpdate.SetLastName(user.LastName);
-                userToUpdate.SetEmail(user.email);
-                userToUpdate.SetAddress(user.Address);
-                userToUpdate.SetPhone(user.Phone);
-                //userToUpdate.SetLegajo(user.Legajo);
-                userToUpdate.SetBirthDate(user.birthDate);
-                userToUpdate.SetIDPlan(user.IDPlan);
-                userToUpdate.SetUsername(user.Username);
-                userToUpdate.SetPassword(user.Password);
-                userToUpdate.SetState(user.State);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+                ID = user.ID,
+                Name = user.Name,
+                LastName = user.LastName,
+                Email = user.Email,
+                Address = user.Address,
+                Phone = user.Phone,
+                Legajo = user.Legajo,
+                BirthDate = user.BirthDate,
+                IDPlan = user.IDPlan,
+                Username = user.Username,
+                Password = user.Password,
+                State = user.State
+            };
         }
 
-        private int GetNextId()
+        public IEnumerable<UserDTO> GetAll()
         {
-            if (UserInMemory.Users.Count == 0)
-                return 1;
-            else
-                return UserInMemory.Users.Max(x => x.ID) + 1;
+            var userRepository = new UserRepository();
+            return userRepository.GetAll()
+                .Select(u => new UserDTO
+                {
+                    ID = u.ID,
+                    Name = u.Name,
+                    LastName = u.LastName,
+                    Email = u.Email,
+                    Address = u.Address,
+                    Phone = u.Phone,
+                    Legajo = u.Legajo,
+                    BirthDate = u.BirthDate,
+                    IDPlan = u.IDPlan,
+                    Username = u.Username,
+                    Password = u.Password,
+                    State = u.State
+                }).ToList();
+        }
+
+        public bool Update(UserDTO dto)
+        {
+            var userRepository = new UserRepository();
+
+            if (userRepository.UserExists(dto.Email, dto.ID))
+            {
+                throw new ArgumentException("Ya existe un usuario con ese email.", nameof(dto.Email));
+            }
+
+            User user = new User(dto.Name, dto.LastName, dto.Email, dto.Address, dto.Phone, dto.Legajo, dto.BirthDate, dto.Type, dto.IDPlan, dto.Username, dto.Password);
+
+            return userRepository.Update(user);
+        }
+
+        public IEnumerable<UserDTO> GetByCriteria(UserCriteriaDTO criteriaDTO)
+        {
+            var userRepository = new UserRepository();
+
+            //Mapea DTO a Domain Model
+            var criteria = new UserCriteria(criteriaDTO.Texto);
+
+            //Llama al repositorio para obtener los usuarios
+            var users = userRepository.GetByCriteria(criteria);
+
+            //Mapea Domain Model a DTO
+            return users.Select(u => new UserDTO
+            {
+                ID = u.ID,
+                Name = u.Name,
+                LastName = u.LastName,
+                Email = u.Email,
+                Address = u.Address,
+                Phone = u.Phone,
+                Legajo = u.Legajo,
+                BirthDate = u.BirthDate,
+                IDPlan = u.IDPlan,
+                Username = u.Username,
+                Password = u.Password,
+                State = u.State
+            });
         }
     }
 }
+ 
