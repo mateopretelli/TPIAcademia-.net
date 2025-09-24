@@ -1,4 +1,5 @@
-﻿using Domain.Model.Specialty;
+﻿using Domain.Model;
+using Domain.Model.Specialty;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 
@@ -68,7 +69,7 @@ namespace Data
             return query.Any();
         }
 
-        public IEnumerable<Specialty> GetByCriteria(SpecialtyCriteria criteria)
+        public IEnumerable<Specialty> GetByCriteria(SearchCriteria criteria)
         {
             const string sql = @"
                 SELECT ID, State, Description
@@ -78,7 +79,7 @@ namespace Data
 
             var specialties = new List<Specialty>();
             string connectionString = new TPIContext().Database.GetConnectionString();
-            string searchPattern = $"%{criteria.Texto}%";
+            string searchPattern = $"%{criteria.Text}%";
 
             using var connection = new SqlConnection(connectionString);
             using var command = new SqlCommand(sql, connection);

@@ -27,8 +27,6 @@ namespace Domain.Model.Plan
                 }
             }
         }
-
-
         private Plan() { }
         public Plan(string description, int idSpecialty) 
         {

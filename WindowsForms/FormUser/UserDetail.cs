@@ -1,5 +1,4 @@
-﻿using DTOs.Plan;
-using DTOs.User;
+﻿using DTOs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

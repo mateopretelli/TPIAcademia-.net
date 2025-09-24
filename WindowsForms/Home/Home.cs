@@ -1,3 +1,5 @@
+using WindowsForms.FormSection;
+
 namespace WindowsForms
 
 {
@@ -6,6 +8,7 @@ namespace WindowsForms
         public Home()
         {
             InitializeComponent();
+
         }
 
         private void MateriasButton_Click(object sender, EventArgs e)
@@ -17,7 +20,7 @@ namespace WindowsForms
 
         private void PlanesButton_Click(object sender, EventArgs e)
         {
-            PlanesList planesLista = new PlanesList(this);
+            PlansList planesLista = new PlansList(this);
             planesLista.Show();
             this.Hide();
         }
@@ -33,7 +36,13 @@ namespace WindowsForms
         {
             SpecialtiesList specialtiesLista = new SpecialtiesList(this);
             specialtiesLista.Show();
-            this.Hide(); 
+            this.Hide();
+        }
+        private void SectionsButton_Click(object sender, EventArgs e)
+        {
+            SectionList sectionList = new SectionList(this);
+            sectionList.Show();
+            this.Hide();
         }
     }
 }

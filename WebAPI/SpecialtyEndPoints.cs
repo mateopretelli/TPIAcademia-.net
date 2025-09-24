@@ -1,6 +1,6 @@
 ﻿using Domain.Services;
 using Domain.Model;
-using DTOs.Specialty;
+using DTOs;
 
 namespace Endpoints;
 public static class SpecialtyEndPoints
@@ -108,7 +108,7 @@ public static class SpecialtyEndPoints
             try
             {
                 SpecialtyService specialtyService = new SpecialtyService();
-                var criteria = new SpecialtyCriteriaDTO { Texto = texto };
+                var criteria = new SearchCriteriaDTO { Text = texto };
                 var dtos = specialtyService.GetByCriteria(criteria);
                 return Results.Ok(dtos);
             }

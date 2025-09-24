@@ -1,4 +1,4 @@
-﻿using DTOs.User;
+﻿using DTOs;
 
 namespace WindowsForms.FormUser
 {

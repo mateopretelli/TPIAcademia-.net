@@ -39,7 +39,7 @@
             // materiasDataGridView
             // 
             materiasDataGridView.AllowUserToOrderColumns = true;
-            materiasDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            materiasDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             materiasDataGridView.Location = new Point(12, 15);
             materiasDataGridView.Name = "materiasDataGridView";
             materiasDataGridView.ReadOnly = true;
@@ -51,9 +51,9 @@
             // addMateriaButton
             // 
             addMateriaButton.Location = new Point(551, 369);
+            addMateriaButton.Name = "addMateriaButton";
             addMateriaButton.Size = new Size(75, 23);
             addMateriaButton.TabIndex = 1;
-            addMateriaButton.Name = "addMateriaButton";
             addMateriaButton.Text = "Agregar";
             addMateriaButton.UseVisualStyleBackColor = true;
             addMateriaButton.Click += addMateriaButton_Click;
@@ -88,7 +88,7 @@
             MateriasHomeButton.UseVisualStyleBackColor = true;
             MateriasHomeButton.Click += MateriasHomeButton_Click;
             // 
-            // MateriasLista
+            // SubjectsList
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -98,7 +98,7 @@
             Controls.Add(deleteMateriaButton);
             Controls.Add(addMateriaButton);
             Controls.Add(materiasDataGridView);
-            Name = "MateriasLista";
+            Name = "SubjectsList";
             Text = "Materias";
             Load += Materias_Load;
             ((System.ComponentModel.ISupportInitialize)materiasDataGridView).EndInit();

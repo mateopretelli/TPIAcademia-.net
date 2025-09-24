@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DTOs.Subject
+namespace DTOs
 {
-    public class SubjectCriteriaDTO
+    public class SearchCriteriaDTO
     {
         public string Text { get; set; } = string.Empty;
     }

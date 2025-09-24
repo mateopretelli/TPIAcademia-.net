@@ -2,7 +2,7 @@
 
 namespace WindowsForms
 {
-    partial class PlanesList
+    partial class PlansList
     {
         /// <summary>
         ///  Required designer variable.

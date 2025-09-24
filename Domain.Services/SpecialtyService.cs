@@ -1,7 +1,8 @@
 ﻿using Data;
 using Domain.Model;
 using Domain.Model.Specialty;
-using DTOs.Specialty;
+using Domain.Model;
+using DTOs;
 
 namespace Domain.Services
 {
@@ -81,13 +82,13 @@ namespace Domain.Services
             return specialtyRePository.Update(specialty);
         }
 
-        public IEnumerable<SpecialtyDTO> GetByCriteria(SpecialtyCriteriaDTO criteriaDTO)
+        public IEnumerable<SpecialtyDTO> GetByCriteria(SearchCriteriaDTO criteriaDTO)
         {
             var specialtyRepository = new SpecialtyRepository();
 
 
             //Mapea DTO a Domain Model
-            var criteria = new SpecialtyCriteria(criteriaDTO.Texto);
+            var criteria = new SearchCriteria(criteriaDTO.Text);
 
             //Llama al repositorio para obtener las especialidades
             var specialties = specialtyRepository.GetByCriteria(criteria);

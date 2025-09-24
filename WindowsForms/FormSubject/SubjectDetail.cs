@@ -1,12 +1,10 @@
-﻿using DTOs.Plan;
-using DTOs.Specialty;
-using DTOs.Subject;
-using System.Data;
+﻿using System.Data;
 using WindowsForms.FormSpecialty;
 using WindowsForms.FormPlans;
 using WindowsForms.FormSubject;
 using System.Security.AccessControl;
 using System.Diagnostics;
+using DTOs;
 
 namespace WindowsForms
 {
@@ -14,17 +12,12 @@ namespace WindowsForms
     {
         private SubjectDTO subject;
 
-        private PlanDTO plan;
-
-        private SpecialtyDTO specialty;
-
         private IEnumerable<SpecialtyDTO> Specialties { get; set; }
 
         private IEnumerable<PlanDTO> Plans { get; set; }
 
         public PlanDTO Plan { get; set; }
 
-        private SpecialtyDTO Specialty { get; set; }
         public SubjectDTO Subject
         {
             get { return subject; }

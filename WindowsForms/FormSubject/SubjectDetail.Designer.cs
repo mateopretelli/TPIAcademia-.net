@@ -130,7 +130,7 @@
             totalHoursLabel.AutoSize = true;
             totalHoursLabel.Location = new Point(31, 129);
             totalHoursLabel.Name = "totalHoursLabel";
-            totalHoursLabel.Size = new Size(77, 15);
+            totalHoursLabel.Size = new Size(78, 15);
             totalHoursLabel.TabIndex = 10;
             totalHoursLabel.Text = "Horas Totales";
             // 
@@ -168,13 +168,12 @@
             // 
             IDPlanComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             IDPlanComboBox.DropDownWidth = 280;
+            IDPlanComboBox.Enabled = false;
             IDPlanComboBox.FormattingEnabled = true;
             IDPlanComboBox.Location = new Point(143, 219);
             IDPlanComboBox.Name = "IDPlanComboBox";
             IDPlanComboBox.Size = new Size(287, 23);
             IDPlanComboBox.TabIndex = 15;
-            IDPlanComboBox.DataSource = null;
-            IDPlanComboBox.Enabled = false;
             // 
             // IDSpecialtyComboBox
             // 
@@ -196,7 +195,7 @@
             SubjectIDSpecialtyLabel.TabIndex = 17;
             SubjectIDSpecialtyLabel.Text = "Carrera";
             // 
-            // MateriaDetalle
+            // SubjectDetail
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -217,8 +216,8 @@
             Controls.Add(MateriaDescriptionTextBox);
             Controls.Add(cancelSubjectButton);
             Controls.Add(acceptSubjectButton);
-            Name = "MateriaDetalle";
-            Text = "Plan Seleccionada";
+            Name = "SubjectDetail";
+            Text = "Detalles Materia";
             ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
             ResumeLayout(false);
             PerformLayout();

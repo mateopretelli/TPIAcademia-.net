@@ -1,7 +1,5 @@
 ﻿using Domain.Services;
-using DTOs.Plan;
-using DTOs.Specialty;
-using DTOs.User;
+using DTOs;
 
 namespace Endpoints;
 
@@ -29,6 +27,7 @@ public static class UserEndPoints
         {
             UserService userService = new UserService();
 
+
             var dtos = userService.GetAll();
 
             return Results.Ok(dtos);
@@ -44,7 +43,7 @@ public static class UserEndPoints
 
             var planes = planService.GetAll();
 
-            var dtos = planes.Select(plan => new DTOs.Plan.PlanDTO
+            var dtos = planes.Select(plan => new PlanDTO
             {
                 Description = plan.Description,
 

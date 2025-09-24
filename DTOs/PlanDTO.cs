@@ -1,4 +1,4 @@
-﻿namespace DTOs.Plan
+﻿namespace DTOs
 {
     public class PlanDTO
     {

@@ -1,4 +1,5 @@
-﻿using Domain.Model.Subject;
+﻿using Domain.Model;
+using Domain.Model.Subject;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 
@@ -76,7 +77,7 @@ namespace Data
             return query.Any();
         }
 
-        public IEnumerable<Subject> GetByCriteria(SubjectCriteria criteria)
+        public IEnumerable<Subject> GetByCriteria(SearchCriteria criteria)
         {
             const string sql = @"
                 SELECT ID, State, Description, WeeklyHS, TotalHS, IDPlan

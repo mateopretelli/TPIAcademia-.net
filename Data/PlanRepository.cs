@@ -1,4 +1,5 @@
-﻿using Domain.Model.Plan;
+﻿using Domain.Model;
+using Domain.Model.Plan;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 
@@ -73,7 +74,7 @@ namespace Data
             return query.Any();
         }
 
-        public IEnumerable<Plan> GetByCriteria(PlanCriteria criteria)
+        public IEnumerable<Plan> GetByCriteria(SearchCriteria criteria)
         {
             const string sql = @"
                 SELECT ID, State, Description, IDSpecialty
@@ -83,7 +84,7 @@ namespace Data
 
             var plans = new List<Plan>();
             string connectionString = new TPIContext().Database.GetConnectionString();
-            string searchPattern = $"%{criteria.Texto}%";
+            string searchPattern = $"%{criteria.Text}%";
 
             using var connection = new SqlConnection(connectionString);
             using var command = new SqlCommand(sql, connection);
