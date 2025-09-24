@@ -10,57 +10,30 @@ public static class UserEndPoints
         app.MapGet("/users/{ID}", (int id) =>
         {
             UserService userService = new UserService();
-            Domain.Model.User.User user = userService.Get(id);
+            UserDTO dto = userService.Get(id);
 
-            if (user == null)
+            if (dto == null)
             {
                 return Results.NotFound();
             }
-            var dto = new User
-            {
-                ID = user.ID,
-                Name = user.Name,
-                LastName = user.LastName,
-                Email = user.email,
-                Address = user.Address,
-                Phone = user.Phone,
-                Legajo = user.Legajo,
-                BirthDate = user.birthDate,
-                IDPlan = user.IDPlan,
-                Username = user.Username,
-                Password = user.Password,
-                State = user.State
-            };
             return Results.Ok(dto);
         })
         .WithName("GetUser")
-        .Produces<User>(StatusCodes.Status200OK)
+        .Produces<UserDTO>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound)
         .WithOpenApi();
 
         app.MapGet("/users", () =>
         {
             UserService userService = new UserService();
-            var users = userService.GetAll();
-            var dtos = users.Select(user => new User
-            {
-                ID = user.ID,
-                Name = user.Name,
-                LastName = user.LastName,
-                Email = user.email,
-                Address = user.Address,
-                Phone = user.Phone,
-                Legajo = user.Legajo,
-                BirthDate = user.birthDate,
-                IDPlan = user.IDPlan,
-                Username = user.Username,
-                Password = user.Password,
-                State = user.State
-            }).ToList();
+
+
+            var dtos = userService.GetAll();
+
             return Results.Ok(dtos);
         })
           .WithName("GetAllUsers")
-          .Produces<List<User>>(StatusCodes.Status200OK)
+          .Produces<List<UserDTO>>(StatusCodes.Status200OK)
           .Produces(StatusCodes.Status404NotFound)
           .WithOpenApi();
 
@@ -81,31 +54,16 @@ public static class UserEndPoints
         .WithName("GetAllPlanesDescripcionForUsers")
         .Produces<List<PlanDTO>>(StatusCodes.Status200OK)
         .WithOpenApi();
-
-        app.MapPost("/users", (User userDto) =>
+        //ver aca!!!
+        app.MapPost("/users", (UserDTO dto) =>
         {
             try
             {
                 UserService userService = new UserService();
-                Domain.Model.User.User user = new Domain.Model.User.User(userDto.Name, userDto.LastName, userDto.Email, userDto.Address, userDto.Phone, userDto.Legajo, userDto.BirthDate, userDto.IDPlan, userDto.Username, userDto.Password);
 
-                userService.Add(user);
+                UserDTO userDTO = userService.Add(dto);
 
-                var dtoresultado = new User
-                {
-                    Name = userDto.Name,
-                    LastName = userDto.LastName,
-                    Email = userDto.Email,
-                    Address = userDto.Address,
-                    Phone = userDto.Phone,
-                    Legajo = userDto.Legajo,
-                    BirthDate = userDto.BirthDate,
-                    IDPlan = userDto.IDPlan,
-                    Username = userDto.Username,
-                    Password = userDto.Password
-                };
-
-                return Results.Created($"/users/{user.ID}", userDto);
+                return Results.Created($"/users/{userDTO.ID}", userDTO);
             }
             catch (Exception ex)
             {
@@ -113,29 +71,24 @@ public static class UserEndPoints
             }
         })
           .WithName("AddUser")
-          .Accepts<User>("application/json")
-          .Produces<User>(StatusCodes.Status201Created)
+          .Produces<UserDTO>(StatusCodes.Status201Created)
           .Produces(StatusCodes.Status400BadRequest)
           .WithOpenApi();
 
-        app.MapPut("/users", (User userDto) =>
+        app.MapPut("/users", (UserDTO dto) =>
         {
             try
             {
                 UserService userService = new UserService();
-                Domain.Model.User.User user = new Domain.Model.User.User(userDto.Name, userDto.LastName, userDto.Email, userDto.Address, userDto.Phone, userDto.Legajo, userDto.BirthDate, userDto.IDPlan, userDto.Username, userDto.Password)
-                {
-                    ID = userDto.ID,
-                    State = userDto.State
-                };
-                if (userService.Update(user))
-                {
-                    return Results.Ok(userDto);
-                }
-                else
+
+                var found= userService.Update(dto);
+
+                if (!found)
                 {
                     return Results.NotFound();
                 }
+
+                return Results.NoContent();
             }
             catch (Exception ex)
             {
@@ -143,26 +96,47 @@ public static class UserEndPoints
             }
         })
           .WithName("UpdateUser")
-          .Accepts<User>("application/json")
-          .Produces<User>(StatusCodes.Status200OK)
+          .Produces(StatusCodes.Status204NoContent)
           .Produces(StatusCodes.Status404NotFound)
+          .Produces(StatusCodes.Status400BadRequest)
           .WithOpenApi();
 
         app.MapDelete("/users/{id}", (int id) =>
         {
             UserService userService = new UserService();
-            if (userService.Delete(id))
-            {
-                return Results.NoContent();
-            }
-            else
+
+            var deleted = userService.Delete(id);
+
+            if (!deleted)
             {
                 return Results.NotFound();
             }
+
+            return Results.NoContent();
         })
           .WithName("DeleteUser")
           .Produces(StatusCodes.Status204NoContent)
           .Produces(StatusCodes.Status404NotFound)
+          .WithOpenApi();
+
+        app.MapGet("/users/criteria", (string texto) =>
+        {
+            try
+            {
+                UserService userService = new UserService();
+                var criteria = new UserCriteriaDTO { Texto = texto };
+                var dtos = userService.GetByCriteria(criteria);
+                return Results.Ok(dtos);
+            }
+            catch (ArgumentException ex)
+            {
+                return Results.BadRequest(new { error = ex.Message });
+            }
+
+        })
+          .WithName("GetUsersByCriteria")
+          .Produces<List<SpecialtyDTO>>(StatusCodes.Status200OK)
+          .Produces(StatusCodes.Status400BadRequest)
           .WithOpenApi();
     }
 

@@ -14,12 +14,14 @@ using WindowsForms.FormUser;
 
 namespace WindowsForms
 {
+
     public partial class UserDetail : Form
     {
 
-        private User user;
+        private UserDTO user;
 
-        public User User
+        public UserDTO User
+
         {
             get { return user; }
             set
@@ -31,15 +33,20 @@ namespace WindowsForms
 
         public bool EditMode { get; set; } = false;
 
-        public UserDetail()
+        public UserDetalle()
         {
             InitializeComponent();
+
+            //Initialize TypeComboBox with user types
+            TypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            TypeComboBox.DataSource = new List<string> { "Alumno" , "Docente" };
         }
 
         private async void AcceptUserButton_Click(object sender, EventArgs e)
         {
             UserApiClient client = new UserApiClient();
-            IEnumerable<User> existingUsers = await UserApiClient.GetAllAsync();
+            IEnumerable<UserDTO> existingUsers = await UserApiClient.GetAllAsync();
+
 
             if (this.ValidateUser(existingUsers))
             {
@@ -48,22 +55,29 @@ namespace WindowsForms
                 this.User.Email = EmailTextBox.Text;
                 this.User.Address = AddressTextBox.Text;
                 this.User.Phone = PhoneTextBox.Text;
-                //this.User.Legajo = int.TryParse(LegajoTextBox.Text, out int legajo) ? legajo : 0;
-                this.User.BirthDate = DateTime.TryParse(BirthDateTextBox.Text, out DateTime birthDate) ? birthDate : DateTime.MinValue;
-                this.User.IDPlan = (int)IDPlanComboBox.SelectedValue;
+                //Legajo not implemented here
+                this.User.BirthDate = BirthDatePicker.Value;
+                this.User.Type = TypeComboBox.Text;
+                this.User.IDPlan = int.TryParse(IDPlanComboBox.Text, out int idPlan) ? idPlan : 0;
                 this.User.Username = UsernameTextBox.Text;
                 this.User.Password = PasswordTextBox.Text;
-                //this.User.State = StateTextBox.Text;
+                //State not implemented here
 
-                if (this.EditMode)
+                try
                 {
-                    await UserApiClient.UpdateAsync(this.User);
+                    if (this.EditMode)
+                    {
+                        await UserApiClient.UpdateAsync(this.User);
+                    }
+                    else
+                    {
+                        await UserApiClient.AddAsync(this.User);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    await UserApiClient.AddAsync(this.User);
+                    MessageBox.Show($"Error al cargar Usuario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
                 this.DialogResult = DialogResult.OK;
             }
         }
@@ -82,51 +96,147 @@ namespace WindowsForms
                 EmailTextBox.Text = this.User.Email;
                 AddressTextBox.Text = this.User.Address;
                 PhoneTextBox.Text = this.User.Phone;
-                //LegajoTextBox.Text = this.User.Legajo.ToString();
-                BirthDateTextBox.Text = this.User.BirthDate.ToString("yyyy-MM-dd");
+                //Lejago not implemented here
+                BirthDatePicker.Value = this.User.BirthDate > DateTimePicker.MinimumDateTime ? this.User.BirthDate : DateTime.Today;
+                TypeComboBox.Text = this.User.Type;
                 IDPlanComboBox.Text = this.User.IDPlan.ToString();
                 UsernameTextBox.Text = this.User.Username;
                 PasswordTextBox.Text = this.User.Password;
                 ConfirmPasswordTextBox.Text = this.User.Password;
-               // StateTextBox.Text = this.User.State;
+                //State not implemented here
             }
         }
 
-        private bool ValidateUser(IEnumerable<User> existingUsers)
+        private bool ValidateUser(IEnumerable<UserDTO> existingUsers)
         {
-            if (string.IsNullOrWhiteSpace(NameTextBox.Text) ||
-                string.IsNullOrWhiteSpace(LastNameTextBox.Text) ||
-                string.IsNullOrWhiteSpace(EmailTextBox.Text) ||
-                string.IsNullOrWhiteSpace(AddressTextBox.Text) ||
-                string.IsNullOrWhiteSpace(PhoneTextBox.Text) ||
-                string.IsNullOrWhiteSpace(BirthDateTextBox.Text) ||
-                IDPlanComboBox.SelectedValue == null ||
-                string.IsNullOrWhiteSpace(UsernameTextBox.Text) ||
-                string.IsNullOrWhiteSpace(PasswordTextBox.Text) ||
-                string.IsNullOrWhiteSpace(ConfirmPasswordTextBox.Text))
+            
+            bool isValid = true;
+
+            if (string.IsNullOrWhiteSpace(NameTextBox.Text))
             {
-                MessageBox.Show("All fields must be filled out.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                isValid = false;
+                errorProvider1.SetError(NameTextBox, "El nombre es requerido");
             }
+            else
+            {
+                errorProvider1.SetError(NameTextBox, string.Empty);
+            }
+            if (string.IsNullOrWhiteSpace(LastNameTextBox.Text))
+            {
+                isValid = false;
+                errorProvider1.SetError(LastNameTextBox, "El apellido es requerido");
+            }
+            else
+            {
+                errorProvider1.SetError(LastNameTextBox, string.Empty);
+            }
+            if (string.IsNullOrWhiteSpace(EmailTextBox.Text))
+            {
+                isValid = false;
+                errorProvider1.SetError(EmailTextBox, "El email es requerido");
+            }
+            else
+            {
+                errorProvider1.SetError(EmailTextBox, string.Empty);
+            }
+            if (string.IsNullOrWhiteSpace(AddressTextBox.Text))
+            {
+                isValid = false;
+                errorProvider1.SetError(AddressTextBox, "La dirección es requerida");
+            }
+            else
+            {
+                errorProvider1.SetError(AddressTextBox, string.Empty);
+            }
+            if (string.IsNullOrWhiteSpace(PhoneTextBox.Text))
+            {
+                isValid = false;
+                errorProvider1.SetError(PhoneTextBox, "El teléfono es requerido");
+            }
+            else
+            {
+                errorProvider1.SetError(PhoneTextBox, string.Empty);
+            }
+            if (string.IsNullOrWhiteSpace(TypeComboBox.Text))
+            {
+                isValid = false;
+                errorProvider1.SetError(TypeComboBox, "El tipo es requerido");
+            }
+            else
+            {
+                errorProvider1.SetError(TypeComboBox, string.Empty);
+            }
+            if (string.IsNullOrWhiteSpace(IDPlanComboBox.Text) || !int.TryParse(IDPlanComboBox.Text, out int idPlan) || idPlan < 1)
+            {
+                isValid = false;
+                errorProvider1.SetError(IDPlanComboBox, "El ID del plan es requerido y debe ser un número válido mayor a 0");
+            }
+            else
+            {
+                errorProvider1.SetError(IDPlanComboBox, string.Empty);
+            }
+            if (string.IsNullOrWhiteSpace(UsernameTextBox.Text))
+            {
+                isValid = false;
+                errorProvider1.SetError(UsernameTextBox, "El nombre de usuario es requerido");
+            }
+            else
+            {
+                errorProvider1.SetError(UsernameTextBox, string.Empty);
+            }
+            if (string.IsNullOrWhiteSpace(PasswordTextBox.Text))
+            {
+                isValid = false;
+                errorProvider1.SetError(PasswordTextBox, "La contraseña es requerida");
+            }
+            else
+            {
+                errorProvider1.SetError(PasswordTextBox, string.Empty);
+            }
+            if (string.IsNullOrWhiteSpace(ConfirmPasswordTextBox.Text))
+            {
+                isValid = false;
+                errorProvider1.SetError(ConfirmPasswordTextBox, "Debe confirmar la contraseña");
+            }
+            else
+            {
+                errorProvider1.SetError(ConfirmPasswordTextBox, string.Empty);
+            }
+
             if (existingUsers.Any(u => u.Username == UsernameTextBox.Text && u.ID != this.User?.ID))
             {
-                MessageBox.Show("Username already exists.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("El nombre de usuario ya existe", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if(PasswordTextBox.Text != ConfirmPasswordTextBox.Text)
+            if (PasswordTextBox.Text != ConfirmPasswordTextBox.Text)
             {
                 MessageBox.Show("Las contraseñas deben coincidir", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            return true;
+
+            return isValid;
         }
 
         private async void IDPlanComboBoxData(object sender, EventArgs e)
         {
-            List<PlanDTO> plans = (await PlanApiClient.GetAllAsync()).ToList();
-            IDPlanComboBox.DataSource = plans;
-            IDPlanComboBox.DisplayMember = "Description";
-            IDPlanComboBox.ValueMember = "ID";
+            MateriaApiClient client = new MateriaApiClient();
+            List<int> idPlanes = await MateriaApiClient.GetAllIDPlanessAsync();
+            IDPlanComboBox.DataSource = idPlanes;
+        }
+
+        private void IDPlanComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
 
     }
