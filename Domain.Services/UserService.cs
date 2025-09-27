@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Data;
 using Domain.Model.User;
-using DTOs.User;
+using DTOs;
 
 namespace Domain.Services
 {
@@ -96,12 +96,12 @@ namespace Domain.Services
             return userRepository.Update(user);
         }
 
-        public IEnumerable<UserDTO> GetByCriteria(UserCriteriaDTO criteriaDTO)
+        public IEnumerable<UserDTO> GetByCriteria(SearchCriteriaDTO criteriaDTO)
         {
             var userRepository = new UserRepository();
 
             //Mapea DTO a Domain Model
-            var criteria = new UserCriteria(criteriaDTO.Texto);
+            var criteria = new UserCriteria(criteriaDTO.Text);
 
             //Llama al repositorio para obtener los usuarios
             var users = userRepository.GetByCriteria(criteria);

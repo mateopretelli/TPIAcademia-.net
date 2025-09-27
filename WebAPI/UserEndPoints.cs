@@ -124,7 +124,7 @@ public static class UserEndPoints
             try
             {
                 UserService userService = new UserService();
-                var criteria = new UserCriteriaDTO { Texto = texto };
+                var criteria = new SearchCriteriaDTO { Text = texto };
                 var dtos = userService.GetByCriteria(criteria);
                 return Results.Ok(dtos);
             }

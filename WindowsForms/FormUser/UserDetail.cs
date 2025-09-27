@@ -20,6 +20,8 @@ namespace WindowsForms
 
         private UserDTO user;
 
+        private IEnumerable<PlanDTO> Plans { get; set; }
+
         public UserDTO User
 
         {
@@ -33,7 +35,7 @@ namespace WindowsForms
 
         public bool EditMode { get; set; } = false;
 
-        public UserDetalle()
+        public UserDetail()
         {
             InitializeComponent();
 
@@ -219,9 +221,11 @@ namespace WindowsForms
 
         private async void IDPlanComboBoxData(object sender, EventArgs e)
         {
-            MateriaApiClient client = new MateriaApiClient();
-            List<int> idPlanes = await MateriaApiClient.GetAllIDPlanessAsync();
-            IDPlanComboBox.DataSource = idPlanes;
+            PlanApiClient client = new PlanApiClient();
+            Plans = await PlanApiClient.GetAllAsync();
+            IDPlanComboBox.DataSource = Plans;
+            IDPlanComboBox.DisplayMember = "Description";
+            IDPlanComboBox.ValueMember = "ID";
         }
 
         private void IDPlanComboBox_SelectedIndexChanged(object sender, EventArgs e)
