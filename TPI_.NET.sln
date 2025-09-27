@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35913.81 d17.13
+VisualStudioVersion = 17.13.35913.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Model", "Domain.Model\Domain.Model.csproj", "{0692ADC7-543D-4105-B464-0EC7216E9AC2}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsForms", "WindowsForms\WindowsForms.csproj", "{C261A66C-AB9D-4C11-9467-0DA48CBEE053}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{B62C7D91-7340-4ECF-B0A7-B3FD9E7CB36D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Server", "BlazorApp\Blazor.Server.csproj", "{D698693F-E3BB-4EB3-A572-27EC62546A21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{B62C7D91-7340-4ECF-B0A7-B3FD9E7CB36D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B62C7D91-7340-4ECF-B0A7-B3FD9E7CB36D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B62C7D91-7340-4ECF-B0A7-B3FD9E7CB36D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D698693F-E3BB-4EB3-A572-27EC62546A21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D698693F-E3BB-4EB3-A572-27EC62546A21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D698693F-E3BB-4EB3-A572-27EC62546A21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D698693F-E3BB-4EB3-A572-27EC62546A21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,7 +12,7 @@ using DTOs;
 
 namespace WindowsForms.FormSpecialty
 {
-    internal class SpecialtyApiClient
+    public class SpecialtyApiClient
     {
         private static HttpClient client = ApiClientProvider.GetClient();
 
