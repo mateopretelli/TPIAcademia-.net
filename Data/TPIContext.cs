@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 using Domain.Model.Plan;
 using Domain.Model.Specialty;
 using Domain.Model.User;
 using Domain.Model.Subject;
 using Domain.Model.Section;
+using Domain.Model.Course;
 
 namespace Data
 {
@@ -17,6 +16,8 @@ namespace Data
         public DbSet<User> Users { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Section> Sections { get; set; }
+
+        public DbSet<Course> Courses { get; set; }
         public TPIContext()
         { 
             //this.Database.EnsureDeleted();
@@ -154,6 +155,48 @@ namespace Data
                     .WithMany()
                     .HasForeignKey(e => e.IDPlan);
             });
+            modelBuilder.Entity<Course>(entity =>
+            {
+                entity.ToTable("Courses");
+
+                entity.HasKey(e => e.ID);
+
+                entity.Property(e => e.ID)
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.State)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.Capacity)
+                    .IsRequired();
+
+                entity.Property(e => e.AcademicYear)
+                    .IsRequired();
+
+                entity.Property(e => e.IDSection)
+                    .IsRequired()
+                    .HasField("_idSection");
+
+                entity.Navigation(e => e.Section)
+                    .HasField("_section");
+
+                entity.HasOne(e => e.Section)
+                    .WithMany()
+                    .HasForeignKey(e => e.IDSection);
+
+                entity.Property(e => e.IDSubject)
+                    .IsRequired()
+                    .HasField("_idSubject");
+
+                entity.Navigation(e => e.Subject)
+                    .HasField("_subject");
+
+                entity.HasOne(e => e.Subject)
+                    .WithMany()
+                    .HasForeignKey(e => e.IDSubject);
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("Users");
