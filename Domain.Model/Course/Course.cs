@@ -59,8 +59,8 @@ namespace Domain.Model.Course
         public Course(int capacity, int academicYear, int sectionID, int subjectID )
         {
             SetCapacity(capacity);
-            SetIDSection(sectionID);
             SetAcademicYear(academicYear);
+            SetIDSection(sectionID);
             SetIDSubject(subjectID);        
         }
 
@@ -82,7 +82,7 @@ namespace Domain.Model.Course
         {
             if (subjectId < 0)
                 throw new ArgumentException("El ID de la materia debe ser mayor que 0.", nameof(subjectId));
-            _idSection = subjectId;
+            _idSubject = subjectId;
         }
 
 

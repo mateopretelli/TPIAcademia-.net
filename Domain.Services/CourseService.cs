@@ -10,18 +10,19 @@ namespace Domain.Services
         public CourseDTO Add(CourseDTO dto)
         {
             var courseRepository = new CourseRepository();
-            if (courseRepository.CourseExists(dto.Capacity, dto.IDSubject, dto.IDSection, dto.AcademicYear))
+            if (courseRepository.CourseExists(dto.Capacity, dto.AcademicYear, dto.IDSection, dto.IDSubject))
             {
                 throw new ArgumentException("Ya existe un curso con ese año académico, materia y plan");
             }
+            Course course = new Course(dto.Capacity, dto.AcademicYear, dto.IDSection, dto.IDSubject);
+            course.SetState("Active");
 
-            Course section = new Course(dto.Capacity, dto.IDSubject, dto.IDSection, dto.AcademicYear);
-            section.SetState("Active");
+            courseRepository.Add(course);
 
-            courseRepository.Add(section);
+            dto.ID = course.ID;
+            dto.State = course.State;
 
-            dto.ID = section.ID;
-            dto.State = section.State;
+            
 
             return dto;
         }
@@ -72,12 +73,12 @@ namespace Domain.Services
         {
             var courseRepository = new CourseRepository();
 
-            if (courseRepository.CourseExists(dto.Capacity, dto.IDSubject, dto.IDSection, dto.AcademicYear, dto.ID))
+            if (courseRepository.CourseExists(dto.Capacity, dto.AcademicYear, dto.IDSection, dto.IDSubject, dto.ID))
             {
                 throw new ArgumentException("Ya existe un curso con ese año académico, materia y plan");
             }
 
-            Course course = new Course(dto.Capacity, dto.IDSubject, dto.IDSection, dto.AcademicYear)
+            Course course = new Course(dto.Capacity, dto.AcademicYear, dto.IDSection, dto.IDSubject)
             {
                 ID = dto.ID,
                 State = dto.State,

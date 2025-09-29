@@ -3,6 +3,7 @@ using WindowsForms.FormPlans;
 using WindowsForms.FormSection;
 using WindowsForms.FormSubject;
 using WindowsForms.FormSpecialty;
+using System.Diagnostics;
 
 namespace WindowsForms.FormCourse
 {
@@ -46,8 +47,8 @@ namespace WindowsForms.FormCourse
             if (this.ValidateCourse(existingCourses))
             {
                 this.Course.AcademicYear = int.Parse(CourseAcademicYearTextBox.Text);
-                this.Course.IDSection = Convert.ToInt32(IDSectionCourseComboBox.SelectedValue);
-                this.Course.IDSubject = Convert.ToInt32(IDSubjectCourseComboBox.SelectedValue);
+                this.Course.IDSection = Convert.ToInt32(SectionCourseComboBox.SelectedValue);
+                this.Course.IDSubject = Convert.ToInt32(SubjectCourseComboBox.SelectedValue);
                 this.Course.Capacity = int.Parse(CourseCapacityTextBox.Text);
 
                 try
@@ -77,24 +78,24 @@ namespace WindowsForms.FormCourse
         }
 
 
-        private bool ValidDescription(string descripcion, IEnumerable<CourseDTO> courses)
+        private bool ValidDescription(int academicYear,int capacity, IEnumerable<CourseDTO> courses)
         {
-            if (descripcion == this.Course.Description)
+            if (capacity == this.course.Capacity && academicYear == this.Course.AcademicYear)
             {
-                return false; // Si la descripción no cambió, no es necesario validar
+                return false; // Si no cambió, no es necesario validar
             }
             else
             {
-                var foundedCourse = from CourseDTO s in courses
-                                     where s.Description == descripcion &&
-                                     s.IDPlan == this.Course.IDPlan
-                                     && s.SectionYear == this.Course.SectionYear
-                                     && s.State == "Active"
-                                     select s;
+                var foundedCourse = from CourseDTO c in courses
+                                    where c.AcademicYear == academicYear
+                                    && c.Capacity == capacity
+                                    && c.IDSubject == this.Course.IDSubject
+                                    && c.IDSection == this.Course.IDSection
+                                    && c.State == "Active"
+                                    select c;
 
                 return foundedCourse.Any();
             }
-
         }
 
         private async void SetCourse()
@@ -109,10 +110,10 @@ namespace WindowsForms.FormCourse
             CourseAcademicYearTextBox.Text = this.Course.AcademicYear.ToString();
             CourseStateTextBox.Text = this.Course.State;
 
-            SpecialtiesCourseComboBox.SelectedValue = this.Subject.Plan.SpecialtyDescription;
-            SpecialtiesCourseComboBox.DataSource = Specialties;
-            SpecialtiesCourseComboBox.DisplayMember = "Description";
-            SpecialtiesCourseComboBox.ValueMember = "ID";
+            SpecialtyCourseComboBox.SelectedValue = this.Subject?.Plan.SpecialtyDescription;
+            SpecialtyCourseComboBox.DataSource = Specialties;
+            SpecialtyCourseComboBox.DisplayMember = "Description";
+            SpecialtyCourseComboBox.ValueMember = "ID";
         }
 
         private bool ValidateCourse(IEnumerable<CourseDTO> existingCourses)
@@ -120,66 +121,111 @@ namespace WindowsForms.FormCourse
             bool isValid = true;
 
             // Validar Descripción
-            if (string.IsNullOrWhiteSpace(this.CourseDescriptionTextBox.Text))
+            if (string.IsNullOrWhiteSpace(this.CourseAcademicYearTextBox.Text))
             {
                 isValid = false;
-                CourseErrorProvider.SetError(CourseDescriptionTextBox, "La descripción es requerida");
+                CourseErrorProvider.SetError(CourseAcademicYearTextBox, "El año académico es requerido");
             }
-            else if (ValidDescription(this.CourseDescriptionTextBox.Text, existingCourses))
+            else if (ValidDescription(int.Parse(this.CourseAcademicYearTextBox.Text), int.Parse(this.CourseCapacityTextBox.Text), existingCourses))
             {
                 isValid = false;
-                CourseErrorProvider.SetError(CourseDescriptionTextBox, "Ya existe una comision con esa descripcion en el mismo plan con el mismo año de carrera");
+                CourseErrorProvider.SetError(CourseAcademicYearTextBox, "Ya existe un curso en ese año académico en la misma materia y comisión");
             }
             else
             {
-                CourseErrorProvider.SetError(CourseDescriptionTextBox, string.Empty);
+                CourseErrorProvider.SetError(CourseAcademicYearTextBox, string.Empty);
             }
 
-            if (CourseSectionYearTextBox.Text == null)
+            if (CourseCapacityTextBox.Text == null)
             {
                 isValid = false;
-                CourseErrorProvider.SetError(CourseSectionYearTextBox, "El año de la carrera es requerido");
+                CourseErrorProvider.SetError(CourseCapacityTextBox, "La capacidad del curso es requerida");
             }
             else
             {
-                CourseErrorProvider.SetError(CourseSectionYearTextBox, string.Empty);
+                CourseErrorProvider.SetError(CourseCapacityTextBox, string.Empty);
             }
 
-            // Validar ID Plan
-            if (IDPlanCourseComboBox.SelectedValue == null)
+            // Validar ID Subject
+            if (SubjectCourseComboBox.SelectedValue == null)
             {
                 isValid = false;
-                CourseErrorProvider.SetError(IDPlanCourseComboBox, "El ID del plan es requerido");
+                CourseErrorProvider.SetError(SubjectCourseComboBox, "La materia es requerida");
             }
             else
             {
-                CourseErrorProvider.SetError(IDPlanCourseComboBox, string.Empty);
+                CourseErrorProvider.SetError(SubjectCourseComboBox, string.Empty);
+            }
+
+            // Validar ID Section
+            if (SectionCourseComboBox.SelectedValue == null)
+            {
+                isValid = false;
+                CourseErrorProvider.SetError(SectionCourseComboBox, "La comisión es requerida");
+            }
+            else
+            {
+                CourseErrorProvider.SetError(SectionCourseComboBox, string.Empty);
             }
 
 
             return isValid;
         }
 
-        private void IDSectionCourseComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void SpecialtyCourseComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (IDSectionCourseComboBox.SelectedValue != null)
+            if (SpecialtyCourseComboBox.SelectedValue != null)
             {
-                var specialty = (SectionDTO)IDSectionCourseComboBox.SelectedItem;
-
-                // Obtener el ID
-                int selectedSectionId = specialty.ID;
+                //consigo ID de especialidad seleccionada
+                int selectedSpecialtyId = ((SpecialtyDTO)SpecialtyCourseComboBox.SelectedItem).ID;
 
                 // Filtrar planes por specialty
                 var filteredPlans = Plans
-                    .Where(p => p.IDSection == selectedSectionId)
+                    .Where(p => p.IDSpecialty == selectedSpecialtyId)
                     .ToList();
 
-                IDPlanCourseComboBox.DataSource = filteredPlans;
-                IDPlanCourseComboBox.DisplayMember = "Description";
-                IDPlanCourseComboBox.ValueMember = "ID";
+                PlanCourseComboBox.DataSource = filteredPlans;
+                PlanCourseComboBox.DisplayMember = "Description";
+                PlanCourseComboBox.ValueMember = "ID";
 
                 // Habilitar si hay resultados
-                IDPlanCourseComboBox.Enabled = filteredPlans.Count > 0;
+                PlanCourseComboBox.Enabled = filteredPlans.Count > 0;
+            }
+
+        }
+
+        private void PlanCourseComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (PlanCourseComboBox.SelectedValue != null)
+            {
+                //consigo ID de especialidad seleccionada
+                int selectedPlanId = ((PlanDTO)PlanCourseComboBox.SelectedItem).ID;
+
+                // Filtrar planes por specialty
+                var filteredSections = Sections
+                    .Where(p => p.IDPlan == selectedPlanId)
+                    .ToList();
+
+                SectionCourseComboBox.DataSource = filteredSections;
+                SectionCourseComboBox.DisplayMember = "Description";
+                SectionCourseComboBox.ValueMember = "ID";
+
+                // Habilitar si hay resultados
+                SectionCourseComboBox.Enabled = filteredSections.Count > 0;
+
+                //lo mismo pero para subject
+
+                // Filtrar planes por specialty
+                var filteredSubjects = Subjects
+                    .Where(p => p.IDPlan == selectedPlanId)
+                    .ToList();
+
+                SubjectCourseComboBox.DataSource = filteredSubjects;
+                SubjectCourseComboBox.DisplayMember = "Description";
+                SubjectCourseComboBox.ValueMember = "ID";
+
+                // Habilitar si hay resultados
+                SubjectCourseComboBox.Enabled = filteredSubjects.Count > 0;
             }
 
         }

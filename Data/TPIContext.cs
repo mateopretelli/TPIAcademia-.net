@@ -183,7 +183,8 @@ namespace Data
 
                 entity.HasOne(e => e.Section)
                     .WithMany()
-                    .HasForeignKey(e => e.IDSection);
+                    .HasForeignKey(e => e.IDSection)
+                    .OnDelete(DeleteBehavior.Cascade); // mantener cascade
 
                 entity.Property(e => e.IDSubject)
                     .IsRequired()
@@ -194,7 +195,8 @@ namespace Data
 
                 entity.HasOne(e => e.Subject)
                     .WithMany()
-                    .HasForeignKey(e => e.IDSubject);
+                    .HasForeignKey(e => e.IDSubject)
+                    .OnDelete(DeleteBehavior.Restrict); // cortar cascade
             });
 
             modelBuilder.Entity<User>(entity =>
