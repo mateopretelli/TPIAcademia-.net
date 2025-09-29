@@ -42,4 +42,5 @@ app.MapPlanEndpoints();
 app.MapUserEndPoints();
 app.MapSpecialtyEndPoints();
 app.MapSectionEndpoints();
+app.MapCourseEndpoints();
 app.Run();

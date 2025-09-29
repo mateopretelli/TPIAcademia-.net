@@ -1,6 +1,5 @@
 ﻿using Domain.Model;
 using Domain.Model.Course;
-using Domain.Model.Subject;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data
