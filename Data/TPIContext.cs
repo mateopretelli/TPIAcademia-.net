@@ -6,6 +6,7 @@ using Domain.Model.User;
 using Domain.Model.Subject;
 using Domain.Model.Section;
 using Domain.Model.Course;
+using Domain.Model;
 
 namespace Data
 {
@@ -16,6 +17,7 @@ namespace Data
         public DbSet<User> Users { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Section> Sections { get; set; }
+        public DbSet<TeacherCourses> TeachersCourses { get; set; }
 
         public DbSet<Course> Courses { get; set; }
         public TPIContext()
@@ -238,6 +240,37 @@ namespace Data
                 entity.Property(e => e.State)
                     .IsRequired()
                     .HasMaxLength(20);
+            });
+
+            modelBuilder.Entity<TeacherCourses>(entity =>
+            {
+                entity.ToTable("TeachersCourses");
+                entity.HasKey(e => e.ID);
+                entity.Property(e => e.ID)
+                    .ValueGeneratedOnAdd();
+                entity.Property(e => e.State)
+                    .IsRequired()
+                    .HasMaxLength(20);
+                entity.Property(e => e.charge)
+                    .IsRequired();
+                entity.Property(e => e.IDCourse)
+                    .IsRequired()
+                    .HasField("_idCourse");
+                entity.Navigation(e => e.Course)
+                    .HasField("_course");
+                entity.HasOne(e => e.Course)
+                    .WithMany()
+                    .HasForeignKey(e => e.IDCourse)
+                    .OnDelete(DeleteBehavior.Restrict);// cortar cascade
+                entity.Property(e => e.IDTeacher)
+                    .IsRequired()
+                    .HasField("_idTeacher");
+                entity.Navigation(e => e.Teacher)
+                    .HasField("_teacher");
+                entity.HasOne(e => e.Teacher)
+                    .WithMany()
+                    .HasForeignKey(e => e.IDTeacher)
+                    .OnDelete(DeleteBehavior.Restrict); // cortar cascade
             });
         }
     }

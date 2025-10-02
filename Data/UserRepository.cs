@@ -15,7 +15,6 @@ namespace Data
         public void Add(User user)
         {
             using var context = CreateContext();
-            Debug.WriteLine(user);
             context.Users.Add(user);
             context.SaveChanges();
         }
