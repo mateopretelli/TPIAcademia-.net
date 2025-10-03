@@ -17,7 +17,7 @@ namespace Data
         public DbSet<User> Users { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Section> Sections { get; set; }
-        public DbSet<TeacherCourses> TeachersCourses { get; set; }
+        public DbSet<TeacherCourse> TeachersCourses { get; set; }
 
         public DbSet<Course> Courses { get; set; }
         public TPIContext()
@@ -242,7 +242,7 @@ namespace Data
                     .HasMaxLength(20);
             });
 
-            modelBuilder.Entity<TeacherCourses>(entity =>
+            modelBuilder.Entity<TeacherCourse>(entity =>
             {
                 entity.ToTable("TeachersCourses");
                 entity.HasKey(e => e.ID);
@@ -251,7 +251,7 @@ namespace Data
                 entity.Property(e => e.State)
                     .IsRequired()
                     .HasMaxLength(20);
-                entity.Property(e => e.charge)
+                entity.Property(e => e.Role)
                     .IsRequired();
                 entity.Property(e => e.IDCourse)
                     .IsRequired()

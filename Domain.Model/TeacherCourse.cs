@@ -4,9 +4,15 @@ using PersonEntity = Domain.Model.Person.Person;
 
 namespace Domain.Model
 {
-    public class TeacherCourses: BusinessEntity
+    public class TeacherCourse: BusinessEntity
     {
-        public int charge {  get; set; }
+        private TypesRoles _role;
+
+        public int Role
+        {
+            get => (int)_role;
+            set => _role = (TypesRoles)value;
+        }
 
         private int _idCourse;
         private CourseEntity _course;
@@ -52,13 +58,13 @@ namespace Domain.Model
             }
         }
 
-        private TeacherCourses() { }
+        private TeacherCourse() { }
 
-        public TeacherCourses(int courseId, int teacherId, int charge) 
+        public TeacherCourse(int role,int courseId, int teacherId)
         { 
             SetIDCourse(courseId);
             SetIDTeacher(teacherId);
-            SetCharge(charge);
+            SetRole(role);
         }
 
         public void SetIDCourse(int courseId)
@@ -79,11 +85,11 @@ namespace Domain.Model
             }
         }
 
-        public void SetCharge(int newcharge)
+        public void SetRole(int newRole)
         {
-            if (newcharge < 0)
-                throw new ArgumentException("El cargo debe ser válido.", nameof(newcharge));
-            charge = newcharge;
+            if (newRole < 0)
+                throw new ArgumentException("El cargo debe ser válido.", nameof(newRole));
+            Role = newRole;
         }
 
     }
