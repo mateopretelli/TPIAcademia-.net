@@ -3,7 +3,7 @@ using CourseEntity = Domain.Model.Course.Course;
 
 namespace Domain.Model
 {
-    internal class StudentCourse : BusinessEntity
+    public class StudentCourse : BusinessEntity
     {
 
         private int _idStudent;
