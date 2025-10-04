@@ -61,6 +61,31 @@ namespace Domain.Services
             };
         }
 
+        public UserDTO GetByUsername(string username)
+        {
+            var userRepository = new UserRepository();
+            User? user = userRepository.GetByUsername(username);
+            if (user == null)
+            {
+                return null;
+            }
+            return new UserDTO
+            {
+                ID = user.ID,
+                Name = user.Name,
+                LastName = user.LastName,
+                Email = user.Email,
+                Address = user.Address,
+                Phone = user.Phone,
+                Legajo = user.Legajo,
+                BirthDate = user.BirthDate,
+                IDPlan = user.IDPlan,
+                Username = user.Username,
+                Password = user.Password,
+                State = user.State
+            };
+        }
+
         public IEnumerable<UserDTO> GetAll()
         {
             var userRepository = new UserRepository();

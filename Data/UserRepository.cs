@@ -39,6 +39,11 @@ namespace Data
             return context.Users.Find(id);
         }
 
+        public User? GetByUsername(string username)
+        {
+            using var context = CreateContext();
+            return context.Users.FirstOrDefault(u => u.Username.ToLower() == username.ToLower());
+        }
         public IEnumerable<User> GetAll()
         {
             using var context = CreateContext();
