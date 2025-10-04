@@ -23,21 +23,6 @@ public static class UserEndPoints
         .Produces(StatusCodes.Status404NotFound)
         .WithOpenApi();
 
-        app.MapGet("/users/by-username/{username}", (string username) =>
-        {
-            UserService userService = new UserService();
-            UserDTO dto = userService.GetByUsername(username);
-            if (dto == null)
-            {
-                return Results.NotFound();
-            }
-            return Results.Ok(dto);
-        })
-            .WithName("GetUserByUsername")
-            .Produces<UserDTO>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound)
-            .WithOpenApi();
-
         app.MapGet("/users", () =>
         {
             UserService userService = new UserService();
@@ -151,6 +136,33 @@ public static class UserEndPoints
         })
           .WithName("GetUsersByCriteria")
           .Produces<List<SpecialtyDTO>>(StatusCodes.Status200OK)
+          .Produces(StatusCodes.Status400BadRequest)
+          .WithOpenApi();
+
+        app.MapPost("/users/login", (UserLoginDTO dto) =>
+        {
+            try
+            {
+                UserService userService = new UserService();
+                bool loginSuccess = userService.Login(dto.Username, dto.Password);
+                if (loginSuccess)
+                {
+                    return Results.Ok(new { success = loginSuccess });
+                }
+                else
+                {
+                    return Results.Unauthorized();
+                }
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(new { error = ex.Message });
+            }
+        }
+        )
+          .WithName("LoginUser")
+          .Produces(StatusCodes.Status200OK)
+          .Produces(StatusCodes.Status401Unauthorized)
           .Produces(StatusCodes.Status400BadRequest)
           .WithOpenApi();
     }

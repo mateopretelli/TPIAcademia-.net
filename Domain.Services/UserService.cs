@@ -2,6 +2,7 @@
 using Data;
 using Domain.Model.User;
 using DTOs;
+using Data.Security;
 
 namespace Domain.Services
 {
@@ -10,13 +11,29 @@ namespace Domain.Services
         public UserDTO Add(UserDTO dto)
         {
             var userRepository = new UserRepository();
+            var passwordHasher = new PasswordHasherPBKDF2();
 
             if (userRepository.UserExists(dto.Email))
             {
                 throw new ArgumentException("Ya existe un usuario con ese email.", nameof(dto.Email));
             }
 
-            User user = new User(dto.Name, dto.LastName, dto.Email, dto.Address, dto.Phone, dto.Legajo, dto.BirthDate, dto.Type, dto.IDPlan, dto.Username, dto.Password);
+            var (hash, salt) = passwordHasher.HashPassword(dto.Password);
+
+            User user = new User(
+                dto.Name, 
+                dto.LastName, 
+                dto.Email, 
+                dto.Address, 
+                dto.Phone, 
+                dto.Legajo, 
+                dto.BirthDate, 
+                dto.Type, 
+                dto.IDPlan, 
+                dto.Username, 
+                hash,
+                salt);
+
             user.SetState("Active");
 
             userRepository.Add(user);
@@ -82,7 +99,8 @@ namespace Domain.Services
                 IDPlan = user.IDPlan,
                 Username = user.Username,
                 Password = user.Password,
-                State = user.State
+                State = user.State,
+                Salt = user.Salt,
             };
         }
 
@@ -116,7 +134,7 @@ namespace Domain.Services
                 throw new ArgumentException("Ya existe un usuario con ese email.", nameof(dto.Email));
             }
 
-            User user = new User(dto.Name, dto.LastName, dto.Email, dto.Address, dto.Phone, dto.Legajo, dto.BirthDate, dto.Type, dto.IDPlan, dto.Username, dto.Password);
+            User user = new User(dto.Name, dto.LastName, dto.Email, dto.Address, dto.Phone, dto.Legajo, dto.BirthDate, dto.Type, dto.IDPlan, dto.Username, dto.Password, dto.Salt);
 
             return userRepository.Update(user);
         }
@@ -147,6 +165,18 @@ namespace Domain.Services
                 Password = u.Password,
                 State = u.State
             });
+        }
+
+        public bool Login(string username, string password)
+        {
+            var userRepository = new UserRepository();
+            var user = userRepository.GetByUsername(username);
+            if (user == null)
+            {
+                return false;
+            }
+            var passwordHasher = new PasswordHasherPBKDF2();
+            return passwordHasher.VerifyPassword(password, user.Password, user.Salt);
         }
     }
 }

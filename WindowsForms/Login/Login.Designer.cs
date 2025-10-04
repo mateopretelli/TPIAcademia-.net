@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             UserLoginLabel = new Label();
             UserLoginTextBox = new TextBox();
             label1 = new Label();
@@ -36,8 +37,10 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
             LoginButton = new Button();
+            LoginErrorProvider = new ErrorProvider(components);
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)LoginErrorProvider).BeginInit();
             SuspendLayout();
             // 
             // UserLoginLabel
@@ -137,6 +140,10 @@
             LoginButton.UseVisualStyleBackColor = true;
             LoginButton.Click += LoginButton_Click;
             // 
+            // LoginErrorProvider
+            // 
+            LoginErrorProvider.ContainerControl = this;
+            // 
             // Login
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -149,6 +156,7 @@
             tableLayoutPanel1.PerformLayout();
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)LoginErrorProvider).EndInit();
             ResumeLayout(false);
         }
 
@@ -162,5 +170,6 @@
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private Button LoginButton;
+        private ErrorProvider LoginErrorProvider;
     }
 }
