@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -41,7 +42,7 @@ namespace WindowsForms
 
             //Initialize TypeComboBox with user types
             TypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            TypeComboBox.DataSource = new List<string> { "Alumno" , "Docente" };
+            TypeComboBox.DataSource = new List<string> { "Admin", "Docente", "Alumno" };
         }
 
         private async void AcceptUserButton_Click(object sender, EventArgs e)
@@ -52,6 +53,8 @@ namespace WindowsForms
 
             if (this.ValidateUser(existingUsers))
             {
+                this.User.ID = int.Parse(UserIDTextBox.Text);
+                this.User.State = UserStateTextBox.Text;
                 this.User.Name = NameTextBox.Text;
                 this.User.LastName = LastNameTextBox.Text;
                 this.User.Email = EmailTextBox.Text;
@@ -59,7 +62,7 @@ namespace WindowsForms
                 this.User.Phone = PhoneTextBox.Text;
                 //Legajo not implemented here
                 this.User.BirthDate = BirthDatePicker.Value;
-                this.User.Type = TypeComboBox.Text;
+                this.User.Type = TypeComboBox.SelectedIndex + 1;
                 this.User.IDPlan = int.TryParse(IDPlanComboBox.Text, out int idPlan) ? idPlan : 0;
                 this.User.Username = UsernameTextBox.Text;
                 this.User.Password = PasswordTextBox.Text;
@@ -93,6 +96,8 @@ namespace WindowsForms
         {
             if (this.User != null)
             {
+                UserIDTextBox.Text = this.User.ID.ToString(); ;
+                UserStateTextBox.Text = this.User.State;
                 NameTextBox.Text = this.User.Name;
                 LastNameTextBox.Text = this.User.LastName;
                 EmailTextBox.Text = this.User.Email;
@@ -100,7 +105,7 @@ namespace WindowsForms
                 PhoneTextBox.Text = this.User.Phone;
                 //Lejago not implemented here
                 BirthDatePicker.Value = this.User.BirthDate > DateTimePicker.MinimumDateTime ? this.User.BirthDate : DateTime.Today;
-                TypeComboBox.Text = this.User.Type;
+                TypeComboBox.SelectedIndex = (this.User.Type - 1);
                 IDPlanComboBox.Text = this.User.IDPlan.ToString();
                 UsernameTextBox.Text = this.User.Username;
                 PasswordTextBox.Text = this.User.Password;
@@ -227,21 +232,5 @@ namespace WindowsForms
             IDPlanComboBox.DisplayMember = "Description";
             IDPlanComboBox.ValueMember = "ID";
         }
-
-        private void IDPlanComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }

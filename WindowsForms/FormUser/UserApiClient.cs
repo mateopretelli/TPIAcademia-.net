@@ -29,6 +29,17 @@ namespace WindowsForms.FormUser
             return users;
         }
 
+        public static async Task<IEnumerable<UserDTO>> GetAllPerTypeAsync( int typeNumber)
+        {
+            IEnumerable<UserDTO> users = null;
+            HttpResponseMessage response = await client.GetAsync("usersType/" + typeNumber);
+            if (response.IsSuccessStatusCode)
+            {
+                users = await response.Content.ReadAsAsync<IEnumerable<UserDTO>>();
+            }
+            return users;
+        }
+
         public async static Task AddAsync(UserDTO user)
         {
             HttpResponseMessage response = await client.PostAsJsonAsync("users", user);

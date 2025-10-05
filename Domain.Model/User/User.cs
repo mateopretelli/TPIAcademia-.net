@@ -9,7 +9,7 @@ namespace Domain.Model.User
         public string Salt { get; private set; }
 
         public User(): base() {}
-        public User(string name, string lastName, string email, string address, string phone, int legajo, DateTime birthDate,string? type, int idPlan, string username, string password, string salt)
+        public User(string name, string lastName, string email, string address, string phone, int legajo, DateTime birthDate,int type, int idPlan, string username, string password, string salt)
             : base(name, lastName, email, address, phone, legajo, birthDate, type, idPlan)
         {
             Username = username;
