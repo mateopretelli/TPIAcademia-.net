@@ -29,7 +29,7 @@ namespace WindowsForms
                 bool loginSuccess = await UserApiClient.LoginAsync(userLoginDTO);
                 if (loginSuccess)
                 {
-                    Home home = new Home();
+                    AdminHome home = new AdminHome();
                     home.Show();
                     this.Hide();
                 }

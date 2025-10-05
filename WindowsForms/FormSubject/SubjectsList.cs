@@ -5,8 +5,8 @@ namespace WindowsForms
 {
     public partial class SubjectsList : Form
     {
-        private Home home;
-        public SubjectsList(Home home)
+        private AdminHome home;
+        public SubjectsList(AdminHome home)
         {
             InitializeComponent();
             this.home = home;
