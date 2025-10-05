@@ -6,7 +6,7 @@ namespace Domain.Services
 {
     public class StudentCourseService
     {
-        public StudentCourseDTO add(StudentCourseDTO dto)
+        public StudentCourseDTO Add(StudentCourseDTO dto)
         {
             var studentCourseRepository = new StudentCourseRepository();
 
