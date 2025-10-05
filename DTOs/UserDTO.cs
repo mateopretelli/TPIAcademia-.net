@@ -15,7 +15,7 @@
         public string Username { get; set; }
         public string Password { get; set; }
         public string State { get; set; } // Active, Inactive, etc.
-
         public string FullNameLegajo => $"{LastName}, {Name} - - {Email}";
+        public string Salt { get; set; } // Added Salt property
     }
 }

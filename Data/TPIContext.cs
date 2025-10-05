@@ -18,7 +18,6 @@ namespace Data
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<TeacherCourse> TeachersCourses { get; set; }
-
         public DbSet<Course> Courses { get; set; }
         public TPIContext()
         {
@@ -265,6 +264,9 @@ namespace Data
                     .IsRequired()
                     .HasMaxLength(50);
                 entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(200);
+                entity.Property(e => e.Salt)
                     .IsRequired()
                     .HasMaxLength(100);
                 entity.Property(e => e.State)
