@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DTOs
+﻿namespace DTOs
 {
     public class UserDTO
     {
@@ -16,10 +10,12 @@ namespace DTOs
         public string Phone { get; set; }
         public int Legajo { get; set; }
         public DateTime BirthDate { get; set; }
-        public string? Type { get; set; }
+        public int Type { get; set; }
         public int IDPlan { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public string State { get; set; } // Active, Inactive, etc.
+
+        public string FullNameLegajo => $"{LastName}, {Name} - - {Email}";
     }
 }

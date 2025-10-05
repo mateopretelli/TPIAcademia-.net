@@ -1,7 +1,6 @@
 ﻿using Domain.Model.User;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
-using System.Diagnostics;
 
 namespace Data
 {
@@ -58,6 +57,7 @@ namespace Data
                 existingUser.SetBirthDate(user.BirthDate);
                 existingUser.SetType(user.Type);
                 existingUser.SetIDPlan(user.IDPlan);
+                existingUser.SetLegajo();
                 existingUser.SetUsername(user.Username);
                 existingUser.SetPassword(user.Password);
                 existingUser.SetState(user.State);
@@ -108,7 +108,7 @@ namespace Data
                     reader.GetString(6),  // Phone
                     reader.GetInt32(7),   // Legajo
                     reader.GetDateTime(8), // BirthDate
-                    reader.GetString(9),  // Type
+                    reader.GetInt32(9),  // Type
                     reader.GetInt32(10),  // IDPlan
                     reader.GetString(11), // Username
                     reader.GetString(12)  // Password

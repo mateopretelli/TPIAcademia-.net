@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
-using Data;
+﻿using Data;
 using Domain.Model.User;
 using DTOs;
+using System.Diagnostics;
 
 namespace Domain.Services
 {
@@ -18,6 +18,7 @@ namespace Domain.Services
 
             User user = new User(dto.Name, dto.LastName, dto.Email, dto.Address, dto.Phone, dto.Legajo, dto.BirthDate, dto.Type, dto.IDPlan, dto.Username, dto.Password);
             user.SetState("Active");
+            user.SetLegajo();
 
             userRepository.Add(user);
 
@@ -54,6 +55,7 @@ namespace Domain.Services
                 Phone = user.Phone,
                 Legajo = user.Legajo,
                 BirthDate = user.BirthDate,
+                Type = user.Type,
                 IDPlan = user.IDPlan,
                 Username = user.Username,
                 Password = user.Password,
@@ -75,10 +77,34 @@ namespace Domain.Services
                     Phone = u.Phone,
                     Legajo = u.Legajo,
                     BirthDate = u.BirthDate,
+                    Type = u.Type,
                     IDPlan = u.IDPlan,
                     Username = u.Username,
                     Password = u.Password,
                     State = u.State
+                }).ToList();
+        }
+
+        public IEnumerable<UserDTO> GetAllPerType(int typeNumber)
+        {
+            var userRepository = new UserRepository();
+            return userRepository.GetAll()
+                .Where(u => u.Type == typeNumber)
+                .Select(u => new UserDTO
+                {
+                    ID = u.ID,
+                    Name = u.Name,
+                    LastName = u.LastName,
+                    Email = u.Email,
+                    Address = u.Address,
+                    Phone = u.Phone,
+                    Legajo = u.Legajo,
+                    BirthDate = u.BirthDate,
+                    IDPlan = u.IDPlan,
+                    Username = u.Username,
+                    Password = u.Password,
+                    State = u.State,
+                    Type = u.Type
                 }).ToList();
         }
 
@@ -91,8 +117,11 @@ namespace Domain.Services
                 throw new ArgumentException("Ya existe un usuario con ese email.", nameof(dto.Email));
             }
 
-            User user = new User(dto.Name, dto.LastName, dto.Email, dto.Address, dto.Phone, dto.Legajo, dto.BirthDate, dto.Type, dto.IDPlan, dto.Username, dto.Password);
-
+            User user = new User(dto.Name, dto.LastName, dto.Email, dto.Address, dto.Phone, dto.Legajo, dto.BirthDate, dto.Type, dto.IDPlan, dto.Username, dto.Password)
+            {
+                ID = dto.ID,
+                State = dto.State,
+            };
             return userRepository.Update(user);
         }
 
@@ -117,6 +146,7 @@ namespace Domain.Services
                 Phone = u.Phone,
                 Legajo = u.Legajo,
                 BirthDate = u.BirthDate,
+                Type = u.Type,
                 IDPlan = u.IDPlan,
                 Username = u.Username,
                 Password = u.Password,
