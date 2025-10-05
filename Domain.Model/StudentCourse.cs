@@ -44,11 +44,10 @@ namespace Domain.Model
                 }
             }
         }
-        public int Grade { get; private set; }
-        public enum ConditionType { Regular, Libre, Aprobado, Inscripto}
-        public ConditionType Condition { get; private set; }
+        public int? Grade { get; private set; }
+        public string Condition { get; private set; }
         public StudentCourse() : base() { }
-        public StudentCourse(int idStudent, int idCourse, int grade, string condition)
+        public StudentCourse(int idStudent, int idCourse, int? grade, string condition)
         {
             IDStudent = idStudent;
             IDCourse = idCourse;
@@ -82,9 +81,9 @@ namespace Domain.Model
             Course = course; //checkear
         }
 
-        public void SetGrade(int grade)
+        public void SetGrade(int? grade)
         {
-            if (grade < 0 || grade > 10)
+            if (grade.HasValue && grade < 0 || grade > 10)
                 throw new ArgumentException("La nota debe estar entre 0 y 10.", nameof(grade));
             Grade = grade;
         }
