@@ -5,9 +5,9 @@ using WindowsForms.FormTeacherCourse;
 namespace WindowsForms
 
 {
-    public partial class Home : Form
+    public partial class AdminHome : Form
     {
-        public Home()
+        public AdminHome()
         {
             InitializeComponent();
 

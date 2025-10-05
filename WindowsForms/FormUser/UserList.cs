@@ -4,8 +4,8 @@ namespace WindowsForms
 {
     public partial class UserList : Form
     {
-        private Home home;
-        public UserList(Home home)
+        private AdminHome home;
+        public UserList(AdminHome home)
         {
             InitializeComponent();
             this.home = home;

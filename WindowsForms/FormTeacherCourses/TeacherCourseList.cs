@@ -4,8 +4,8 @@ namespace WindowsForms.FormTeacherCourse
 {
     public partial class TeacherCourseList : Form
     {
-        private Home home;
-        public TeacherCourseList(Home home)
+        private AdminHome home;
+        public TeacherCourseList(AdminHome home)
         {
             InitializeComponent();
             this.home = home;
