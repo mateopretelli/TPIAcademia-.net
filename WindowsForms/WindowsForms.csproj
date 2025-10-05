@@ -17,6 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="FormTeacherCourses\TeacherCourseDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormTeacherCourses\TeacherCourseList.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="UserLista.cs" />
     <Compile Update="FormPlan\PlansList.cs">
       <SubType>Form</SubType>

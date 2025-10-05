@@ -7,5 +7,6 @@
         public int Role { get; set; }
         public int IDTeacher { get; set; }
         public int IDCourse { get; set; }
+
     }
 }

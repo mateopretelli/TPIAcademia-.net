@@ -21,11 +21,11 @@ namespace Data
 
         public DbSet<Course> Courses { get; set; }
         public TPIContext()
-        { 
+        {
             //this.Database.EnsureDeleted();
             this.Database.EnsureCreated();
             //this.Database.Migrate(); 
-        
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -201,47 +201,6 @@ namespace Data
                     .OnDelete(DeleteBehavior.Restrict); // cortar cascade
             });
 
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.ToTable("Users");
-                entity.HasKey(e => e.ID);
-                entity.Property(e => e.ID)
-                    .ValueGeneratedOnAdd();
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(100);
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasMaxLength(100);
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(100);
-                entity.Property(e => e.Address)
-                    .IsRequired()
-                    .HasMaxLength(200);
-                entity.Property(e => e.Phone)
-                    .IsRequired()
-                    .HasMaxLength(20);
-                entity.Property(e => e.Legajo)
-                    .IsRequired();
-                entity.Property(e => e.BirthDate)
-                    .IsRequired();
-                entity.Property(e => e.Type)
-                    .IsRequired()
-                    .HasMaxLength(50);
-                entity.Property(e => e.IDPlan)
-                    .IsRequired();
-                entity.Property(e => e.Username)
-                    .IsRequired()
-                    .HasMaxLength(50);
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(100);
-                entity.Property(e => e.State)
-                    .IsRequired()
-                    .HasMaxLength(20);
-            });
-
             modelBuilder.Entity<TeacherCourse>(entity =>
             {
                 entity.ToTable("TeachersCourses");
@@ -271,6 +230,46 @@ namespace Data
                     .WithMany()
                     .HasForeignKey(e => e.IDTeacher)
                     .OnDelete(DeleteBehavior.Restrict); // cortar cascade
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("Users");
+                entity.HasKey(e => e.ID);
+                entity.Property(e => e.ID)
+                    .ValueGeneratedOnAdd();
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100);
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(100);
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(100);
+                entity.Property(e => e.Address)
+                    .IsRequired()
+                    .HasMaxLength(200);
+                entity.Property(e => e.Phone)
+                    .IsRequired()
+                    .HasMaxLength(20);
+                entity.Property(e => e.Legajo)
+                    .IsRequired();
+                entity.Property(e => e.BirthDate)
+                    .IsRequired();
+                entity.Property(e => e.Type)
+                    .IsRequired();
+                entity.Property(e => e.IDPlan)
+                    .IsRequired();
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasMaxLength(50);
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(100);
+                entity.Property(e => e.State)
+                    .IsRequired()
+                    .HasMaxLength(20);
             });
         }
     }

@@ -36,6 +36,7 @@
             SectionsButton = new Button();
             CoursesButton = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
+            TeachersCoursesButton = new Button();
             contenedorHome.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
@@ -94,6 +95,7 @@
             contenedorHome.Controls.Add(MateriasButton);
             contenedorHome.Controls.Add(SectionsButton);
             contenedorHome.Controls.Add(CoursesButton);
+            contenedorHome.Controls.Add(TeachersCoursesButton);
             contenedorHome.FlowDirection = FlowDirection.TopDown;
             contenedorHome.Location = new Point(3, 3);
             contenedorHome.Name = "contenedorHome";
@@ -130,6 +132,17 @@
             flowLayoutPanel1.Size = new Size(867, 422);
             flowLayoutPanel1.TabIndex = 4;
             // 
+            // TeachersCoursesButton
+            // 
+            TeachersCoursesButton.Location = new Point(430, 209);
+            TeachersCoursesButton.Margin = new Padding(3, 4, 3, 4);
+            TeachersCoursesButton.Name = "TeachersCoursesButton";
+            TeachersCoursesButton.Size = new Size(421, 93);
+            TeachersCoursesButton.TabIndex = 6;
+            TeachersCoursesButton.Text = "Administrar Docentes-Cursos";
+            TeachersCoursesButton.UseVisualStyleBackColor = true;
+            TeachersCoursesButton.Click += TeachersCoursesButton_Click;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -154,5 +167,6 @@
         private Button SectionsButton;
         private Button CoursesButton;
         private FlowLayoutPanel flowLayoutPanel1;
+        private Button TeachersCoursesButton;
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Domain.Model.Course;
 using CourseEntity = Domain.Model.Course.Course;
-using PersonEntity = Domain.Model.Person.Person;
+using UserEntity = Domain.Model.User.User;
 
 namespace Domain.Model
 {
@@ -37,7 +37,7 @@ namespace Domain.Model
         }
 
         private int _idTeacher;
-        private PersonEntity _teacher;
+        private UserEntity _teacher;
 
         public int IDTeacher
         {
@@ -45,7 +45,7 @@ namespace Domain.Model
             private set => _idCourse = value;
         }
 
-        public PersonEntity Teacher
+        public UserEntity Teacher
         {
             get => _teacher;
             private set
@@ -60,7 +60,7 @@ namespace Domain.Model
 
         private TeacherCourse() { }
 
-        public TeacherCourse(int role,int courseId, int teacherId)
+        public TeacherCourse(int role,int teacherId, int courseId)
         { 
             SetIDCourse(courseId);
             SetIDTeacher(teacherId);

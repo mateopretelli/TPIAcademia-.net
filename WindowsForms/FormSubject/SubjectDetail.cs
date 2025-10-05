@@ -101,10 +101,10 @@ namespace WindowsForms
                 isValid = false;
                 errorProvider.SetError(MateriaDescriptionTextBox, "La descripción es requerida");
             }
-            else if (ValidDescription(this.MateriaDescriptionTextBox.Text, materiasExistentes))
+            else if (ValidDescription(this.MateriaDescriptionTextBox.Text, Convert.ToInt32(this.IDPlanComboBox.SelectedValue), materiasExistentes))
             {
                 isValid = false;
-                errorProvider.SetError(MateriaDescriptionTextBox, "Ya existe una materia con esa descripcion");
+                errorProvider.SetError(MateriaDescriptionTextBox, "Ya existe una materia con esa descripcion y ese plan");
             }
             else
             {
@@ -157,7 +157,7 @@ namespace WindowsForms
             return isValid;
         }
 
-        private bool ValidDescription(string descripcion, IEnumerable<SubjectDTO> materias)
+        private bool ValidDescription(string descripcion, int idPlan, IEnumerable<SubjectDTO> materias)
         {
             if (descripcion == this.Subject.Description)
             {
@@ -167,6 +167,7 @@ namespace WindowsForms
             {
                 var materiaEncontrada = from SubjectDTO m in materias
                                         where m.Description == descripcion &&
+                                        m.IDPlan == idPlan &&
                                         m.State == "Active"
                                         select m;
 
