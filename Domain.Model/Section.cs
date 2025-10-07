@@ -1,12 +1,4 @@
-﻿using Domain.Model.Specialty;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PlanEntity = Domain.Model.Plan.Plan;
-
-namespace Domain.Model.Section
+﻿namespace Domain.Model
 {
     public class Section : BusinessEntity
     {
@@ -14,7 +6,7 @@ namespace Domain.Model.Section
         public int SpecialtyYear { get; private set; }
 
         private int _idPlan;
-        private PlanEntity _plan;
+        private Plan _plan;
 
         public int IDPlan
         {
@@ -22,7 +14,7 @@ namespace Domain.Model.Section
             private set => _idPlan = value;
         }
 
-        public PlanEntity Plan
+        public Plan Plan
         {
             get => _plan;
 

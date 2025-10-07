@@ -1,21 +1,17 @@
-﻿using Domain.Model.Specialty;
-using System.ComponentModel.DataAnnotations.Schema;
-using SpecialtyEntity = Domain.Model.Specialty.Specialty;
-
-namespace Domain.Model.Plan
+﻿namespace Domain.Model
 {
     public class Plan : BusinessEntity
     {
         public string Description { get; private set; }
 
         private int _idSpecialty;
-        private SpecialtyEntity _specialty;
+        private Specialty _specialty;
         public int IDSpecialty
         {
             get => _specialty?.ID ?? _idSpecialty;
             private set => _idSpecialty = value;
         }
-        public SpecialtyEntity Specialty
+        public Specialty Specialty
         {
             get => _specialty;
             private set
@@ -48,7 +44,7 @@ namespace Domain.Model.Plan
             IDSpecialty = idSpecialty;
         }
 
-        public void SetSpecialty(SpecialtyEntity specialty)
+        public void SetSpecialty(Specialty specialty)
         {
             ArgumentNullException.ThrowIfNull(specialty);
             _specialty = specialty;

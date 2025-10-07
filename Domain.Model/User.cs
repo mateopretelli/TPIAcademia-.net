@@ -1,8 +1,6 @@
-﻿using Domain.Model.Person;
-
-namespace Domain.Model.User
+﻿namespace Domain.Model
 {
-    public class User : Person.Person
+    public class User : Person
     {
         public string Username { get; private set; }
         public string Password { get; private set; }

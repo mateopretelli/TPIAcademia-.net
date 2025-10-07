@@ -1,4 +1,4 @@
-﻿namespace Domain.Model.Person
+﻿namespace Domain.Model
 { 
     public class Person : BusinessEntity
     {

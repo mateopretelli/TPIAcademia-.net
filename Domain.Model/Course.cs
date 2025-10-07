@@ -1,7 +1,4 @@
-﻿using SectionEntity = Domain.Model.Section.Section;
-using SubjectEntity = Domain.Model.Subject.Subject;
-
-namespace Domain.Model.Course
+﻿namespace Domain.Model
 {
     public class Course : BusinessEntity
     {
@@ -9,7 +6,7 @@ namespace Domain.Model.Course
         public int Capacity { get; private set; }
 
         private int _idSection;
-        private SectionEntity _section;
+        private Section _section;
 
         public int IDSection
         {
@@ -17,7 +14,7 @@ namespace Domain.Model.Course
             private set => _idSection = value;
         }
 
-        public SectionEntity Section
+        public Section Section
         {
             get => _section;
 
@@ -32,7 +29,7 @@ namespace Domain.Model.Course
         }
 
         private int _idSubject;
-        private SubjectEntity _subject;
+        private Subject _subject;
 
         public int IDSubject
         {
@@ -40,7 +37,7 @@ namespace Domain.Model.Course
             private set => _idSubject = value;
         }
 
-        public SubjectEntity Subject
+        public Subject Subject
         {
             get => _subject;
 

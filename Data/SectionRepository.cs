@@ -1,14 +1,5 @@
 ﻿using Domain.Model;
-using Domain.Model.Plan;
-using Domain.Model.Section;
-using Domain.Model.Subject;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data
 {

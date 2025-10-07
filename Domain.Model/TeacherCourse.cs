@@ -1,8 +1,4 @@
-﻿using Domain.Model.Course;
-using CourseEntity = Domain.Model.Course.Course;
-using UserEntity = Domain.Model.User.User;
-
-namespace Domain.Model
+﻿namespace Domain.Model
 {
     public class TeacherCourse: BusinessEntity
     {
@@ -15,7 +11,7 @@ namespace Domain.Model
         }
 
         private int _idCourse;
-        private CourseEntity _course;
+        private Course _course;
 
         public int IDCourse
         {
@@ -23,7 +19,7 @@ namespace Domain.Model
             private set => _idCourse = value;
         }
 
-        public CourseEntity Course
+        public Course Course
         {
             get => _course;
             private set
@@ -37,7 +33,7 @@ namespace Domain.Model
         }
 
         private int _idTeacher;
-        private UserEntity _teacher;
+        private User _teacher;
 
         public int IDTeacher
         {
@@ -45,7 +41,7 @@ namespace Domain.Model
             private set => _idCourse = value;
         }
 
-        public UserEntity Teacher
+        public User Teacher
         {
             get => _teacher;
             private set

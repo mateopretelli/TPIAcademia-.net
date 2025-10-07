@@ -1,6 +1,5 @@
 ﻿using Data;
 using Domain.Model;
-using Domain.Model.Course;
 using DTOs;
 
 namespace Domain.Services

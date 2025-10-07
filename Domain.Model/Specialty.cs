@@ -1,4 +1,4 @@
-﻿namespace Domain.Model.Specialty
+﻿namespace Domain.Model
 {
     public class Specialty : BusinessEntity
     {

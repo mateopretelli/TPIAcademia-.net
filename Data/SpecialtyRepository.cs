@@ -1,5 +1,4 @@
 ﻿using Domain.Model;
-using Domain.Model.Specialty;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 

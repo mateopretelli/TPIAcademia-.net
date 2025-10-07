@@ -1,5 +1,5 @@
 ﻿using Data;
-using Domain.Model.User;
+using Domain.Model;
 using DTOs;
 using Data.Security;
 
@@ -197,7 +197,7 @@ namespace Domain.Services
             var userRepository = new UserRepository();
 
             //Mapea DTO a Domain Model
-            var criteria = new UserCriteria(criteriaDTO.Text);
+            var criteria = new SearchCriteria(criteriaDTO.Text);
 
             //Llama al repositorio para obtener los usuarios
             var users = userRepository.GetByCriteria(criteria);

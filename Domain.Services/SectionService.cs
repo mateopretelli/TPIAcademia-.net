@@ -1,7 +1,5 @@
 ﻿using Data;
 using Domain.Model;
-using Domain.Model.Section;
-using Domain.Model.Subject;
 using DTOs;
 
 namespace Domain.Services

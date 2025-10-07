@@ -1,6 +1,4 @@
-﻿using PlanEntity = Domain.Model.Plan.Plan;
-
-namespace Domain.Model.Subject
+﻿namespace Domain.Model
 {
     public class Subject : BusinessEntity
     {
@@ -9,13 +7,13 @@ namespace Domain.Model.Subject
         public int TotalHS { get; private set; }
 
         private int _idPlan;
-        private PlanEntity _plan;
+        private Plan _plan;
         public int IDPlan
         {
             get => _plan?.ID ?? _idPlan;
             private set => _idPlan = value;
         }
-        public PlanEntity Plan
+        public Plan Plan
         {
             get => _plan;
             private set
@@ -65,7 +63,7 @@ namespace Domain.Model.Subject
 
         }
 
-        public void SetPlan(PlanEntity plan)
+        public void SetPlan(Plan plan)
         {
             ArgumentNullException.ThrowIfNull(plan);
             _plan = plan;
