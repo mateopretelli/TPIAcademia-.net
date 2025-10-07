@@ -36,12 +36,12 @@
             ((System.ComponentModel.ISupportInitialize)userDataGridView).BeginInit();
             SuspendLayout();
             // 
-            // usersDataGridView
+            // userDataGridView
             // 
             userDataGridView.AllowUserToOrderColumns = true;
             userDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             userDataGridView.Location = new Point(12, 15);
-            userDataGridView.Name = "usersDataGridView";
+            userDataGridView.Name = "userDataGridView";
             userDataGridView.ReadOnly = true;
             userDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             userDataGridView.Size = new Size(776, 339);
@@ -50,9 +50,9 @@
             // 
             // addUserButton
             // 
-            addUserButton.Location = new Point(551, 369);
+            addUserButton.Location = new Point(545, 379);
             addUserButton.Name = "addUserButton";
-            addUserButton.Size = new Size(75, 23);
+            addUserButton.Size = new Size(81, 50);
             addUserButton.TabIndex = 1;
             addUserButton.Text = "Agregar";
             addUserButton.UseVisualStyleBackColor = true;
@@ -60,9 +60,9 @@
             // 
             // deleteUserButton
             // 
-            deleteUserButton.Location = new Point(632, 369);
+            deleteUserButton.Location = new Point(626, 379);
             deleteUserButton.Name = "deleteUserButton";
-            deleteUserButton.Size = new Size(75, 23);
+            deleteUserButton.Size = new Size(81, 50);
             deleteUserButton.TabIndex = 2;
             deleteUserButton.Text = "Eliminar";
             deleteUserButton.UseVisualStyleBackColor = true;
@@ -70,25 +70,25 @@
             // 
             // updateUserButton
             // 
-            updateUserButton.Location = new Point(713, 369);
+            updateUserButton.Location = new Point(707, 379);
             updateUserButton.Name = "updateUserButton";
-            updateUserButton.Size = new Size(75, 23);
+            updateUserButton.Size = new Size(81, 50);
             updateUserButton.TabIndex = 3;
             updateUserButton.Text = "Modificar";
             updateUserButton.UseVisualStyleBackColor = true;
             updateUserButton.Click += updateButton_Click;
             // 
-            // UsersHomeButton
+            // UserHomeButton
             // 
-            UserHomeButton.Location = new Point(12, 369);
-            UserHomeButton.Name = "UsersHomeButton";
+            UserHomeButton.Location = new Point(12, 379);
+            UserHomeButton.Name = "UserHomeButton";
             UserHomeButton.Size = new Size(111, 50);
             UserHomeButton.TabIndex = 4;
             UserHomeButton.Text = "Volver al Menu";
             UserHomeButton.UseVisualStyleBackColor = true;
             UserHomeButton.Click += UserHomeButton_Click;
             // 
-            // UsersLista
+            // UserList
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -98,7 +98,7 @@
             Controls.Add(deleteUserButton);
             Controls.Add(addUserButton);
             Controls.Add(userDataGridView);
-            Name = "UsersLista";
+            Name = "UserList";
             Text = "Usuarios";
             Load += Users_Load;
             ((System.ComponentModel.ISupportInitialize)userDataGridView).EndInit();

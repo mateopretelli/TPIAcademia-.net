@@ -1,5 +1,6 @@
 ﻿using Domain.Services;
 using DTOs;
+using System.Diagnostics;
 
 namespace Endpoints;
 
@@ -52,6 +53,19 @@ public static class UserEndPoints
           .Produces(StatusCodes.Status404NotFound)
           .WithOpenApi();
 
+        app.MapGet("/usersType/{typeNumber}", (int typeNumber) =>
+        {
+            UserService userService = new UserService();
+
+            var dtos = userService.GetAllPerType(typeNumber);
+
+            return Results.Ok(dtos);
+        })
+          .WithName("GetAllPerType")
+          .Produces<List<UserDTO>>(StatusCodes.Status200OK)
+          .Produces(StatusCodes.Status404NotFound)
+          .WithOpenApi();
+
         app.MapGet("/userPlanesDescripcion", () =>
         {
             PlanService planService = new PlanService();
@@ -69,7 +83,7 @@ public static class UserEndPoints
         .WithName("GetAllPlanesDescripcionForUsers")
         .Produces<List<PlanDTO>>(StatusCodes.Status200OK)
         .WithOpenApi();
-        //ver aca!!!
+        //ver aca HAY QUE SACAR ESTO!!!
         app.MapPost("/users", (UserDTO dto) =>
         {
             try
@@ -151,6 +165,33 @@ public static class UserEndPoints
         })
           .WithName("GetUsersByCriteria")
           .Produces<List<SpecialtyDTO>>(StatusCodes.Status200OK)
+          .Produces(StatusCodes.Status400BadRequest)
+          .WithOpenApi();
+
+        app.MapPost("/users/login", (UserLoginDTO dto) =>
+        {
+            try
+            {
+                UserService userService = new UserService();
+                bool loginSuccess = userService.Login(dto.Username, dto.Password);
+                if (loginSuccess)
+                {
+                    return Results.Ok(new { success = loginSuccess });
+                }
+                else
+                {
+                    return Results.Unauthorized();
+                }
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(new { error = ex.Message });
+            }
+        }
+        )
+          .WithName("LoginUser")
+          .Produces(StatusCodes.Status200OK)
+          .Produces(StatusCodes.Status401Unauthorized)
           .Produces(StatusCodes.Status400BadRequest)
           .WithOpenApi();
     }

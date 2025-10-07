@@ -6,13 +6,15 @@ namespace Domain.Model.User
     {
         public string Username { get; private set; }
         public string Password { get; private set; }
+        public string Salt { get; private set; }
 
         public User(): base() {}
-        public User(string name, string lastName, string email, string address, string phone, int legajo, DateTime birthDate,string? type, int idPlan, string username, string password)
+        public User(string name, string lastName, string email, string address, string phone, int legajo, DateTime birthDate,int type, int idPlan, string username, string password, string salt)
             : base(name, lastName, email, address, phone, legajo, birthDate, type, idPlan)
         {
             Username = username;
             Password = password;
+            Salt = salt;
         }
 
         public void SetUsername(string username)
@@ -27,6 +29,13 @@ namespace Domain.Model.User
             if (string.IsNullOrWhiteSpace(password))
                 throw new ArgumentException("La contraseña no puede estar vacía.", nameof(password));
             Password = password;
+        }
+
+        public void SetSalt(string salt)
+        {
+            if (string.IsNullOrWhiteSpace(salt))
+                throw new ArgumentException("El salt no puede estar vacío.", nameof(salt));
+            Salt = salt;
         }
     }
 }

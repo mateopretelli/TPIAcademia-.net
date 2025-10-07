@@ -1,7 +1,6 @@
 ﻿using Domain.Model.User;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
-using System.Diagnostics;
 
 namespace Data
 {
@@ -15,7 +14,6 @@ namespace Data
         public void Add(User user)
         {
             using var context = CreateContext();
-            Debug.WriteLine(user);
             context.Users.Add(user);
             context.SaveChanges();
         }
@@ -39,11 +37,16 @@ namespace Data
             return context.Users.Find(id);
         }
 
+        public User? GetByUsername(string username)
+        {
+            using var context = CreateContext();
+            return context.Users.FirstOrDefault(u => u.Username.ToLower() == username.ToLower());
+        }
+
         public User? GetByLegajo(int legajo)
         {
             using var context = CreateContext();
             return context.Users.FirstOrDefault(u => u.Legajo == legajo);
-        }
         public IEnumerable<User> GetAll()
         {
             using var context = CreateContext();
@@ -64,8 +67,10 @@ namespace Data
                 existingUser.SetBirthDate(user.BirthDate);
                 existingUser.SetType(user.Type);
                 existingUser.SetIDPlan(user.IDPlan);
+                existingUser.SetLegajo();
                 existingUser.SetUsername(user.Username);
                 existingUser.SetPassword(user.Password);
+                existingUser.SetSalt(user.Salt);
                 existingUser.SetState(user.State);
                 context.SaveChanges();
                 return true;
@@ -114,10 +119,11 @@ namespace Data
                     reader.GetString(6),  // Phone
                     reader.GetInt32(7),   // Legajo
                     reader.GetDateTime(8), // BirthDate
-                    reader.GetString(9),  // Type
+                    reader.GetInt32(9),  // Type
                     reader.GetInt32(10),  // IDPlan
                     reader.GetString(11), // Username
-                    reader.GetString(12)  // Password
+                    reader.GetString(12), // Password
+                    reader.GetString(13) //Salt
                 );
 
                 user.SetId(reader.GetInt32(0)); // ID

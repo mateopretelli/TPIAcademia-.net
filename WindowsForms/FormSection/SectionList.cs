@@ -14,8 +14,8 @@ namespace WindowsForms.FormSection
 {
     public partial class SectionList : Form
     {
-        private Home home;
-        public SectionList(Home home)
+        private AdminHome home;
+        public SectionList(AdminHome home)
         {
             InitializeComponent();
             this.home = home;

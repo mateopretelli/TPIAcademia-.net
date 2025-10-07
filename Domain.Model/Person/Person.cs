@@ -10,11 +10,18 @@
         public string Phone { get; private set; }
         public int Legajo { get; private set; }
         public DateTime BirthDate { get; private set; }
-        public string Type { get; private set; }
+
+        private TypesPeople _type;
+
+        public int Type
+        {
+            get => (int)_type;
+            set => _type = (TypesPeople)value;
+        }
         public int IDPlan { get; private set; }
 
         public Person() { }
-        public Person(string name, string lastName, string email, string address, string phone, int legajo, DateTime birthDate, string? type, int idPlan)
+        public Person(string name, string lastName, string email, string address, string phone, int legajo, DateTime birthDate, int type, int idPlan)
         {
             Name = name;
             LastName = lastName;
@@ -74,9 +81,9 @@
             BirthDate = birthDate;
         }
 
-        public void SetType(string type)
+        public void SetType(int type)
         {
-            if (string.IsNullOrWhiteSpace(type))
+            if ( type <= 0)
                 throw new ArgumentException("El tipo no puede estar vacío.", nameof(type));
             Type = type;
         }

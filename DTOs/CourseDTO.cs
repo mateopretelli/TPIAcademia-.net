@@ -8,5 +8,8 @@
         public int AcademicYear { get; set; }
         public int IDSection { get; set; }
         public int IDSubject { get; set; }
+
+        public SubjectDTO Subject { get; set; } //agregado para poder acceder en cascada, capaz hay que eliminar lo de abajo e implementar este directamente
+
     }
 }

@@ -43,5 +43,6 @@ app.MapUserEndPoints();
 app.MapSpecialtyEndPoints();
 app.MapSectionEndpoints();
 app.MapCourseEndpoints();
+app.MapTeacherCourseEndpoints();
 app.MapStudentCourseEndpoints();
 app.Run();

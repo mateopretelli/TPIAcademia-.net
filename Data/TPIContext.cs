@@ -17,14 +17,15 @@ namespace Data
         public DbSet<User> Users { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Section> Sections { get; set; }
+        public DbSet<TeacherCourse> TeachersCourses { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<StudentCourse> StudentCourses { get; set; }
         public TPIContext()
-        { 
+        {
             //this.Database.EnsureDeleted();
             this.Database.EnsureCreated();
             //this.Database.Migrate(); 
-        
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -200,6 +201,37 @@ namespace Data
                     .OnDelete(DeleteBehavior.Restrict); // cortar cascade
             });
 
+            modelBuilder.Entity<TeacherCourse>(entity =>
+            {
+                entity.ToTable("TeachersCourses");
+                entity.HasKey(e => e.ID);
+                entity.Property(e => e.ID)
+                    .ValueGeneratedOnAdd();
+                entity.Property(e => e.State)
+                    .IsRequired()
+                    .HasMaxLength(20);
+                entity.Property(e => e.Role)
+                    .IsRequired();
+                entity.Property(e => e.IDCourse)
+                    .IsRequired()
+                    .HasField("_idCourse");
+                entity.Navigation(e => e.Course)
+                    .HasField("_course");
+                entity.HasOne(e => e.Course)
+                    .WithMany()
+                    .HasForeignKey(e => e.IDCourse)
+                    .OnDelete(DeleteBehavior.Restrict);// cortar cascade
+                entity.Property(e => e.IDTeacher)
+                    .IsRequired()
+                    .HasField("_idTeacher");
+                entity.Navigation(e => e.Teacher)
+                    .HasField("_teacher");
+                entity.HasOne(e => e.Teacher)
+                    .WithMany()
+                    .HasForeignKey(e => e.IDTeacher)
+                    .OnDelete(DeleteBehavior.Restrict); // cortar cascade
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("Users");
@@ -226,14 +258,16 @@ namespace Data
                 entity.Property(e => e.BirthDate)
                     .IsRequired();
                 entity.Property(e => e.Type)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                    .IsRequired();
                 entity.Property(e => e.IDPlan)
                     .IsRequired();
                 entity.Property(e => e.Username)
                     .IsRequired()
                     .HasMaxLength(50);
                 entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(200);
+                entity.Property(e => e.Salt)
                     .IsRequired()
                     .HasMaxLength(100);
                 entity.Property(e => e.State)
