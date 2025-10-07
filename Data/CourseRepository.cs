@@ -51,6 +51,17 @@ namespace Data
                 .ToList();
         }
 
+        public IEnumerable<Course> GetAllBySubject(int idSubject)
+        {
+            using var context = CreateContext();
+            return context.Courses
+                .Include(c => c.Section)
+                .Include(c => c.Subject)
+                    .ThenInclude(s => s.Plan)
+                        .ThenInclude(p => p.Specialty)
+                .Where(c => c.IDSubject == idSubject)
+                .ToList();
+        }
         public bool Update(Course course)
         {
             using var context = CreateContext();

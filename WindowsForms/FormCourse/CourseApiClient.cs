@@ -58,6 +58,31 @@ namespace WindowsForms.FormCourse
             }
         }
 
+        public static async Task<IEnumerable<CourseDTO>> GetBySubjectIdAsync(int subjectID)
+        {
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync($"courses/subject/{subjectID}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsAsync<IEnumerable<CourseDTO>>();
+                }
+                else
+                {
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Error al obtener la lista de cursos por materia. Status: {response.StatusCode} - Detalle: {errorContent}");
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception($"Error de conexión al obtener cursos por materia: {ex.Message}", ex);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new Exception($"Timeout al obtener cursos por materia: {ex.Message}", ex);
+            }
+        }
+
         public async static Task AddAsync(CourseDTO section)
         {
             try

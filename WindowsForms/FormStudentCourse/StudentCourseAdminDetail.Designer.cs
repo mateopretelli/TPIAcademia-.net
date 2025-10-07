@@ -35,6 +35,7 @@
             CourseGridView = new DataGridView();
             SearchCourseButton = new Button();
             AddInscriptionButton = new Button();
+            SelectButton = new Button();
             ((System.ComponentModel.ISupportInitialize)CourseGridView).BeginInit();
             SuspendLayout();
             // 
@@ -49,25 +50,27 @@
             // 
             // LegajoTextBox
             // 
-            LegajoTextBox.Location = new Point(164, 43);
+            LegajoTextBox.Location = new Point(123, 43);
             LegajoTextBox.Name = "LegajoTextBox";
             LegajoTextBox.Size = new Size(279, 26);
             LegajoTextBox.TabIndex = 1;
+            LegajoTextBox.TextChanged += LegajoTextBox_TextChanged;
             // 
             // CourseLabel
             // 
             CourseLabel.AutoSize = true;
             CourseLabel.Location = new Point(31, 97);
             CourseLabel.Name = "CourseLabel";
-            CourseLabel.Size = new Size(127, 20);
+            CourseLabel.Size = new Size(49, 20);
             CourseLabel.TabIndex = 2;
             CourseLabel.Text = "Curso:";
             // 
             // CourseTextBox
             // 
-            CourseTextBox.Location = new Point(164, 99);
+            CourseTextBox.Location = new Point(123, 99);
             CourseTextBox.Name = "CourseTextBox";
             CourseTextBox.Size = new Size(279, 26);
+            CourseTextBox.PlaceholderText = "Buscar materia por descripcion";
             CourseTextBox.TabIndex = 3;
             // 
             // CourseGridView
@@ -81,7 +84,7 @@
             // 
             // SearchCourseButton
             // 
-            SearchCourseButton.Location = new Point(471, 97);
+            SearchCourseButton.Location = new Point(427, 99);
             SearchCourseButton.Name = "SearchCourseButton";
             SearchCourseButton.Size = new Size(90, 28);
             SearchCourseButton.TabIndex = 5;
@@ -97,12 +100,24 @@
             AddInscriptionButton.TabIndex = 6;
             AddInscriptionButton.Text = "Añadir inscripcion";
             AddInscriptionButton.UseVisualStyleBackColor = true;
+            SearchCourseButton.Click += AddInscriptionButton_Click;
+            // 
+            // SelectButton
+            // 
+            SelectButton.Location = new Point(31, 398);
+            SelectButton.Name = "SelectButton";
+            SelectButton.Size = new Size(180, 40);
+            SelectButton.TabIndex = 7;
+            SelectButton.Text = "Seleccionar";
+            SelectButton.UseVisualStyleBackColor = true;
+            SelectButton.Click += SelectButton_Click;
             // 
             // StudentCourseAdminDetail
             // 
             AutoScaleDimensions = new SizeF(8F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(SelectButton);
             Controls.Add(AddInscriptionButton);
             Controls.Add(SearchCourseButton);
             Controls.Add(CourseGridView);
@@ -127,5 +142,6 @@
         private DataGridView CourseGridView;
         private Button SearchCourseButton;
         private Button AddInscriptionButton;
+        private Button SelectButton;
     }
 }

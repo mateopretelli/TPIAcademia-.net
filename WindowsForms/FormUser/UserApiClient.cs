@@ -17,6 +17,17 @@ namespace WindowsForms.FormUser
             return user;
         }
 
+        public static async Task<UserDTO> GetByLegajoAsync(int legajo)
+        {
+            UserDTO user = null;
+            HttpResponseMessage response = await client.GetAsync($"users/legajo/{legajo}");
+            if (response.IsSuccessStatusCode)
+            {
+                user = await response.Content.ReadAsAsync<UserDTO>();
+            }
+            return user;
+        }
+
         public static async Task<IEnumerable<UserDTO>> GetAllAsync()
         {
             IEnumerable<UserDTO> users = null;

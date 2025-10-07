@@ -1,7 +1,7 @@
 ﻿
 namespace DTOs
 {
-    public class StudentCourse
+    public class StudentCourseDTO
     {
         public int ID { get; set; }
         public string State { get; set; }

@@ -1,12 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DTOs;
 
 namespace WindowsForms.FormStudentCourse
 {
-    internal class StudentCourseApiClient
+    public class StudentCourseApiClient
     {
+        public static HttpClient client = ApiClientProvider.GetClient();
+
+        public static async Task AddAsync(int studentId, int courseId)
+        {
+            StudentCourseDTO studentCourse = new StudentCourseDTO
+            {
+                IDstudent = studentId,
+                IDcourse = courseId,
+                Grade = null,
+                Condition = "Inscripto"
+            };
+            HttpResponseMessage response = await client.PostAsJsonAsync("studentcourses", studentCourse);
+            response.EnsureSuccessStatusCode();
+        }
     }
 }

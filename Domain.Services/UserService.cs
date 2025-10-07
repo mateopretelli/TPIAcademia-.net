@@ -18,6 +18,7 @@ namespace Domain.Services
 
             User user = new User(dto.Name, dto.LastName, dto.Email, dto.Address, dto.Phone, dto.Legajo, dto.BirthDate, dto.Type, dto.IDPlan, dto.Username, dto.Password);
             user.SetState("Active");
+            user.SetLegajo();
 
             userRepository.Add(user);
 
@@ -44,6 +45,31 @@ namespace Domain.Services
                 return null;
             }
 
+            return new UserDTO
+            {
+                ID = user.ID,
+                Name = user.Name,
+                LastName = user.LastName,
+                Email = user.Email,
+                Address = user.Address,
+                Phone = user.Phone,
+                Legajo = user.Legajo,
+                BirthDate = user.BirthDate,
+                IDPlan = user.IDPlan,
+                Username = user.Username,
+                Password = user.Password,
+                State = user.State
+            };
+        }
+
+        public UserDTO GetByLegajo(int legajo) 
+        {
+            var userRepository = new UserRepository();
+            User? user = userRepository.GetByLegajo(legajo);
+            if (user == null)
+            {
+                return null;
+            }
             return new UserDTO
             {
                 ID = user.ID,

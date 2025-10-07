@@ -1,5 +1,6 @@
 using WindowsForms.FormCourse;
 using WindowsForms.FormSection;
+using WindowsForms.FormStudentCourse;
 
 namespace WindowsForms
 
@@ -49,6 +50,13 @@ namespace WindowsForms
         {
             CourseList courseList = new CourseList(this);
             courseList.Show();
+            this.Hide();
+        }
+
+        private void StudentCourseButton_Click(object sender, EventArgs e)
+        {
+            StudentCourseAdminDetail studentCourseAdminDetail = new StudentCourseAdminDetail(this);
+            studentCourseAdminDetail.Show();
             this.Hide();
         }
     }
