@@ -12,29 +12,31 @@ namespace WindowsForms
 
         private async void LoginButton_Click(object sender, EventArgs e)
         {
-            LoginRequestDTO userLoginDTO = new LoginRequestDTO();
-            userLoginDTO.Username = UserLoginTextBox.Text;
-            userLoginDTO.Password = PwdLoginTextBox.Text;
 
             if (!ValidateLogin())
             {
                 return;
             }
+            UserLoginTextBox.Enabled = false;
+            PwdLoginTextBox.Enabled = false;
             LoginButton.Enabled = false;
+            LoginButton.Text="Iniciando sesión...";
             this.Cursor = Cursors.WaitCursor;
             try
             {
 
-                bool loginSuccess = await UserApiClient.LoginAsync(userLoginDTO);
-                if (loginSuccess)
+                var authService = AuthServiceProvider.Instance;
+                bool success = await authService.LoginAsync(PwdLoginTextBox.Text, PwdLoginTextBox.Text);
+                if (success)
                 {
-                    AdminHome home = new AdminHome();
-                    home.Show();
-                    this.Hide();
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Usuario o contraseña incorrecta");
+                    MessageBox.Show("Usuario o contraseña incorrectos.", "Error de autenticación",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    PwdLoginTextBox.Clear();
+                    PwdLoginTextBox.Focus();
                 }
             }
             catch (Exception ex)
@@ -45,6 +47,7 @@ namespace WindowsForms
             {
                 this.Cursor = Cursors.Default;
                 LoginButton.Enabled = true;
+                LoginButton.Text = "Iniciar Sesión";
             }
             
         }

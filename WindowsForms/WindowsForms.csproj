@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\APIAuthWindowsForms\APIAuthWindowsForms.csproj" />
     <ProjectReference Include="..\ApiClients\ApiClients.csproj" />
     <ProjectReference Include="..\DTOs\DTOs.csproj" />
   </ItemGroup>
