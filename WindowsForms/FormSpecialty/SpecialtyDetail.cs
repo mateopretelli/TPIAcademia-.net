@@ -1,7 +1,6 @@
 ﻿using DTOs;
 using System.Data;
-using WindowsForms.FormPlans;
-using WindowsForms.FormSpecialty;
+using ApiClients;
 
 namespace WindowsForms
 {

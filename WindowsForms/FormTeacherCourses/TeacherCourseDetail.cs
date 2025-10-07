@@ -1,11 +1,5 @@
 ﻿using DTOs;
-using WindowsForms.FormPlans;
-using WindowsForms.FormSection;
-using WindowsForms.FormSubject;
-using WindowsForms.FormSpecialty;
-using WindowsForms.FormCourse;
-using WindowsForms.FormUser;
-using System.Diagnostics;
+using ApiClients;
 
 namespace WindowsForms.FormTeacherCourse
 {

@@ -1,6 +1,5 @@
 using DTOs;
-using WindowsForms.FormPlans;
-using WindowsForms.FormSpecialty;
+using ApiClients;
 namespace WindowsForms
 {
     public partial class PlansList : Form

@@ -3,10 +3,10 @@ using DTOs;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace WindowsForms.FormSubject
+namespace ApiClients
 
 {
-    internal class SubjectApiClient : BaseApiClient
+    public class SubjectApiClient : BaseApiClient
     {
         public static async Task<SubjectDTO> GetAsync(int id)
         {

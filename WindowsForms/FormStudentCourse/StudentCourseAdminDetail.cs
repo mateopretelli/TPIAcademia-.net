@@ -1,19 +1,16 @@
 ﻿using DTOs;
-using WindowsForms.FormSubject;
-using WindowsForms.FormCourse;
-using WindowsForms.FormUser;
-using System.Threading.Tasks;
+using ApiClients;
 
 namespace WindowsForms.FormStudentCourse
 {
     public partial class StudentCourseAdminDetail : Form
     {
-        private Home home;
+        private AdminHome home;
 
         private bool showingSubjects = true;
 
         private SubjectDTO? currentSubject = null;
-        public StudentCourseAdminDetail(Home home)
+        public StudentCourseAdminDetail(AdminHome home)
         {
             InitializeComponent();
             this.home = home;

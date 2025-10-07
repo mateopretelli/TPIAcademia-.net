@@ -2,7 +2,7 @@
 using DTOs;
 using System.Net.Http.Json;
 
-namespace WindowsForms.FormSpecialty
+namespace ApiClients
 {
     public class SpecialtyApiClient : BaseApiClient
     {

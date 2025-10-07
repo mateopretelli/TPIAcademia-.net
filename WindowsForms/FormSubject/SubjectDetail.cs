@@ -1,8 +1,5 @@
 ﻿using System.Data;
-using WindowsForms.FormSpecialty;
-using WindowsForms.FormPlans;
-using WindowsForms.FormSubject;
-using System.Security.AccessControl;
+using ApiClients;
 using System.Diagnostics;
 using DTOs;
 

@@ -1,9 +1,9 @@
 ﻿using ApiClients;
 using DTOs;
 
-namespace WindowsForms.FormTeacherCourse
+namespace ApiClients
 {
-    internal class TeacherCourseApiClient : BaseApiClient
+    public class TeacherCourseApiClient : BaseApiClient
     {
 
         public static async Task<TeacherCourseDTO> GetAsync(int id)
