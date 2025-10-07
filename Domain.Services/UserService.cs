@@ -71,6 +71,31 @@ namespace Domain.Services
                 Phone = user.Phone,
                 Legajo = user.Legajo,
                 BirthDate = user.BirthDate,
+                IDPlan = user.IDPlan,
+                Username = user.Username,
+                Password = user.Password,
+                State = user.State
+            };
+        }
+
+        public UserDTO GetByLegajo(int legajo) 
+        {
+            var userRepository = new UserRepository();
+            User? user = userRepository.GetByLegajo(legajo);
+            if (user == null)
+            {
+                return null;
+            }
+            return new UserDTO
+            {
+                ID = user.ID,
+                Name = user.Name,
+                LastName = user.LastName,
+                Email = user.Email,
+                Address = user.Address,
+                Phone = user.Phone,
+                Legajo = user.Legajo,
+                BirthDate = user.BirthDate,
                 Type = user.Type,
                 IDPlan = user.IDPlan,
                 Username = user.Username,
