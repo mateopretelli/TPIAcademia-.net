@@ -1,5 +1,4 @@
-﻿using StudentEntity = Domain.Model.User.User;
-using CourseEntity = Domain.Model.Course.Course;
+﻿
 
 namespace Domain.Model
 {
@@ -7,13 +6,13 @@ namespace Domain.Model
     {
 
         private int _idStudent;
-        private StudentEntity _student;
+        private User _student;
         public int IDStudent
         {
             get => _idStudent;
             private set => _idStudent = value;
         }
-        public StudentEntity Student { 
+        public User Student { 
             get => _student;
             private set
             {
@@ -26,13 +25,13 @@ namespace Domain.Model
 
         }
         private int _idCourse;
-        private CourseEntity _course;
+        private Course _course;
         public int IDCourse
         {
             get => _idCourse;
             private set => _idCourse = value;
         }
-        public CourseEntity Course
+        public Course Course
         {
             get => _course;
             private set
@@ -62,7 +61,7 @@ namespace Domain.Model
             IDStudent = idStudent;
         }
 
-        public void SetStudent(StudentEntity student)
+        public void SetStudent(User student)
         {
             ArgumentNullException.ThrowIfNull(student);
             Student = student; //checkear
@@ -75,7 +74,7 @@ namespace Domain.Model
             IDCourse = idCourse;
         }
 
-        public void SetCourse(CourseEntity course)
+        public void SetCourse(Course course)
         {
             ArgumentNullException.ThrowIfNull(course);
             Course = course; //checkear

@@ -1,6 +1,5 @@
 ﻿using DTOs;
-
-using WindowsForms.FormUser;
+using ApiClients;
 
 namespace WindowsForms
 {
@@ -13,7 +12,7 @@ namespace WindowsForms
 
         private async void LoginButton_Click(object sender, EventArgs e)
         {
-            UserLoginDTO userLoginDTO = new UserLoginDTO();
+            LoginRequestDTO userLoginDTO = new LoginRequestDTO();
             userLoginDTO.Username = UserLoginTextBox.Text;
             userLoginDTO.Password = PwdLoginTextBox.Text;
 
