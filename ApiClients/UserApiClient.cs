@@ -2,9 +2,9 @@
 using DTOs;
 using System.Net;
 
-namespace WindowsForms.FormUser
+namespace ApiClients
 {
-    internal class UserApiClient : BaseApiClient
+    public class UserApiClient : BaseApiClient
     {
         public static async Task<UserDTO> GetAsync(int id)
         {

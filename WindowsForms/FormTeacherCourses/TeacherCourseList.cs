@@ -1,4 +1,5 @@
 ﻿using DTOs;
+using ApiClients;
 
 namespace WindowsForms.FormTeacherCourse
 {

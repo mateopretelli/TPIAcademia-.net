@@ -1,5 +1,5 @@
 ﻿using DTOs;
-using WindowsForms.FormSpecialty;
+using ApiClients;
 
 namespace WindowsForms
 {

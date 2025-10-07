@@ -1,9 +1,9 @@
 ﻿using ApiClients;
 using DTOs;
 
-namespace WindowsForms.FormSection
+namespace ApiClients
 {
-    internal class SectionApiClient : BaseApiClient
+    public class SectionApiClient : BaseApiClient
     {
 
         public static async Task<SectionDTO> GetAsync(int id)

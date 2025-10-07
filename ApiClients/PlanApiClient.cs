@@ -1,11 +1,10 @@
-﻿using ApiClients;
-using DTOs;
+﻿using DTOs;
 using System.Net.Http.Json;
 
 
-namespace WindowsForms.FormPlans
+namespace ApiClients
 {
-    internal class PlanApiClient : BaseApiClient
+    public class PlanApiClient : BaseApiClient
     {
 
         public static async Task<PlanDTO> GetAsync(int id)
