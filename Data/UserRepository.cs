@@ -47,6 +47,7 @@ namespace Data
         {
             using var context = CreateContext();
             return context.Users.FirstOrDefault(u => u.Legajo == legajo);
+        }
         public IEnumerable<User> GetAll()
         {
             using var context = CreateContext();
