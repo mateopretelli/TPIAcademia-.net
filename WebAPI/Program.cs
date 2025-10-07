@@ -1,5 +1,4 @@
 ﻿using Endpoints;
-using WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 

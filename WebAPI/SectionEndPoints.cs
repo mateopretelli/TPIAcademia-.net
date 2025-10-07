@@ -1,7 +1,7 @@
 ﻿using Domain.Services;
 using DTOs;
 
-namespace WebAPI
+namespace Endpoints
 {
     public static class SectionEndPoints
     {
