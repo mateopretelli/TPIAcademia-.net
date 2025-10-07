@@ -1,4 +1,4 @@
-﻿using Domain.Model.User;
+﻿using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 
@@ -84,7 +84,7 @@ namespace Data
             return query.Any();
         }
 
-        public IEnumerable<User> GetByCriteria(UserCriteria criteria)
+        public IEnumerable<User> GetByCriteria(SearchCriteria criteria)
         {
             const string sql = @"
                 SELECT ID, Name, Lastname, Email, Adress, Phone, Legajo, BirthDate, Type, IDPlan, Username, Password, State
@@ -94,7 +94,7 @@ namespace Data
 
             var users = new List<User>();
             string connectionString = new TPIContext().Database.GetConnectionString();
-            string searchPattern = $"%{criteria.Texto}%";
+            string searchPattern = $"%{criteria.Text}%";
 
             using var connection = new SqlConnection(connectionString);
             using var command = new SqlCommand(sql, connection);

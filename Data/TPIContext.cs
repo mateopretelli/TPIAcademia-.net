@@ -1,11 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Domain.Model.Plan;
-using Domain.Model.Specialty;
-using Domain.Model.User;
-using Domain.Model.Subject;
-using Domain.Model.Section;
-using Domain.Model.Course;
 using Domain.Model;
 
 namespace Data
