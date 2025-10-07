@@ -133,5 +133,30 @@ namespace WindowsForms.FormSubject
                 throw new Exception($"Timeout al actualizar materia: {ex.Message}", ex);
             }
         }
+
+        public static async Task<IEnumerable<SubjectDTO>> GetByCriteriaAsync(string criteria)
+        {
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync("subjects/criteria?text=" + WebUtility.UrlEncode(criteria));
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsAsync<IEnumerable<SubjectDTO>>();
+                }
+                else
+                {
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Error al buscar materias. Status: {response.StatusCode} - Detalle: {errorContent}");
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception($"Error de conexión al buscar materias: {ex.Message}", ex);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new Exception($"Timeout al buscar materias: {ex.Message}", ex);
+            }
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace Data
         public DbSet<Section> Sections { get; set; }
         public DbSet<TeacherCourse> TeachersCourses { get; set; }
         public DbSet<Course> Courses { get; set; }
+        public DbSet<StudentCourse> StudentCourses { get; set; }
         public TPIContext()
         {
             //this.Database.EnsureDeleted();
@@ -272,6 +273,40 @@ namespace Data
                 entity.Property(e => e.State)
                     .IsRequired()
                     .HasMaxLength(20);
+            });
+
+            modelBuilder.Entity<StudentCourse>(entity =>
+            {
+                entity.ToTable("StudentCourses");
+                entity.HasKey(e => e.ID);
+                entity.Property(e => e.ID)
+                    .ValueGeneratedOnAdd();
+                entity.Property(e => e.State)
+                    .IsRequired()
+                    .HasMaxLength(20);
+                entity.Property(e => e.Grade)
+                    .IsRequired();
+                entity.Property(e => e.Condition)
+                    .IsRequired()
+                    .HasMaxLength(20);
+                entity.Property(e => e.IDStudent)
+                    .IsRequired()
+                    .HasField("_idStudent");
+                entity.Navigation(e => e.Student)
+                    .HasField("_student");
+                entity.HasOne(e => e.Student)
+                    .WithMany()
+                    .HasForeignKey(e => e.IDStudent)
+                    .OnDelete(DeleteBehavior.Restrict); // cortar cascade
+                entity.Property(e => e.IDCourse)
+                    .IsRequired()
+                    .HasField("_idCourse");
+                entity.Navigation(e => e.Course)
+                    .HasField("_course");
+                entity.HasOne(e => e.Course)
+                    .WithMany()
+                    .HasForeignKey(e => e.IDCourse)
+                    .OnDelete(DeleteBehavior.Cascade); // mantener cascade
             });
         }
     }

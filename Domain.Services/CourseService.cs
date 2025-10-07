@@ -69,6 +69,22 @@ namespace Domain.Services
                 }).ToList();
         }
 
+        public IEnumerable<CourseDTO> GetAllBySubject(int idSubject)
+        {
+            var courseRepository = new CourseRepository();
+            return courseRepository.GetAll()
+                .Where(c => c.IDSubject == idSubject)
+                .Select(c => new CourseDTO
+                {
+                    ID = c.ID,
+                    State = c.State,
+                    Capacity = c.Capacity,
+                    AcademicYear = c.AcademicYear,
+                    IDSubject = c.IDSubject,
+                    IDSection = c.IDSection
+                }).ToList();
+        }
+
         public bool Update(CourseDTO dto)
         {
             var courseRepository = new CourseRepository();

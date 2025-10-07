@@ -23,9 +23,24 @@ namespace Endpoints
             .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
 
-            app.MapGet("/users", () =>
+        app.MapGet("/users/legajo/{legajo}", (int legajo) =>
+        {
+            UserService userService = new UserService();
+            var dto = userService.GetByLegajo(legajo);
+            if (dto == null)
             {
-                UserService userService = new UserService();
+                return Results.NotFound();
+            }
+            return Results.Ok(dto);
+        })
+        .WithName("GetUserByLegajo")
+        .Produces<UserDTO>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound)
+        .WithOpenApi();
+
+        app.MapGet("/users", () =>
+        {
+            UserService userService = new UserService();
 
 
                 var dtos = userService.GetAll();
