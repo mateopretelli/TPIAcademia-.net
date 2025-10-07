@@ -1,27 +1,18 @@
-﻿using DTOs;
-using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ApiClients;
+using DTOs;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace WindowsForms.FormSubject
 
 {
-    internal class SubjectApiClient
+    internal class SubjectApiClient : BaseApiClient
     {
-        private static HttpClient client = ApiClientProvider.GetClient();
-
         public static async Task<SubjectDTO> GetAsync(int id)
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync("subjects/" + id);
                 if (response.IsSuccessStatusCode)
                 {
@@ -48,6 +39,7 @@ namespace WindowsForms.FormSubject
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync("subjects");
 
                 if (response.IsSuccessStatusCode)
@@ -74,6 +66,7 @@ namespace WindowsForms.FormSubject
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.PostAsJsonAsync("subjects", subject);
 
                 if (!response.IsSuccessStatusCode)
@@ -96,6 +89,7 @@ namespace WindowsForms.FormSubject
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.DeleteAsync("subjects/" + id);
                 if (!response.IsSuccessStatusCode)
                 {
@@ -116,7 +110,8 @@ namespace WindowsForms.FormSubject
         public static async Task UpdateAsync(SubjectDTO subject)
         {
             try
-            { 
+            {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.PutAsJsonAsync("subjects", subject);
                 if (!response.IsSuccessStatusCode)
                 {
@@ -138,6 +133,7 @@ namespace WindowsForms.FormSubject
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync("subjects/criteria?text=" + WebUtility.UrlEncode(criteria));
                 if (response.IsSuccessStatusCode)
                 {

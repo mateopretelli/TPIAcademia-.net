@@ -1,10 +1,11 @@
-﻿using DTOs;
+﻿using ApiClients;
+using DTOs;
 
 namespace WindowsForms.FormStudentCourse
 {
-    public class StudentCourseApiClient
+    public class StudentCourseApiClient : BaseApiClient
     {
-        public static HttpClient client = ApiClientProvider.GetClient();
+        public static HttpClient client = BaseApiClient.GetClient();
 
         public static async Task AddAsync(int studentId, int courseId)
         {

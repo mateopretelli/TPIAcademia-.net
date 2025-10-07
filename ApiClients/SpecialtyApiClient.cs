@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http.Json;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
+﻿using ApiClients;
 using DTOs;
-
-
+using System.Net.Http.Json;
 
 namespace WindowsForms.FormSpecialty
 {
-    public class SpecialtyApiClient
+    public class SpecialtyApiClient : BaseApiClient
     {
-        private static HttpClient client = ApiClientProvider.GetClient();
 
         public static async Task<SpecialtyDTO> GetAsync(int id)
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync("specialties/" + id);
 
                 if (response.IsSuccessStatusCode)
@@ -46,6 +38,7 @@ namespace WindowsForms.FormSpecialty
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync("specialties");
 
                 if (response.IsSuccessStatusCode)
@@ -72,6 +65,7 @@ namespace WindowsForms.FormSpecialty
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.PostAsJsonAsync("specialties", specialty);
 
                 if (!response.IsSuccessStatusCode)
@@ -94,6 +88,7 @@ namespace WindowsForms.FormSpecialty
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.DeleteAsync("specialties/" + id);
                 if(!response.IsSuccessStatusCode){
                     string errorContent = await response.Content.ReadAsStringAsync();
@@ -113,9 +108,8 @@ namespace WindowsForms.FormSpecialty
         public static async Task UpdateAsync(SpecialtyDTO specialty)
         {
             try
-            {   
-
-
+            {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.PutAsJsonAsync("specialties", specialty);
                 if (!response.IsSuccessStatusCode){
                     string errorContent = await response.Content.ReadAsStringAsync();
@@ -137,6 +131,7 @@ namespace WindowsForms.FormSpecialty
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync($"specialties/criteria?texto={Uri.EscapeDataString(criteria)}");
                 if (response.IsSuccessStatusCode)
                 {

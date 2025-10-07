@@ -1,24 +1,18 @@
-﻿using DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using ApiClients;
+using DTOs;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace WindowsForms.FormPlans
 {
-    internal class PlanApiClient
+    internal class PlanApiClient : BaseApiClient
     {
-        private static HttpClient client = ApiClientProvider.GetClient();
 
         public static async Task<PlanDTO> GetAsync(int id)
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync("plans/" + id);
 
                 if (response.IsSuccessStatusCode)
@@ -45,6 +39,7 @@ namespace WindowsForms.FormPlans
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync("plans");
 
                 if (response.IsSuccessStatusCode)
@@ -84,6 +79,7 @@ namespace WindowsForms.FormPlans
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 IEnumerable<SpecialtyDTO> specialties = null;
                 HttpResponseMessage response = await client.GetAsync("specialties");
 
@@ -114,6 +110,7 @@ namespace WindowsForms.FormPlans
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.PostAsJsonAsync("plans", plan);
 
                 if (!response.IsSuccessStatusCode)
@@ -136,6 +133,7 @@ namespace WindowsForms.FormPlans
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.DeleteAsync("plans/" + id);
                 if (!response.IsSuccessStatusCode)
                 {
@@ -157,6 +155,7 @@ namespace WindowsForms.FormPlans
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.PutAsJsonAsync("plans", plan);
                 if (!response.IsSuccessStatusCode)
                 {
@@ -178,6 +177,7 @@ namespace WindowsForms.FormPlans
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync($"plans/criteria?texto={Uri.EscapeDataString(criteria)}");
                 if (response.IsSuccessStatusCode)
                 {

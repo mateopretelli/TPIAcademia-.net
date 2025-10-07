@@ -1,15 +1,16 @@
-﻿using DTOs;
+﻿using ApiClients;
+using DTOs;
 
 namespace WindowsForms.FormTeacherCourse
 {
-    internal class TeacherCourseApiClient
+    internal class TeacherCourseApiClient : BaseApiClient
     {
-        private static HttpClient client = ApiClientProvider.GetClient();
 
         public static async Task<TeacherCourseDTO> GetAsync(int id)
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync("teacherscourses/" + id);
                 if (response.IsSuccessStatusCode)
                 {
@@ -36,6 +37,7 @@ namespace WindowsForms.FormTeacherCourse
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync("teacherscourses");
 
                 if (response.IsSuccessStatusCode)
@@ -62,6 +64,7 @@ namespace WindowsForms.FormTeacherCourse
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.PostAsJsonAsync("teacherscourses", teachercourse);
 
                 if (!response.IsSuccessStatusCode)
@@ -84,6 +87,7 @@ namespace WindowsForms.FormTeacherCourse
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.DeleteAsync("teacherscourses/" + id);
                 if (!response.IsSuccessStatusCode)
                 {
@@ -105,6 +109,7 @@ namespace WindowsForms.FormTeacherCourse
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.PutAsJsonAsync("teacherscourses", section);
                 if (!response.IsSuccessStatusCode)
                 {

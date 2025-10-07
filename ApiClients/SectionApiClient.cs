@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ApiClients;
 using DTOs;
 
 namespace WindowsForms.FormSection
 {
-    internal class SectionApiClient
+    internal class SectionApiClient : BaseApiClient
     {
-        private static HttpClient client = ApiClientProvider.GetClient();
 
         public static async Task<SectionDTO> GetAsync(int id)
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync("sections/" + id);
                 if (response.IsSuccessStatusCode)
                 {
@@ -41,6 +37,7 @@ namespace WindowsForms.FormSection
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync("sections");
 
                 if (response.IsSuccessStatusCode)
@@ -67,6 +64,7 @@ namespace WindowsForms.FormSection
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.PostAsJsonAsync("sections", section);
 
                 if (!response.IsSuccessStatusCode)
@@ -89,6 +87,7 @@ namespace WindowsForms.FormSection
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.DeleteAsync("sections/" + id);
                 if (!response.IsSuccessStatusCode)
                 {
@@ -110,6 +109,7 @@ namespace WindowsForms.FormSection
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.PutAsJsonAsync("sections", section);
                 if (!response.IsSuccessStatusCode)
                 {

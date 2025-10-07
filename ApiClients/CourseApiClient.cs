@@ -1,15 +1,16 @@
 ﻿using DTOs;
+using System.Net.Http.Json;
 
-namespace WindowsForms.FormCourse
+namespace ApiClients
 {
-    internal class CourseApiClient
+    public class CourseApiClient : BaseApiClient
     {
-        private static HttpClient client = ApiClientProvider.GetClient();
 
         public static async Task<CourseDTO> GetAsync(int id)
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync("courses/" + id);
                 if (response.IsSuccessStatusCode)
                 {
@@ -36,6 +37,7 @@ namespace WindowsForms.FormCourse
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync("courses");
 
                 if (response.IsSuccessStatusCode)
@@ -62,6 +64,7 @@ namespace WindowsForms.FormCourse
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.GetAsync($"courses/subject/{subjectID}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -87,6 +90,7 @@ namespace WindowsForms.FormCourse
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.PostAsJsonAsync("courses", section);
 
                 if (!response.IsSuccessStatusCode)
@@ -109,6 +113,7 @@ namespace WindowsForms.FormCourse
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.DeleteAsync("courses/" + id);
                 if (!response.IsSuccessStatusCode)
                 {
@@ -130,6 +135,7 @@ namespace WindowsForms.FormCourse
         {
             try
             {
+                using var client = await CreateHttpClientAsync();
                 HttpResponseMessage response = await client.PutAsJsonAsync("courses", section);
                 if (!response.IsSuccessStatusCode)
                 {
