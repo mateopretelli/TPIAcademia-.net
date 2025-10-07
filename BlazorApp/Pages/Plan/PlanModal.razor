@@ -6,7 +6,8 @@
 @if (showModal)
 {
     <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
-        <div class="modal-dialog">s
+        <div class="modal-dialog">
+            s
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
@@ -22,25 +23,43 @@
                     <button type="button" class="btn-close" @onclick="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <EditForm Model="currentSpecialty" OnValidSubmit="HandleValidSubmit">
+                    <EditForm Model="currentPlan" OnValidSubmit="HandleValidSubmit">
                         <DataAnnotationsValidator />
 
                         @if (mode == FormMode.Update)
                         {
                             <div class="mb-3">
                                 <label class="form-label">Id</label>
-                                <input type="text" class="form-control" value="@currentSpecialty.ID" readonly />
+                                <input type="text" class="form-control" value="@currentPlan.ID" readonly />
                             </div>
                         }
 
                         <div class="mb-3">
                             <label class="form-label">Descripción *</label>
-                            <InputText @bind-Value="currentSpecialty.Description" class="form-control" />
+                            <InputText @bind-Value="currentPlan.Description" class="form-control" />
                             @if (validationErrors.ContainsKey("Description"))
                             {
                                 <div class="text-danger small">@validationErrors["Description"]</div>
                             }
-                        </div>  
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Especialidad *</label>
+                            <InputSelect @bind-Value="currentPlan.IDSpecialty" class="form-select">
+                                <option value="0">Seleccionar especialidad</option>
+                                @if (specialties != null)
+                                {
+                                    @foreach (var specialty in specialties)
+                                    {
+                                        <option value="@specialty.ID">@specialty.Description</option>
+                                    }
+                                }
+                            </InputSelect>
+                            @if (validationErrors.ContainsKey("Specialty"))
+                            {
+                                <div class="text-danger small">@validationErrors["Specialty"]</div>
+                            }
+                        </div>
 
                         @if (!string.IsNullOrEmpty(errorMessage))
                         {
@@ -67,14 +86,15 @@
 }
 
 @code {
-    [Parameter] public EventCallback OnSpecialtyChanged { get; set; }
+    [Parameter] public EventCallback OnPlanChanged { get; set; }
 
     private bool showModal = false;
     private FormMode mode = FormMode.Add;
-    private SpecialtyDTO currentSpecialty = new SpecialtyDTO();
+    private PlanDTO currentPlan = new PlanDTO();
     private bool saving = false;
     private string errorMessage = string.Empty;
     private Dictionary<string, string> validationErrors = new Dictionary<string, string>();
+    private List<SpecialtyDTO>? specialties;
 
     public enum FormMode
     {
@@ -82,19 +102,20 @@
         Update
     }
 
-    public void ShowAddModal()
+    public async Task ShowAddModal()
     {
         mode = FormMode.Add;
-        currentSpecialty = new SpecialtyDTO();
+        currentPlan = new PlanDTO();
+        await LoadSpecialties();
         ClearValidationErrors();
         showModal = true;
         StateHasChanged();
     }
 
-    public void ShowEditModal(SpecialtyDTO specialty)
+    public void ShowEditModal(PlanDTO specialty)
     {
         mode = FormMode.Update;
-        currentSpecialty = new SpecialtyDTO
+        currentPlan = new PlanDTO
         {
             ID = specialty.ID,
             Description = specialty.Description,
@@ -107,7 +128,7 @@
 
     private async Task HandleValidSubmit()
     {
-        if (!ValidateSpecialty())
+        if (!ValidatePlan())
             return;
 
         try
@@ -115,18 +136,18 @@
             saving = true;
             errorMessage = string.Empty;
 
-            SpecialtyApiClient client = new SpecialtyApiClient();
+            PlanApiClient client = new PlanApiClient();
 
             if (mode == FormMode.Add)
             {
-                await SpecialtyApiClient.AddAsync(currentSpecialty);
+                await PlanApiClient.AddAsync(currentPlan);
             }
             else
             {
-                await SpecialtyApiClient.UpdateAsync(currentSpecialty);
+                await PlanApiClient.UpdateAsync(currentPlan);
             }
 
-            await OnSpecialtyChanged.InvokeAsync();
+            await OnPlanChanged.InvokeAsync();
             Close();
         }
         catch (Exception ex)
@@ -139,14 +160,18 @@
         }
     }
 
-    private bool ValidateSpecialty()
+    private bool ValidatePlan()
     {
         ClearValidationErrors();
         bool isValid = true;
 
-        if (string.IsNullOrWhiteSpace(currentSpecialty.Description))
+        if (string.IsNullOrWhiteSpace(currentPlan.Description))
         {
             validationErrors["Description"] = "La descripción es requerida";
+            isValid = false;
+        } else if (currentPlan.IDSpecialty == 0)
+        {
+            validationErrors["IDSpecialty"] = "Seleccione una especialidad";
             isValid = false;
         }
 
@@ -158,6 +183,18 @@
     {
         validationErrors.Clear();
         errorMessage = string.Empty;
+    }
+
+    private async Task LoadSpecialties()
+    {
+        try
+        {
+            specialties = (await SpecialtyApiClient.GetAllAsync())?.ToList();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al cargar especialidades: {ex.Message}";
+        }
     }
 
     private void Close()
