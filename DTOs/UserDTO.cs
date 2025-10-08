@@ -11,7 +11,7 @@
         public int Legajo { get; set; }
         public DateTime BirthDate { get; set; }
         public int Type { get; set; }
-        public int IDPlan { get; set; }
+        public int? IDPlan { get; set; } //nullable for non-student users
         public string Username { get; set; }
         public string Password { get; set; }
         public string State { get; set; } // Active, Inactive, etc.

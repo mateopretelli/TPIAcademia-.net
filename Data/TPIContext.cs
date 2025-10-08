@@ -254,7 +254,7 @@ namespace Data
                 entity.Property(e => e.Type)
                     .IsRequired();
                 entity.Property(e => e.IDPlan)
-                    .IsRequired();
+                    .IsRequired(false);
                 entity.Property(e => e.Username)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -267,7 +267,29 @@ namespace Data
                 entity.Property(e => e.State)
                     .IsRequired()
                     .HasMaxLength(20);
-            });
+            
+                var adminUser = new User("Admin", "System", "admin@system.com", "Main Street 123", "123456789", 1, new DateTime(1990, 1, 1), 1, null, "admin", "MSis2mIxpWL51V/vE5AyOXv1oXR44CGUYU+mNsF0wGg=", "2duaOoe0gi0sN+rhf0q2ew==");
+                adminUser.SetId(1);
+                adminUser.SetState("Active");
+                entity.HasData(new
+                {
+                    ID = adminUser.ID,
+                    Name = adminUser.Name,
+                    LastName = adminUser.LastName,
+                    Email = adminUser.Email,
+                    Address = adminUser.Address,
+                    Phone = adminUser.Phone,
+                    Legajo = adminUser.Legajo,
+                    BirthDate = adminUser.BirthDate,
+                    Type = adminUser.Type,
+                    IDPlan = adminUser.IDPlan,
+                    Username = adminUser.Username,
+                    Password = adminUser.Password, //admin (está hasheada para que no rompa los metodos de login)
+                    Salt = adminUser.Salt,
+                    State = adminUser.State,
+                });
+                });
+
 
             modelBuilder.Entity<StudentCourse>(entity =>
             {
