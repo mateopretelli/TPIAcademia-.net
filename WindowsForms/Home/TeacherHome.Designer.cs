@@ -40,6 +40,7 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.BackColor = Color.Gainsboro;
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 1);
@@ -105,6 +106,7 @@
             TeacherLogoutButton.TabIndex = 2;
             TeacherLogoutButton.Text = "Cerrar Sesión";
             TeacherLogoutButton.UseVisualStyleBackColor = true;
+            TeacherLogoutButton.Click += TeacherLogoutButton_Click;
             // 
             // label1
             // 

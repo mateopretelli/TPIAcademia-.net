@@ -29,18 +29,19 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
-            label1 = new Label();
             tableLayoutPanel2 = new TableLayoutPanel();
-            AdminLogoutButton = new Button();
             StudentSubjectsPlanButton = new Button();
             StudentInscriptionButton = new Button();
             StudentSubjectsGradeButton = new Button();
+            label1 = new Label();
+            AdminLogoutButton = new Button();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.BackColor = Color.Gainsboro;
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 1);
@@ -55,17 +56,6 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
             tableLayoutPanel1.Size = new Size(800, 450);
             tableLayoutPanel1.TabIndex = 0;
-            // 
-            // label1
-            // 
-            label1.Anchor = AnchorStyles.None;
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 25F);
-            label1.Location = new Point(283, 10);
-            label1.Name = "label1";
-            label1.Size = new Size(233, 46);
-            label1.TabIndex = 1;
-            label1.Text = "Menu Alumno";
             // 
             // tableLayoutPanel2
             // 
@@ -83,17 +73,6 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanel2.Size = new Size(794, 309);
             tableLayoutPanel2.TabIndex = 1;
-            // 
-            // AdminLogoutButton
-            // 
-            AdminLogoutButton.Anchor = AnchorStyles.None;
-            AdminLogoutButton.Font = new Font("Segoe UI", 15F);
-            AdminLogoutButton.Location = new Point(295, 389);
-            AdminLogoutButton.Name = "AdminLogoutButton";
-            AdminLogoutButton.Size = new Size(209, 53);
-            AdminLogoutButton.TabIndex = 2;
-            AdminLogoutButton.Text = "Cerrar Sesión";
-            AdminLogoutButton.UseVisualStyleBackColor = true;
             // 
             // StudentSubjectsPlanButton
             // 
@@ -124,6 +103,29 @@
             StudentSubjectsGradeButton.TabIndex = 2;
             StudentSubjectsGradeButton.Text = "Materias / Notas";
             StudentSubjectsGradeButton.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.None;
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 25F);
+            label1.Location = new Point(283, 10);
+            label1.Name = "label1";
+            label1.Size = new Size(233, 46);
+            label1.TabIndex = 1;
+            label1.Text = "Menu Alumno";
+            // 
+            // AdminLogoutButton
+            // 
+            AdminLogoutButton.Anchor = AnchorStyles.None;
+            AdminLogoutButton.Font = new Font("Segoe UI", 15F);
+            AdminLogoutButton.Location = new Point(295, 389);
+            AdminLogoutButton.Name = "AdminLogoutButton";
+            AdminLogoutButton.Size = new Size(209, 53);
+            AdminLogoutButton.TabIndex = 2;
+            AdminLogoutButton.Text = "Cerrar Sesión";
+            AdminLogoutButton.UseVisualStyleBackColor = true;
+            AdminLogoutButton.Click += AdminLogoutButton_Click;
             // 
             // StudentHome
             // 
