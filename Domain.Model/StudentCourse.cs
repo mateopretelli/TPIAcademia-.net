@@ -1,5 +1,3 @@
-﻿
-
 namespace Domain.Model
 {
     public class StudentCourse : BusinessEntity

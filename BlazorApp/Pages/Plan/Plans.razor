@@ -1,16 +1,16 @@
-﻿@page "/specialties"
+﻿@page "/plans"
 @using DTOs
 @using ApiClients
 @using Microsoft.AspNetCore.Components
 @inject IJSRuntime JSRuntime
 
-<PageTitle>Specialties</PageTitle>
+<PageTitle>Plans</PageTitle>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h3>Especialidades</h3>
-            
+            <h3>Planes</h3>
+
             @if (!string.IsNullOrEmpty(errorMessage))
             {
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -18,7 +18,7 @@
                     <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
                 </div>
             }
-            
+
             @if (!string.IsNullOrEmpty(successMessage))
             {
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -49,22 +49,24 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Descripción</th>
+                                <th>Especialidad</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (specialties != null && specialties.Any())
+                            @if (plans != null && plans.Any())
                             {
-                                @foreach (var specialty in specialties)
+                                @foreach (var plan in plans)
                                 {
                                     <tr>
-                                        <td>@specialty.ID</td>
-                                        <td>@specialty.Description</td>
+                                        <td>@plan.ID</td>
+                                        <td>@plan.Description</td>
+                                        <td>@plan.IDSpecialty</td>
                                         <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(specialty)">
+                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(plan)">
                                                 <i class="fas fa-edit"></i> Editar
                                             </button>
-                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(specialty)">
+                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(plan)">
                                                 <i class="fas fa-trash"></i> Eliminar
                                             </button>
                                         </td>
@@ -79,31 +81,31 @@
     </div>
 </div>
 
-<SpecialtyModal @ref="specialtyModal" OnSpecialtyChanged="LoadSpecialties" />
+<PlanModal @ref="planModal" OnPlanChanged="LoadPlans" />
 
 @code {
-    private List<SpecialtyDTO>? specialties;
+    private List<PlanDTO>? plans;
     private bool loading = true;
     private string errorMessage = string.Empty;
     private string successMessage = string.Empty;
-    private SpecialtyModal specialtyModal = null!;
+    private PlanModal planModal = null!;
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadSpecialties();
+        await LoadPlans();
     }
 
-    private async Task LoadSpecialties()
+    private async Task LoadPlans()
     {
         try
         {
             loading = true;
-            specialties = (await SpecialtyApiClient.GetAllAsync())?.ToList();
-            successMessage = string.Empty; // Clear success message when reloading
+            plans = (await PlanApiClient.GetAllAsync())?.ToList();
+            successMessage = string.Empty;
         }
         catch (Exception ex)
         {
-            errorMessage = $"Error al cargar especialidades: {ex.Message}";
+            errorMessage = $"Error al cargar planes: {ex.Message}";
         }
         finally
         {
@@ -113,36 +115,36 @@
 
     private void OpenAddModal()
     {
-        specialtyModal.ShowAddModal();
+        planModal.ShowAddModal();
     }
 
-    private void OpenEditModal(SpecialtyDTO specialty)
+    private void OpenEditModal(PlanDTO plan)
     {
-        specialtyModal.ShowEditModal(specialty);
+        planModal.ShowEditModal(plan);
     }
 
-    private async Task ConfirmDelete(SpecialtyDTO specialty)
+    private async Task ConfirmDelete(PlanDTO plan)
     {
-        var confirm = await JSRuntime.InvokeAsync<bool>("confirm", 
-            $"¿Está seguro que desea eliminar el especialidad {specialty.ID} {specialty.Description}?");
-        
+        var confirm = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"¿Está seguro que desea eliminar el especialidad {plan.ID} {plan.Description}?");
+
         if (confirm)
         {
-            await DeleteSpecialty(specialty.ID);
+            await DeletePlan(plan.ID);
         }
     }
 
-    private async Task DeleteSpecialty(int id)
+    private async Task DeletePlan(int id)
     {
         try
         {
-            await SpecialtyApiClient.DeleteAsync(id);
-            successMessage = "Specialty eliminado exitosamente.";
-            await LoadSpecialties();
+            await PlanApiClient.DeleteAsync(id);
+            successMessage = "Plan eliminado exitosamente.";
+            await LoadPlans();
         }
         catch (Exception ex)
         {
-            errorMessage = $"Error al eliminar specialty: {ex.Message}";
+            errorMessage = $"Error al eliminar plan: {ex.Message}";
         }
     }
 }
