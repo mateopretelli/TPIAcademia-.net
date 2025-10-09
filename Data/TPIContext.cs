@@ -16,7 +16,7 @@ namespace Data
         public DbSet<StudentCourse> StudentCourses { get; set; }
         public TPIContext()
         {
-            this.Database.EnsureDeleted();
+            //this.Database.EnsureDeleted();
             this.Database.EnsureCreated();
             //this.Database.Migrate(); 
 

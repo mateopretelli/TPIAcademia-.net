@@ -65,6 +65,38 @@ namespace WindowsForms
             this.userDataGridView.DataSource = null;
             this.userDataGridView.DataSource = await UserApiClient.GetAllAsync();
 
+            if (this.userDataGridView.Columns.Count > 0)
+            {
+                this.userDataGridView.Columns["Password"].Visible = false;
+                this.userDataGridView.Columns["State"].Visible = false;
+                this.userDataGridView.Columns["Salt"].Visible = false;
+                // Agrega más columnas que quieras ocultar
+
+                // También puedes cambiar el orden
+                this.userDataGridView.Columns["ID"].DisplayIndex = 0;
+                this.userDataGridView.Columns["Username"].DisplayIndex = 1;
+                this.userDataGridView.Columns["Name"].DisplayIndex = 2;
+                this.userDataGridView.Columns["LastName"].DisplayIndex = 3;
+                this.userDataGridView.Columns["Email"].DisplayIndex = 4;
+                this.userDataGridView.Columns["Type"].DisplayIndex = 5;
+                this.userDataGridView.Columns["Legajo"].DisplayIndex = 7;
+                this.userDataGridView.Columns["BirthDate"].DisplayIndex = 6;
+                this.userDataGridView.Columns["Address"].DisplayIndex = 8;
+                this.userDataGridView.Columns["Phone"].DisplayIndex = 9;
+                this.userDataGridView.Columns["IDPlan"].DisplayIndex = 10;
+
+
+                // Cambiar nombres de encabezados
+                this.userDataGridView.Columns["Name"].HeaderText = "Nombre";
+                this.userDataGridView.Columns["LastName"].HeaderText = "Apellido";
+                this.userDataGridView.Columns["Username"].HeaderText = "Usuario";
+                this.userDataGridView.Columns["Type"].HeaderText = "Tipo";
+                this.userDataGridView.Columns["Legajo"].HeaderText = "Legajo";
+                this.userDataGridView.Columns["BirthDate"].HeaderText = "FechaNac";
+                this.userDataGridView.Columns["Phone"].HeaderText = "Teléfono";
+                this.userDataGridView.Columns["Address"].HeaderText = "Dirección";
+
+            }
 
             if (this.userDataGridView.Rows.Count > 0)
             {

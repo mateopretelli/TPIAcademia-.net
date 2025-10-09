@@ -58,6 +58,7 @@ namespace Domain.Services
                 new Claim(ClaimTypes.NameIdentifier, usuario.ID.ToString()),
                 new Claim(ClaimTypes.Name, usuario.Username),
                 new Claim(ClaimTypes.Email, usuario.Email),
+                new Claim(ClaimTypes.Role, usuario.Type.ToString()),
                 new Claim("jti", Guid.NewGuid().ToString())
             };
 

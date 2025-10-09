@@ -39,18 +39,18 @@
             // userDataGridView
             // 
             userDataGridView.AllowUserToOrderColumns = true;
-            userDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            userDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             userDataGridView.Location = new Point(12, 15);
             userDataGridView.Name = "userDataGridView";
             userDataGridView.ReadOnly = true;
             userDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            userDataGridView.Size = new Size(776, 339);
+            userDataGridView.Size = new Size(1123, 339);
             userDataGridView.TabIndex = 0;
             userDataGridView.CellContentClick += userDataGridView_CellContentClick;
             // 
             // addUserButton
             // 
-            addUserButton.Location = new Point(545, 379);
+            addUserButton.Location = new Point(892, 379);
             addUserButton.Name = "addUserButton";
             addUserButton.Size = new Size(81, 50);
             addUserButton.TabIndex = 1;
@@ -60,7 +60,7 @@
             // 
             // deleteUserButton
             // 
-            deleteUserButton.Location = new Point(626, 379);
+            deleteUserButton.Location = new Point(973, 379);
             deleteUserButton.Name = "deleteUserButton";
             deleteUserButton.Size = new Size(81, 50);
             deleteUserButton.TabIndex = 2;
@@ -70,7 +70,7 @@
             // 
             // updateUserButton
             // 
-            updateUserButton.Location = new Point(707, 379);
+            updateUserButton.Location = new Point(1054, 379);
             updateUserButton.Name = "updateUserButton";
             updateUserButton.Size = new Size(81, 50);
             updateUserButton.TabIndex = 3;
@@ -92,7 +92,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1149, 447);
             Controls.Add(UserHomeButton);
             Controls.Add(updateUserButton);
             Controls.Add(deleteUserButton);
