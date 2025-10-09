@@ -23,23 +23,23 @@ namespace Endpoints
             .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
 
-        app.MapGet("/users/legajo/{legajo}", (int legajo) =>
-        {
-            UserService userService = new UserService();
-            var dto = userService.GetByLegajo(legajo);
-            if (dto == null)
+            app.MapGet("/users/legajo/{legajo}", (int legajo) =>
             {
-                return Results.NotFound();
-            }
-            return Results.Ok(dto);
-        })
-        .WithName("GetUserByLegajo")
-        .Produces<UserDTO>(StatusCodes.Status200OK)
-        .Produces(StatusCodes.Status404NotFound)
-        .WithOpenApi();
+                UserService userService = new UserService();
+                var dto = userService.GetByLegajo(legajo);
+                if (dto == null)
+                {
+                    return Results.NotFound();
+                }
+                return Results.Ok(dto);
+            })
+            .WithName("GetUserByLegajo")
+            .Produces<UserDTO>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound)
+            .WithOpenApi();
 
-        app.MapGet("/users", () =>
-        {
+            app.MapGet("/users", () =>
+            {
             UserService userService = new UserService();
 
 
@@ -167,32 +167,6 @@ namespace Endpoints
               .Produces(StatusCodes.Status400BadRequest)
               .WithOpenApi();
 
-            app.MapPost("/users/login", (UserLoginDTO dto) =>
-            {
-                try
-                {
-                    UserService userService = new UserService();
-                    bool loginSuccess = userService.Login(dto.Username, dto.Password);
-                    if (loginSuccess)
-                    {
-                        return Results.Ok(new { success = loginSuccess });
-                    }
-                    else
-                    {
-                        return Results.Unauthorized();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return Results.BadRequest(new { error = ex.Message });
-                }
-            }
-            )
-              .WithName("LoginUser")
-              .Produces(StatusCodes.Status200OK)
-              .Produces(StatusCodes.Status401Unauthorized)
-              .Produces(StatusCodes.Status400BadRequest)
-              .WithOpenApi();
         }
 
     }

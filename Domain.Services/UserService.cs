@@ -220,18 +220,6 @@ namespace Domain.Services
                 State = u.State
             });
         }
-
-        public bool Login(string username, string password)
-        {
-            var userRepository = new UserRepository();
-            var user = userRepository.GetByUsername(username);
-            if (user == null)
-            {
-                return false;
-            }
-            var passwordHasher = new PasswordHasherPBKDF2();
-            return passwordHasher.VerifyPassword(password, user.Password, user.Salt);
-        }
     }
 }
  

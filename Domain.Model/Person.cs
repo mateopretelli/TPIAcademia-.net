@@ -18,10 +18,10 @@
             get => (int)_type;
             set => _type = (TypesPeople)value;
         }
-        public int IDPlan { get; private set; }
+        public int? IDPlan { get; private set; }
 
         public Person() { }
-        public Person(string name, string lastName, string email, string address, string phone, int legajo, DateTime birthDate, int type, int idPlan)
+        public Person(string name, string lastName, string email, string address, string phone, int legajo, DateTime birthDate, int type, int? idPlan)
         {
             Name = name;
             LastName = lastName;
@@ -88,11 +88,15 @@
             Type = type;
         }
 
-        public void SetIDPlan(int idPlan)
+        public void SetIDPlan(int? idPlan)
         {
-            if (idPlan < 0)
-                throw new ArgumentException("El ID del plan debe ser mayor o igual a 0.", nameof(idPlan));
-            IDPlan = idPlan;
+            if (idPlan == null)
+            {
+                if (idPlan < 0)
+                    throw new ArgumentException("El ID del plan debe ser mayor o igual a 0.", nameof(idPlan));
+                IDPlan = idPlan;
+            }
+
         }
 
 

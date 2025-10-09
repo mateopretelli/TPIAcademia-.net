@@ -75,7 +75,7 @@ namespace ApiClients
             response.EnsureSuccessStatusCode();
         }
 
-        public static async Task<bool> LoginAsync(UserLoginDTO dto)
+        public static async Task<bool> LoginAsync(LoginRequestDTO dto)
         {
             using var client = await CreateHttpClientAsync();
             HttpResponseMessage response = await client.PostAsJsonAsync("users/login", dto);

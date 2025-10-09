@@ -16,7 +16,7 @@ namespace Data
         public DbSet<StudentCourse> StudentCourses { get; set; }
         public TPIContext()
         {
-            //this.Database.EnsureDeleted();
+            this.Database.EnsureDeleted();
             this.Database.EnsureCreated();
             //this.Database.Migrate(); 
 
@@ -56,6 +56,12 @@ namespace Data
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasMaxLength(250);
+
+                entity.HasData(
+                    new { ID = 1, State = "Active", Description = "Ingeniería en Sistemas" },
+                    new { ID = 2, State = "Active", Description = "Ingeniería Industrial" },
+                    new { ID = 3, State = "Active", Description = "Ingeniería Electrónica" }
+                    );
             });
             modelBuilder.Entity<Plan>(entity =>
             {
@@ -84,6 +90,11 @@ namespace Data
                 entity.HasOne(e => e.Specialty)
                     .WithMany()
                     .HasForeignKey(e => e.IDSpecialty);
+                entity.HasData(
+                    new { ID = 1, State = "Active", Description = "Plan 2020", IDSpecialty = 1 },
+                    new { ID = 2, State = "Active", Description = "Plan 2019", IDSpecialty = 2 }
+                    );
+
             });
             modelBuilder.Entity<Subject>(entity =>
             {
@@ -118,6 +129,10 @@ namespace Data
                 entity.HasOne(e => e.Plan)
                     .WithMany()
                     .HasForeignKey(e => e.IDPlan);
+                entity.HasData(
+                    new { ID = 1, State = "Active", Description = "Algoritmos y Estructuras de Datos", WeeklyHS = 6, TotalHS = 96, IDPlan = 1 },
+                    new { ID = 2, State = "Active", Description = "Base de Datos", WeeklyHS = 4, TotalHS = 64, IDPlan = 1 }
+                );
 
             });
             modelBuilder.Entity<Section>(entity =>
@@ -150,6 +165,10 @@ namespace Data
                 entity.HasOne(e => e.Plan)
                     .WithMany()
                     .HasForeignKey(e => e.IDPlan);
+                entity.HasData(
+                    new { ID = 1, State = "Active", Description = "1W2", SpecialtyYear = 2, IDPlan = 1 },
+                    new { ID = 2, State = "Active", Description = "1W3", SpecialtyYear = 3, IDPlan = 1 }
+                );
             });
             modelBuilder.Entity<Course>(entity =>
             {
@@ -193,6 +212,10 @@ namespace Data
                     .WithMany()
                     .HasForeignKey(e => e.IDSubject)
                     .OnDelete(DeleteBehavior.Restrict); // cortar cascade
+                entity.HasData(
+                    new { ID = 1, State = "Active", Capacity = 30, AcademicYear = 2024, IDSection = 1, IDSubject = 1 },
+                    new { ID = 2, State = "Active", Capacity = 25, AcademicYear = 2024, IDSection = 2, IDSubject = 2 }
+                );
             });
 
             modelBuilder.Entity<TeacherCourse>(entity =>
@@ -254,7 +277,7 @@ namespace Data
                 entity.Property(e => e.Type)
                     .IsRequired();
                 entity.Property(e => e.IDPlan)
-                    .IsRequired();
+                    .IsRequired(false);
                 entity.Property(e => e.Username)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -267,7 +290,29 @@ namespace Data
                 entity.Property(e => e.State)
                     .IsRequired()
                     .HasMaxLength(20);
-            });
+            
+                var adminUser = new User("Admin", "System", "admin@system.com", "Main Street 123", "123456789", 1, new DateTime(1990, 1, 1), 1, null, "admin", "MSis2mIxpWL51V/vE5AyOXv1oXR44CGUYU+mNsF0wGg=", "2duaOoe0gi0sN+rhf0q2ew==");
+                adminUser.SetId(1);
+                adminUser.SetState("Active");
+                entity.HasData(new
+                {
+                    ID = adminUser.ID,
+                    Name = adminUser.Name,
+                    LastName = adminUser.LastName,
+                    Email = adminUser.Email,
+                    Address = adminUser.Address,
+                    Phone = adminUser.Phone,
+                    Legajo = adminUser.Legajo,
+                    BirthDate = adminUser.BirthDate,
+                    Type = adminUser.Type,
+                    IDPlan = adminUser.IDPlan,
+                    Username = adminUser.Username,
+                    Password = adminUser.Password, //admin (está hasheada para que no rompa los metodos de login)
+                    Salt = adminUser.Salt,
+                    State = adminUser.State,
+                });
+                });
+
 
             modelBuilder.Entity<StudentCourse>(entity =>
             {

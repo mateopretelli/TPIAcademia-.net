@@ -19,7 +19,10 @@ namespace ApiClients
             client.BaseAddress = new Uri(baseUrl);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+            new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // Agregar Bearer token automáticamente si está autenticado
+            await AddAuthorizationHeaderAsync(client);
         }
         private static readonly HttpClient client = new HttpClient();
 
@@ -56,6 +59,47 @@ namespace ApiClients
             string defaultUrl = "http://localhost:5130/";
             System.Diagnostics.Debug.WriteLine($"[DEBUG] Usando URL por defecto: {defaultUrl}");
             return defaultUrl;
+        }
+
+        protected static async Task AddAuthorizationHeaderAsync(HttpClient client)
+        {
+            var authService = AuthServiceProvider.Instance;
+
+            // Verificar expiración antes de usar el token
+            await authService.CheckTokenExpirationAsync();
+
+            var token = await authService.GetTokenAsync();
+            if (!string.IsNullOrEmpty(token))
+            {
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+            }
+        }
+
+        protected static async Task EnsureAuthenticatedAsync()
+        {
+            var authService = AuthServiceProvider.Instance;
+
+            // Verificar expiración primero
+            await authService.CheckTokenExpirationAsync();
+
+            if (!await authService.IsAuthenticatedAsync())
+            {
+                throw new UnauthorizedAccessException("Su sesión ha expirado.");
+            }
+        }
+
+        protected static async Task HandleUnauthorizedResponseAsync(HttpResponseMessage response)
+        {
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                // Limpiar sesión actual
+                var authService = AuthServiceProvider.Instance;
+                await authService.LogoutAsync();
+
+                // Lanzar excepción con mensaje simple
+                throw new UnauthorizedAccessException("Su sesión ha expirado.");
+            }
         }
     }
 }
