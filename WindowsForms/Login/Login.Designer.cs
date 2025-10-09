@@ -132,9 +132,9 @@
             // 
             LoginButton.Anchor = AnchorStyles.None;
             LoginButton.Font = new Font("Segoe UI", 15F);
-            LoginButton.Location = new Point(184, 344);
+            LoginButton.Location = new Point(142, 344);
             LoginButton.Name = "LoginButton";
-            LoginButton.Size = new Size(141, 60);
+            LoginButton.Size = new Size(225, 60);
             LoginButton.TabIndex = 7;
             LoginButton.Text = "Ingresar";
             LoginButton.UseVisualStyleBackColor = true;
