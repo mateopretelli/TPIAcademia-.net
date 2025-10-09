@@ -26,7 +26,7 @@ namespace WindowsForms
             {
 
                 var authService = AuthServiceProvider.Instance;
-                bool success = await authService.LoginAsync(PwdLoginTextBox.Text, PwdLoginTextBox.Text);
+                bool success = await authService.LoginAsync(UserLoginTextBox.Text, PwdLoginTextBox.Text);
                 if (success)
                 {
                     this.DialogResult = DialogResult.OK;
@@ -46,6 +46,8 @@ namespace WindowsForms
             finally
             {
                 this.Cursor = Cursors.Default;
+                UserLoginTextBox.Enabled = true;
+                PwdLoginTextBox.Enabled = true;
                 LoginButton.Enabled = true;
                 LoginButton.Text = "Iniciar Sesión";
             }

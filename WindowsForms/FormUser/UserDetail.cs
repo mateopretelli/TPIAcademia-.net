@@ -31,6 +31,7 @@ namespace WindowsForms
             //Initialize TypeComboBox with user types
             TypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             TypeComboBox.DataSource = new List<string> { "Admin", "Docente", "Alumno" };
+            TypeComboBox.SelectedIndexChanged += TypeComboBox_SelectedIndexChanged;
         }
 
         private async void AcceptUserButton_Click(object sender, EventArgs e)
@@ -51,7 +52,10 @@ namespace WindowsForms
                 //Legajo not implemented here
                 this.User.BirthDate = BirthDatePicker.Value;
                 this.User.Type = TypeComboBox.SelectedIndex + 1;
-                this.User.IDPlan = int.TryParse(IDPlanComboBox.Text, out int idPlan) ? idPlan : 0;
+                bool isStudent = TypeComboBox.SelectedIndex == 3;
+                this.User.IDPlan = isStudent && IDPlanComboBox.SelectedValue != null
+                ? Convert.ToInt32(IDPlanComboBox.SelectedValue)
+                : 0;
                 this.User.Username = UsernameTextBox.Text;
                 this.User.Password = PasswordTextBox.Text;
                 //State not implemented here
@@ -94,7 +98,24 @@ namespace WindowsForms
                 //Lejago not implemented here
                 BirthDatePicker.Value = this.User.BirthDate > DateTimePicker.MinimumDateTime ? this.User.BirthDate : DateTime.Today;
                 TypeComboBox.SelectedIndex = (this.User.Type - 1);
-                IDPlanComboBox.Text = this.User.IDPlan.ToString();
+
+                bool isStudent = this.User.Type == 3; // 3 = Alumno
+                IDPlanComboBox.Enabled = isStudent;
+
+                if (isStudent)
+                {
+                    IDPlanComboBox.SelectedValue = this.User.IDPlan;
+                }
+                else
+                {
+                    IDPlanComboBox.SelectedIndex = -1;
+                }
+
+                UsernameTextBox.Text = this.User.Username;
+                PasswordTextBox.Text = this.User.Password;
+                ConfirmPasswordTextBox.Text = this.User.Password;
+
+                IDPlanComboBox.SelectedValue = this.User.IDPlan;
                 UsernameTextBox.Text = this.User.Username;
                 PasswordTextBox.Text = this.User.Password;
                 ConfirmPasswordTextBox.Text = this.User.Password;
@@ -161,13 +182,23 @@ namespace WindowsForms
             {
                 errorProvider1.SetError(TypeComboBox, string.Empty);
             }
-            if (string.IsNullOrWhiteSpace(IDPlanComboBox.Text) || !int.TryParse(IDPlanComboBox.Text, out int idPlan) || idPlan < 1)
+            bool isStudent = TypeComboBox.SelectedIndex == 2; // "Alumno"
+
+            if (isStudent)
             {
-                isValid = false;
-                errorProvider1.SetError(IDPlanComboBox, "El ID del plan es requerido y debe ser un número válido mayor a 0");
+                if (IDPlanComboBox.SelectedValue == null || Convert.ToInt32(IDPlanComboBox.SelectedValue) < 1)
+                {
+                    isValid = false;
+                    errorProvider1.SetError(IDPlanComboBox, "Debe seleccionar un plan válido");
+                }
+                else
+                {
+                    errorProvider1.SetError(IDPlanComboBox, string.Empty);
+                }
             }
             else
             {
+                // Si no es alumno, limpiar el error y setear IDPlan en 0
                 errorProvider1.SetError(IDPlanComboBox, string.Empty);
             }
             if (string.IsNullOrWhiteSpace(UsernameTextBox.Text))
@@ -219,6 +250,20 @@ namespace WindowsForms
             IDPlanComboBox.DataSource = Plans;
             IDPlanComboBox.DisplayMember = "Description";
             IDPlanComboBox.ValueMember = "ID";
+        }
+
+        private void TypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Solo los alumnos (índice 2) tienen plan
+            bool isStudent = TypeComboBox.SelectedIndex == 2; // "Alumno"
+
+            IDPlanComboBox.Enabled = isStudent;
+
+            // Si no es alumno, limpiar la selección del plan
+            if (!isStudent)
+            {
+                IDPlanComboBox.SelectedIndex = -1;
+            }
         }
     }
 }

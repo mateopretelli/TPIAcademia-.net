@@ -1,5 +1,6 @@
 ﻿using ApiClients;
 using DTOs;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace APIAuthWindowsForms
 {
@@ -66,6 +67,45 @@ namespace APIAuthWindowsForms
             if (!string.IsNullOrEmpty(_currentToken) && DateTime.UtcNow >= _tokenExpiration)
             {
                 await LogoutAsync();
+            }
+        }
+
+        public async Task<string?> GetUserRoleAsync()
+        {
+            var isAuth = await IsAuthenticatedAsync();
+            if (!isAuth || string.IsNullOrEmpty(_currentToken))
+                return null;
+
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(_currentToken);
+
+                var roleClaim = jwtToken.Claims.FirstOrDefault(c =>
+                c.Type == System.Security.Claims.ClaimTypes.Role ||
+                c.Type == "role" ||
+                c.Type == "Role");
+
+                if (roleClaim != null)
+                {
+                    switch (roleClaim.Value)
+                    {
+                        case "1":
+                            return "Admin";
+                        case "2":
+                            return "Teacher";
+                        case "3":
+                            return "Student";
+                        default:
+                            return null;
+                    }
+                }
+                return null;
+
+            }
+            catch
+            {
+                return null;
             }
         }
     }

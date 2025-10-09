@@ -1,5 +1,6 @@
 using ApiClients;
 using APIAuthWindowsForms;
+using WindowsForms.Home;
 
 namespace WindowsForms
 {
@@ -44,11 +45,35 @@ namespace WindowsForms
 
                 try
                 {
-                    Application.Run(new AdminHome());
+                    var userRole = await authService.GetUserRoleAsync();
+
+                    if (string.IsNullOrEmpty(userRole))
+                    {
+                        throw new UnauthorizedAccessException("No se pudo determinar el rol del usuario. Por favor, inicie sesión de nuevo.");
+                    }
+
+                    Form homeForm;
+                    switch (userRole)
+                    {
+
+                        case "Admin":
+                            homeForm = new AdminHome();
+                            break;
+                        case "Teacher":
+                            homeForm = new TeacherHome();
+                            break;
+                        case "Student":
+                            homeForm = new StudentHome();
+                            break;
+                        default:
+                            throw new UnauthorizedAccessException($"Su cuenta tiene un rol no válido: {userRole}. Por favor, contacte al administrador.");
+                    }
+                    Application.Run(homeForm);
                     break; // La aplicación se cerró normalmente
                 }
                 catch (UnauthorizedAccessException ex)
                 {
+                    await authService.LogoutAsync();
                     // Sesión expirada, mostrar mensaje y volver al login
                     MessageBox.Show(ex.Message, "Sesión Expirada",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
