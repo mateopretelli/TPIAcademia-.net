@@ -1,7 +1,8 @@
+using ApiClients;
 using WindowsForms.FormCourse;
 using WindowsForms.FormSection;
-using WindowsForms.FormTeacherCourse;
 using WindowsForms.FormStudentCourse;
+using WindowsForms.FormTeacherCourse;
 
 namespace WindowsForms
 
@@ -65,6 +66,13 @@ namespace WindowsForms
             StudentCourseAdminDetail studentCourseAdminDetail = new StudentCourseAdminDetail(this);
             studentCourseAdminDetail.Show();
             this.Hide();
+        }
+
+        private async void AdminLogoutButton_Click(object sender, EventArgs e)
+        {
+            var authService = AuthServiceProvider.Instance;
+            await authService.LogoutAsync();
+            Application.Restart();
         }
     }
 }
