@@ -67,7 +67,7 @@ builder.Services.AddHttpLogging(o => { });
 
     builder.Services.AddAuthorization(options =>
     {
-        //options.FallbackPolicy = options.DefaultPolicy;
+        options.FallbackPolicy = options.DefaultPolicy;
     });
 
     // Add CORS for Blazor WebAssembly
