@@ -248,7 +248,7 @@ namespace WindowsForms
             PlanApiClient client = new PlanApiClient();
             Plans = await PlanApiClient.GetAllAsync();
             IDPlanComboBox.DataSource = Plans;
-            IDPlanComboBox.DisplayMember = "Description";
+            IDPlanComboBox.DisplayMember = "DisplayText";
             IDPlanComboBox.ValueMember = "ID";
         }
 

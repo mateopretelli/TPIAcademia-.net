@@ -19,13 +19,25 @@ namespace ApiClients
                     Condition = "Inscripto"
                 };
                 HttpResponseMessage response = await client.PostAsJsonAsync("studentcourses", studentCourse);
-                response.EnsureSuccessStatusCode();
-
                 if (!response.IsSuccessStatusCode)
                 {
                     string errorContent = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Error al agregar el alumno_curso. Status: {response.StatusCode} - Detalle: {errorContent}");
+
+                    // Intenta extraer el mensaje del JSON
+                    try
+                    {
+                        var errorObj = System.Text.Json.JsonSerializer.Deserialize<ErrorResponse>(errorContent);
+                        throw new Exception(errorObj?.error ?? errorContent);
+                    }
+                    catch (System.Text.Json.JsonException)
+                    {
+                        // Si no es JSON válido, usa el contenido completo
+                        throw new Exception($"Error: {errorContent}");
+                    }
                 }
+
+                // ✅ Solo si es exitoso, asegura (opcional en este punto)
+                response.EnsureSuccessStatusCode();
             }
             catch(HttpRequestException ex)
             {
@@ -35,6 +47,10 @@ namespace ApiClients
             {
                 throw new Exception($"Timeout al agregar alumno_curso: {ex.Message}", ex);
             }
+        }
+        private class ErrorResponse
+        {
+            public string error { get; set; }
         }
     }
 }

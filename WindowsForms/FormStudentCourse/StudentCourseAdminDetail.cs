@@ -1,5 +1,6 @@
-﻿using DTOs;
-using ApiClients;
+﻿using ApiClients;
+using DTOs;
+using System.Windows.Forms;
 
 namespace WindowsForms.FormStudentCourse
 {
@@ -61,8 +62,8 @@ namespace WindowsForms.FormStudentCourse
         }
 
         private async void AddInscriptionButton_Click(object sender, EventArgs e)
-        { 
-           if (int.TryParse(LegajoTextBox.Text, out int legajo))
+        {
+            if (int.TryParse(LegajoTextBox.Text, out int legajo))
             {
                 var selectedStudent = await UserApiClient.GetByLegajoAsync(legajo);
                 var selectedRow = CourseGridView.SelectedRows[0];
@@ -71,6 +72,13 @@ namespace WindowsForms.FormStudentCourse
                 try
                 {
                     await StudentCourseApiClient.AddAsync(selectedStudent.ID, selectedCourse.ID);
+                    MessageBox.Show($"El alumno {selectedStudent.Name} fue inscripto exitosamente en el curso.",
+                    "Inscripción Exitosa",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                    // Limpiar el textbox o refrescar la vista
+                    LegajoTextBox.Clear();
                 }
                 catch (Exception ex)
                 {
@@ -86,7 +94,7 @@ namespace WindowsForms.FormStudentCourse
 
         private void LegajoTextBox_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private async void GetByCriteriaAndLoad(string searchText = "")
@@ -108,7 +116,7 @@ namespace WindowsForms.FormStudentCourse
 
                 this.CourseGridView.DataSource = subjects;
 
-                if(this.CourseGridView.Rows.Count > 0)
+                if (this.CourseGridView.Rows.Count > 0)
                 {
                     this.CourseGridView.Rows[0].Selected = true;
                 }
@@ -118,6 +126,12 @@ namespace WindowsForms.FormStudentCourse
             {
                 MessageBox.Show($"Error al cargar la lista de materias: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void StudentCouseHomeButton_Click(object sender, EventArgs e)
+        {
+            home.Show();
+            this.Close();
         }
     }
 }
