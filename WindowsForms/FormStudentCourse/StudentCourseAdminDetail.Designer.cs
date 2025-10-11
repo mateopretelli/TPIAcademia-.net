@@ -36,87 +36,106 @@
             SearchCourseButton = new Button();
             AddInscriptionButton = new Button();
             SelectButton = new Button();
+            StudentCouseHomeButton = new Button();
             ((System.ComponentModel.ISupportInitialize)CourseGridView).BeginInit();
             SuspendLayout();
             // 
             // LegajoLabel
             // 
             LegajoLabel.AutoSize = true;
-            LegajoLabel.Location = new Point(31, 43);
+            LegajoLabel.Location = new Point(27, 34);
             LegajoLabel.Name = "LegajoLabel";
-            LegajoLabel.Size = new Size(57, 20);
+            LegajoLabel.Size = new Size(45, 15);
             LegajoLabel.TabIndex = 0;
             LegajoLabel.Text = "Legajo:";
             // 
             // LegajoTextBox
             // 
-            LegajoTextBox.Location = new Point(123, 43);
+            LegajoTextBox.Location = new Point(108, 34);
+            LegajoTextBox.Margin = new Padding(3, 2, 3, 2);
             LegajoTextBox.Name = "LegajoTextBox";
-            LegajoTextBox.Size = new Size(279, 26);
+            LegajoTextBox.Size = new Size(245, 23);
             LegajoTextBox.TabIndex = 1;
             LegajoTextBox.TextChanged += LegajoTextBox_TextChanged;
             // 
             // CourseLabel
             // 
             CourseLabel.AutoSize = true;
-            CourseLabel.Location = new Point(31, 97);
+            CourseLabel.Location = new Point(27, 77);
             CourseLabel.Name = "CourseLabel";
-            CourseLabel.Size = new Size(49, 20);
+            CourseLabel.Size = new Size(41, 15);
             CourseLabel.TabIndex = 2;
             CourseLabel.Text = "Curso:";
             // 
             // CourseTextBox
             // 
-            CourseTextBox.Location = new Point(123, 99);
+            CourseTextBox.Location = new Point(108, 78);
+            CourseTextBox.Margin = new Padding(3, 2, 3, 2);
             CourseTextBox.Name = "CourseTextBox";
-            CourseTextBox.Size = new Size(279, 26);
             CourseTextBox.PlaceholderText = "Buscar materia por descripcion";
+            CourseTextBox.Size = new Size(245, 23);
             CourseTextBox.TabIndex = 3;
             // 
             // CourseGridView
             // 
             CourseGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            CourseGridView.Location = new Point(31, 152);
+            CourseGridView.Location = new Point(27, 120);
+            CourseGridView.Margin = new Padding(3, 2, 3, 2);
             CourseGridView.Name = "CourseGridView";
             CourseGridView.RowHeadersWidth = 49;
-            CourseGridView.Size = new Size(737, 225);
+            CourseGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            CourseGridView.Size = new Size(645, 178);
             CourseGridView.TabIndex = 4;
             // 
             // SearchCourseButton
             // 
-            SearchCourseButton.Location = new Point(427, 99);
+            SearchCourseButton.Location = new Point(374, 78);
+            SearchCourseButton.Margin = new Padding(3, 2, 3, 2);
             SearchCourseButton.Name = "SearchCourseButton";
-            SearchCourseButton.Size = new Size(90, 28);
+            SearchCourseButton.Size = new Size(79, 22);
             SearchCourseButton.TabIndex = 5;
             SearchCourseButton.Text = "Buscar";
             SearchCourseButton.UseVisualStyleBackColor = true;
-            SearchCourseButton.Click += SearchCourseButton_Click;
+            SearchCourseButton.Click += SelectButton_Click;
             // 
             // AddInscriptionButton
             // 
-            AddInscriptionButton.Location = new Point(588, 398);
+            AddInscriptionButton.Location = new Point(514, 314);
+            AddInscriptionButton.Margin = new Padding(3, 2, 3, 2);
             AddInscriptionButton.Name = "AddInscriptionButton";
-            AddInscriptionButton.Size = new Size(180, 40);
+            AddInscriptionButton.Size = new Size(158, 32);
             AddInscriptionButton.TabIndex = 6;
             AddInscriptionButton.Text = "Añadir inscripcion";
             AddInscriptionButton.UseVisualStyleBackColor = true;
-            SearchCourseButton.Click += AddInscriptionButton_Click;
+            AddInscriptionButton.Click += AddInscriptionButton_Click;
             // 
             // SelectButton
             // 
-            SelectButton.Location = new Point(31, 398);
+            SelectButton.Location = new Point(350, 314);
+            SelectButton.Margin = new Padding(3, 2, 3, 2);
             SelectButton.Name = "SelectButton";
-            SelectButton.Size = new Size(180, 40);
+            SelectButton.Size = new Size(158, 32);
             SelectButton.TabIndex = 7;
-            SelectButton.Text = "Seleccionar";
+            SelectButton.Text = "Seleccionar Materia";
             SelectButton.UseVisualStyleBackColor = true;
             SelectButton.Click += SelectButton_Click;
             // 
+            // StudentCouseHomeButton
+            // 
+            StudentCouseHomeButton.Location = new Point(27, 314);
+            StudentCouseHomeButton.Name = "StudentCouseHomeButton";
+            StudentCouseHomeButton.Size = new Size(156, 29);
+            StudentCouseHomeButton.TabIndex = 8;
+            StudentCouseHomeButton.Text = "Volver al Menu";
+            StudentCouseHomeButton.UseVisualStyleBackColor = true;
+            StudentCouseHomeButton.Click += StudentCouseHomeButton_Click;
+            // 
             // StudentCourseAdminDetail
             // 
-            AutoScaleDimensions = new SizeF(8F, 19F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(700, 355);
+            Controls.Add(StudentCouseHomeButton);
             Controls.Add(SelectButton);
             Controls.Add(AddInscriptionButton);
             Controls.Add(SearchCourseButton);
@@ -125,6 +144,7 @@
             Controls.Add(CourseLabel);
             Controls.Add(LegajoTextBox);
             Controls.Add(LegajoLabel);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "StudentCourseAdminDetail";
             Text = "StudentCourseDetail";
             Load += StudentCourseAdminDetail_Load;
@@ -143,5 +163,6 @@
         private Button SearchCourseButton;
         private Button AddInscriptionButton;
         private Button SelectButton;
+        private Button StudentCouseHomeButton;
     }
 }

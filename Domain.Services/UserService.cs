@@ -34,10 +34,13 @@ namespace Domain.Services
                 salt);
 
             user.SetState("Active");
-            user.SetLegajo();
 
             userRepository.Add(user);
 
+            user.SetLegajo(); // Ensure Legajo is set after ID is generated !!! 
+            userRepository.Update(user); // Update user to save the Legajo
+
+            dto.Legajo= user.Legajo; // Update DTO with generated Legajo, ID and State setted
             dto.ID = user.ID;
             dto.State = user.State;
 
