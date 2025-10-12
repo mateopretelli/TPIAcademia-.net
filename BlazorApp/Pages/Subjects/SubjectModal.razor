@@ -1,0 +1,231 @@
+﻿@using DTOs
+@using ApiClients
+@using System.Text.RegularExpressions
+@inject IJSRuntime JSRuntime
+
+@if (showModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content"> 
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        @if (mode == FormMode.Add)
+                        {
+                            <text>Agregar Materia</text>
+                        }
+                        else
+                        {
+                            <text>Editar Materia</text>
+                        }
+                    </h5>
+                    <button type="button" class="btn-close" @onclick="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="currentSubject" OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        @if (mode == FormMode.Update)
+                        {
+                            <div class="mb-3">
+                                <label class="form-label">Id</label>
+                                <input type="text" class="form-control" value="@currentSubject.ID" readonly />
+                            </div>
+                        }
+
+                        <div class="mb-3">
+                            <label class="form-label">Descripción *</label>
+                        <InputText @bind-Value ="currentSubject.Description" class="form-control" />
+                        @if (validationErrors.ContainsKey("Description"))
+                            {
+                                <div class="text-danger small">@validationErrors["Description"]</div>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Horas semanales</label>
+                            <InputNumber @bind-Value="currentSubject.WeeklyHS" class="form-control" />
+                            @if (validationErrors.ContainsKey("WeeklyHS"))
+                            {
+                                <div class="text-danger small">@validationErrors["WeeklyHs"]</div>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Horas totales</label>
+                            <InputNumber @bind-Value="currentSubject.TotalHS" class="form-control" />
+                            @if (validationErrors.ContainsKey("TotalHS"))
+                            {
+                                <div class="text-danger small">@validationErrors["TotalHS"]</div>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Plan</label>
+                            <InputSelect @bind-Value="currentSubject.IDPlan" class="form-select">
+                                <option value="0">Seleccionar plan</option>
+                                @if (plans != null)
+                                {
+                                    @foreach (var plan in plans)
+                                    {
+                                        <option value="@plan.ID">@plan.Description</option>
+                                    }
+                                }
+                            </InputSelect>
+                            @if (validationErrors.ContainsKey("IDPlan"))
+                                {
+                                    <div class="text-danger small">@validationErrors["IDPlan"]</div>
+                            }
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public EventCallback OnSubjectChanged { get; set; }
+
+    private bool showModal = false;
+    private FormMode mode = FormMode.Add;
+    private SubjectDTO currentSubject = new SubjectDTO();
+    private bool saving = false;
+    private string errorMessage = string.Empty;
+    private Dictionary<string, string> validationErrors = new Dictionary<string, string>();
+    private List<PlanDTO> plans = new List<PlanDTO>();
+
+    public enum FormMode
+    {
+        Add,
+        Update
+    }
+
+    public async Task ShowAddModal()
+    {
+        mode = FormMode.Add;
+        currentSubject = new SubjectDTO();
+        await LoadPlans();
+        ClearValidationErrors();
+        showModal = true;
+        StateHasChanged();
+    }
+
+    public void ShowEditModal(SubjectDTO subject)
+    {
+        mode = FormMode.Update;
+        currentSubject = new SubjectDTO
+        {
+            ID = subject.ID,
+            Description = subject.Description,
+            WeeklyHS = subject.WeeklyHS,
+            TotalHS = subject.TotalHS,
+            IDPlan = subject.IDPlan,
+            PlanDescription = subject.PlanDescription
+        };
+        ClearValidationErrors();
+        showModal = true;
+        StateHasChanged();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+
+        if(!ValidateSubject())
+        {
+            return;
+        }
+
+
+        try
+        {
+            saving = true;
+            errorMessage = string.Empty;
+            validationErrors.Clear();
+
+            SubjectApiClient client = new SubjectApiClient();
+ 
+            if (mode == FormMode.Add)
+            {
+                await SubjectApiClient.AddAsync(currentSubject);
+            }
+            else if (mode == FormMode.Update)
+            {
+                await SubjectApiClient.UpdateAsync(currentSubject);
+            }
+
+            await OnSubjectChanged.InvokeAsync();
+            Close();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error: {ex.Message}";
+        }
+        finally
+        {
+            saving = false;
+        }
+    }
+
+    private bool ValidateSubject()
+    {
+        ClearValidationErrors();
+        bool isValid = true;
+        if (string.IsNullOrWhiteSpace(currentSubject.Description))
+        {
+            validationErrors["Description"] = "La descripción es requerida";
+            isValid = false;
+        }
+        else if (currentSubject.Description.Length > 100)
+        {
+            validationErrors["Description"] = "La descripción no puede exceder los 100 caracteres";
+            isValid = false;
+        }
+        if (currentSubject.WeeklyHS <= 0)
+        {
+            validationErrors["WeeklyHS"] = "Las horas semanales deben ser un número positivo";
+            isValid = false;
+        }
+        if (currentSubject.TotalHS <= 0)
+        {
+            validationErrors["TotalHS"] = "Las horas totales deben ser un número positivo";
+            isValid = false;
+        }
+        else if (currentSubject.TotalHS < currentSubject.WeeklyHS)
+        {
+            validationErrors["TotalHS"] = "Las horas totales no pueden ser menores que las horas semanales";
+            isValid = false;
+        }
+        if (currentSubject.IDPlan <= 0)
+        {
+            validationErrors["IDPlan"] = "El plan es requerido";
+            isValid = false;
+        }
+        StateHasChanged();
+        return isValid;
+    }
+
+    private async Task LoadPlans()
+    {
+        try
+        {
+            plans = (await PlanApiClient.GetAllAsync())?.ToList() ?? new List<PlanDTO>();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error cargando planes: {ex.Message}";
+        }
+    }
+
+    private void ClearValidationErrors()
+    {
+        validationErrors.Clear();
+        errorMessage = string.Empty;
+    }
+
+    private void Close()
+    {
+        showModal = false;
+        ClearValidationErrors();
+        StateHasChanged();
+    }
+}
