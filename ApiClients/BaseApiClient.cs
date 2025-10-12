@@ -47,7 +47,7 @@ namespace ApiClients
                 if (runtimeInfo.StartsWith("android"))
                 {
                     System.Diagnostics.Debug.WriteLine($"[DEBUG] Detectado Android - usando IP de emulador");
-                    return "http://10.0.2.2:5130/";
+                    return "http://10.0.2.2:5183/";
                 }
             }
             catch (Exception ex)
@@ -56,7 +56,7 @@ namespace ApiClients
             }
 
             // URL por defecto para Windows/otras plataformas
-            string defaultUrl = "http://localhost:5130/";
+            string defaultUrl = "https://localhost:7005/";
             System.Diagnostics.Debug.WriteLine($"[DEBUG] Usando URL por defecto: {defaultUrl}");
             return defaultUrl;
         }

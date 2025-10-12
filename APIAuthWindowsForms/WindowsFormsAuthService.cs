@@ -26,7 +26,7 @@ namespace APIAuthWindowsForms
         public async Task<string?> GetUsernameAsync()
         {
             var isAuth = await IsAuthenticatedAsync();
-            return isAuth ? _currentUsername : null;
+            return isAuth ? _currentToken : null;
         }
 
         public async Task<bool> LoginAsync(string username, string password)
