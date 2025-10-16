@@ -1,6 +1,6 @@
 ﻿namespace WindowsForms.FormStudentCourse
 {
-    partial class StudentCourseAdminDetail
+    partial class StudentCourseDetail
     {
         /// <summary>
         /// Required designer variable.
@@ -96,7 +96,7 @@
             SearchCourseButton.TabIndex = 5;
             SearchCourseButton.Text = "Buscar";
             SearchCourseButton.UseVisualStyleBackColor = true;
-            SearchCourseButton.Click += SelectButton_Click;
+            SearchCourseButton.Click += SearchCourseButton_Click;
             // 
             // AddInscriptionButton
             // 
@@ -130,7 +130,7 @@
             StudentCouseHomeButton.UseVisualStyleBackColor = true;
             StudentCouseHomeButton.Click += StudentCouseHomeButton_Click;
             // 
-            // StudentCourseAdminDetail
+            // StudentCourseDetail
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -145,7 +145,7 @@
             Controls.Add(LegajoTextBox);
             Controls.Add(LegajoLabel);
             Margin = new Padding(3, 2, 3, 2);
-            Name = "StudentCourseAdminDetail";
+            Name = "StudentCourseDetail";
             Text = "StudentCourseDetail";
             Load += StudentCourseAdminDetail_Load;
             ((System.ComponentModel.ISupportInitialize)CourseGridView).EndInit();

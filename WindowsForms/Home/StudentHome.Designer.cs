@@ -93,6 +93,7 @@
             StudentInscriptionButton.TabIndex = 1;
             StudentInscriptionButton.Text = "Inscripción a cursado";
             StudentInscriptionButton.UseVisualStyleBackColor = true;
+            StudentInscriptionButton.Click += StudentInscriptionButton_Click;
             // 
             // StudentSubjectsGradeButton
             // 

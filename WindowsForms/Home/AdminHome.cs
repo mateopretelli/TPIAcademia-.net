@@ -63,7 +63,7 @@ namespace WindowsForms
 
         private void StudentCourseButton_Click(object sender, EventArgs e)
         {
-            StudentCourseAdminDetail studentCourseAdminDetail = new StudentCourseAdminDetail(this);
+            StudentCourseDetail studentCourseAdminDetail = new StudentCourseDetail(this);
             studentCourseAdminDetail.Show();
             this.Hide();
         }

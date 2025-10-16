@@ -1,4 +1,5 @@
 ﻿using ApiClients;
+using WindowsForms.FormStudentCourse;
 
 namespace WindowsForms.Home
 {
@@ -14,6 +15,14 @@ namespace WindowsForms.Home
             var authService = AuthServiceProvider.Instance;
             await authService.LogoutAsync();
             Application.Restart();
+        }
+
+        private void StudentInscriptionButton_Click(object sender, EventArgs e)
+        {
+            StudentCourseDetail studentCourseDetail = new StudentCourseDetail(this);
+            studentCourseDetail.Show();
+            this.Hide();
+
         }
     }
 }
