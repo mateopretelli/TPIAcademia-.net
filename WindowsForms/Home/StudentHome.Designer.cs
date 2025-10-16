@@ -83,6 +83,7 @@
             StudentSubjectsPlanButton.TabIndex = 0;
             StudentSubjectsPlanButton.Text = "Materias del plan";
             StudentSubjectsPlanButton.UseVisualStyleBackColor = true;
+            StudentSubjectsPlanButton.Click += StudentSubjectsPlanButton_Click;
             // 
             // StudentInscriptionButton
             // 

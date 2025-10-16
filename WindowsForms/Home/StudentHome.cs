@@ -1,5 +1,6 @@
 ﻿using ApiClients;
 using WindowsForms.FormStudentCourse;
+using WindowsForms.StudentPages;
 
 namespace WindowsForms.Home
 {
@@ -23,6 +24,13 @@ namespace WindowsForms.Home
             studentCourseDetail.Show();
             this.Hide();
 
+        }
+
+        private void StudentSubjectsPlanButton_Click(object sender, EventArgs e)
+        {
+            PlanSubjects planSubjects = new PlanSubjects(this);
+            planSubjects.Show();
+            this.Hide();
         }
     }
 }
