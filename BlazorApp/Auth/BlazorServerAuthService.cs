@@ -53,10 +53,12 @@ namespace Blazor.Server.Auth
 
                     if (loginResponse != null)
                     {
+
                         // Guardar en localStorage
                         await _jsRuntime.InvokeVoidAsync("localStorage.setItem", TOKEN_KEY, loginResponse.Token);
                         await _jsRuntime.InvokeVoidAsync("localStorage.setItem", USERNAME_KEY, loginResponse.Username);
-                        await _jsRuntime.InvokeVoidAsync("localStorage.setItem", EXPIRES_AT_KEY, loginResponse.ExpiresAt.ToString("o"));
+                        // Guardar SIEMPRE en UTC
+                        await _jsRuntime.InvokeVoidAsync("localStorage.setItem", EXPIRES_AT_KEY, loginResponse.ExpiresAt.ToUniversalTime().ToString("o"));
 
                         // Cachear en memoria
                         _cachedToken = loginResponse.Token;
@@ -89,6 +91,7 @@ namespace Blazor.Server.Auth
                 _cachedToken = null;
                 _cachedUsername = null;
                 _cachedExpiresAt = null;
+
             }
             catch (Exception ex)
             {
@@ -98,7 +101,9 @@ namespace Blazor.Server.Auth
 
         public async Task<bool> IsAuthenticatedAsync()
         {
+
             var token = await GetTokenAsync();
+
 
             if (string.IsNullOrEmpty(token))
                 return false;
@@ -108,6 +113,7 @@ namespace Blazor.Server.Auth
 
             // Verificar nuevamente después de check
             token = await GetTokenAsync();
+
             return !string.IsNullOrEmpty(token);
         }
 
@@ -149,24 +155,23 @@ namespace Blazor.Server.Auth
         {
             try
             {
-                if (_cachedExpiresAt.HasValue)
-                {
-                    if (DateTime.UtcNow >= _cachedExpiresAt.Value)
-                    {
-                        await LogoutAsync();
-                        return;
-                    }
-                }
-
                 var expiresAtStr = await _jsRuntime.InvokeAsync<string?>("localStorage.getItem", EXPIRES_AT_KEY);
 
-                if (!string.IsNullOrEmpty(expiresAtStr) && DateTime.TryParse(expiresAtStr, out var expiresAt))
+                if (!string.IsNullOrEmpty(expiresAtStr) && DateTime.TryParse(expiresAtStr, null, System.Globalization.DateTimeStyles.RoundtripKind, out var expiresAt))
                 {
                     _cachedExpiresAt = expiresAt;
 
-                    if (DateTime.UtcNow >= expiresAt)
+                    // SIEMPRE comparar en UTC
+                    var expiresAtUtc = expiresAt.Kind == DateTimeKind.Utc ? expiresAt : expiresAt.ToUniversalTime();
+                    var nowUtc = DateTime.UtcNow;
+
+                    if (nowUtc >= expiresAtUtc)
                     {
                         await LogoutAsync();
+                    }
+                    else
+                    {
+                        var timeLeft = expiresAtUtc - nowUtc;
                     }
                 }
             }

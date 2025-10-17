@@ -54,35 +54,37 @@
 
     private async Task HandleLogin()
     {
-        Console.WriteLine("🔥🔥🔥 HandleLogin INICIADO"); //TEST
+        //Console.WriteLine("🔥🔥🔥 HandleLogin INICIADO"); //TEST
         try
         {
             isLoading = true;
             errorMessage = "";
 
-            Console.WriteLine($"🔥 Username: {loginModel.Username}"); //TEST
-            Console.WriteLine($"🔥 Password length: {loginModel.Password?.Length}"); //TEST
+            //Console.WriteLine($"🔥 Username: {loginModel.Username}"); //TEST
+            //Console.WriteLine($"🔥 Password length: {loginModel.Password?.Length}"); //TEST
 
             if (string.IsNullOrWhiteSpace(loginModel.Username) || string.IsNullOrWhiteSpace(loginModel.Password))
             {
-                Console.WriteLine("🔥 ERROR: Usuario o contraseña vacíos"); //TEST
+                //Console.WriteLine("🔥 ERROR: Usuario o contraseña vacíos"); //TEST
                 errorMessage = "Usuario y contraseña son requeridos";
                 return;
             }
 
-            Console.WriteLine("🔥 ANTES de llamar AuthService.LoginAsync"); //TEST
+            //Console.WriteLine("🔥 ANTES de llamar AuthService.LoginAsync"); //TEST
 
             var success = await AuthService.LoginAsync(loginModel.Username, loginModel.Password);
 
-            Console.WriteLine($"🔥 DESPUÉS de LoginAsync. Success: {success}"); //TEST
+            //Console.WriteLine($"🔥 DESPUÉS de LoginAsync. Success: {success}"); //TEST
 
             if (success)
             {
-                // Notificar al AuthenticationStateProvider que el usuario se autenticó
                 var username = await AuthService.GetUsernameAsync();
                 AuthStateProvider.NotifyUserAuthentication(username ?? loginModel.Username);
 
-                Navigation.NavigateTo("/", true); // true = forceLoad para refrescar el estado
+                // Pequeña pausa para que SignalR procese
+                await Task.Delay(100);
+
+                Navigation.NavigateTo("/", false); // ⬅️ FALSE para no recargar
             }
             else
             {

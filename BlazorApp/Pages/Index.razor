@@ -19,10 +19,13 @@
     </NotAuthorized>
 </AuthorizeView>
 
+@inject CustomAuthenticationStateProvider AuthStateProvider
+
 @code {
     private async Task HandleLogout()
     {
         await AuthService.LogoutAsync();
+        AuthStateProvider.NotifyUserLogout(); 
         Navigation.NavigateTo("/login", true);
     }
 }

@@ -14,24 +14,37 @@ namespace Blazor.Server.Auth
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var isAuthenticated = await _authService.IsAuthenticatedAsync();
-
-            if (isAuthenticated)
+            try
             {
-                var username = await _authService.GetUsernameAsync();
-                var identity = new ClaimsIdentity(new[]
+                // Verificar expiración primero
+                await _authService.CheckTokenExpirationAsync();
+
+                var isAuthenticated = await _authService.IsAuthenticatedAsync();
+
+                if (isAuthenticated)
                 {
-                    new Claim(ClaimTypes.Name, username ?? "Unknown")
-                }, "custom");
+                    var username = await _authService.GetUsernameAsync();
 
-                var user = new ClaimsPrincipal(identity);
-                return new AuthenticationState(user);
+                    if (!string.IsNullOrEmpty(username))
+                    {
+                        var identity = new ClaimsIdentity(new[]
+                        {
+                            new Claim(ClaimTypes.Name, username)
+                        }, "custom");
+
+                        var user = new ClaimsPrincipal(identity);
+                        return new AuthenticationState(user);
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                var anonymous = new ClaimsPrincipal(new ClaimsIdentity());
-                return new AuthenticationState(anonymous);
+                Console.WriteLine($"Error en GetAuthenticationStateAsync: {ex.Message}");
             }
+
+            // Si algo falla o no está autenticado, devolver anónimo
+            var anonymous = new ClaimsPrincipal(new ClaimsIdentity());
+            return new AuthenticationState(anonymous);
         }
 
         public void NotifyUserAuthentication(string username)
