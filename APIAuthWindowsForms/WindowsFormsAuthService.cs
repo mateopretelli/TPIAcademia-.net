@@ -108,5 +108,16 @@ namespace APIAuthWindowsForms
                 return null;
             }
         }
+
+        public async Task<UserDTO> GetCurrentUserAsync()
+        {
+            var isAuth = await IsAuthenticatedAsync();
+            if (!isAuth || string.IsNullOrEmpty(_currentUsername))
+                throw new UnauthorizedAccessException("Usuario no autenticado.");
+            UserDTO user = await UserApiClient.GetByUsernameAsync(_currentUsername);
+            if (user == null)
+                throw new UnauthorizedAccessException("Usuario no encontrado.");
+            return user;
+        }
     }
 }

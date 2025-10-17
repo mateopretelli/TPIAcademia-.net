@@ -1,20 +1,28 @@
-﻿using ApiClients;
+﻿using APIAuthWindowsForms;
+using ApiClients;
 using DTOs;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace WindowsForms.FormStudentCourse
 {
-    public partial class StudentCourseAdminDetail : Form
+    public partial class StudentCourseDetail : Form
     {
-        private AdminHome home;
+        private Form home;
 
         private bool showingSubjects = true;
 
         private SubjectDTO? currentSubject = null;
-        public StudentCourseAdminDetail(AdminHome home)
+
+        private string userType = "";
+
+        private int? userPlanId;
+
+        public StudentCourseDetail(Form home)
         {
             InitializeComponent();
             this.home = home;
+            SetUserType();
         }
 
         private void StudentCourseAdminDetail_Load(object sender, EventArgs e)
@@ -114,12 +122,23 @@ namespace WindowsForms.FormStudentCourse
                     subjects = await SubjectApiClient.GetByCriteriaAsync(searchText);
                 }
 
+                if(userType == "Student")
+                {
+                    subjects = subjects.Where(s => s.IDPlan == userPlanId).ToList();
+                }
+
                 this.CourseGridView.DataSource = subjects;
 
                 if (this.CourseGridView.Rows.Count > 0)
                 {
                     this.CourseGridView.Rows[0].Selected = true;
                 }
+                else
+                {
+                    this.AddInscriptionButton.Enabled = false;
+                    this.SelectButton.Enabled = false;
+                }
+
 
             }
             catch (Exception ex)
@@ -132,6 +151,38 @@ namespace WindowsForms.FormStudentCourse
         {
             home.Show();
             this.Close();
+        }
+
+        private async void SetUserType()
+        {
+            try
+            {
+                var authService = new WindowsFormsAuthService();
+                userType = await authService.GetUserRoleAsync();
+                if (userType != "Admin" && userType != "Student")
+                {
+                    MessageBox.Show("No tiene permisos para acceder a esta sección.", "Acceso Denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    this.Close();
+                    return;
+                }
+                else if (userType == "Student")
+                {
+                    var currentUser = await authService.GetCurrentUserAsync();
+                    SetFormForStudent(currentUser);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al determinar el rol del usuario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
+        }
+
+        private void SetFormForStudent(UserDTO currentUser)
+        {
+            LegajoTextBox.Text = currentUser.Legajo.ToString();
+            LegajoTextBox.Enabled = false;
+            userPlanId = currentUser.IDPlan;
         }
     }
 }

@@ -52,10 +52,10 @@ namespace WindowsForms
                 //Legajo not implemented here
                 this.User.BirthDate = BirthDatePicker.Value;
                 this.User.Type = TypeComboBox.SelectedIndex + 1;
-                bool isStudent = TypeComboBox.SelectedIndex == 3;
+                bool isStudent = TypeComboBox.SelectedIndex == 2;
                 this.User.IDPlan = isStudent && IDPlanComboBox.SelectedValue != null
                 ? Convert.ToInt32(IDPlanComboBox.SelectedValue)
-                : 0;
+                : (int?)null;
                 this.User.Username = UsernameTextBox.Text;
                 this.User.Password = PasswordTextBox.Text;
                 //State not implemented here
