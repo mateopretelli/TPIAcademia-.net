@@ -38,6 +38,21 @@ namespace Endpoints
             .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
 
+            app.MapGet("/users/username/{username}", (string username) =>
+            {
+                UserService userService = new UserService();
+                var dto = userService.GetByUsername(username);
+                if (dto == null)
+                {
+                    return Results.NotFound();
+                }
+                return Results.Ok(dto);
+            })
+                .WithName("GetUserByUsername")
+                .Produces<UserDTO>(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status404NotFound)
+                .WithOpenApi();
+
             app.MapGet("/users", () =>
             {
             UserService userService = new UserService();

@@ -83,6 +83,7 @@
             StudentSubjectsPlanButton.TabIndex = 0;
             StudentSubjectsPlanButton.Text = "Materias del plan";
             StudentSubjectsPlanButton.UseVisualStyleBackColor = true;
+            StudentSubjectsPlanButton.Click += StudentSubjectsPlanButton_Click;
             // 
             // StudentInscriptionButton
             // 
@@ -93,6 +94,7 @@
             StudentInscriptionButton.TabIndex = 1;
             StudentInscriptionButton.Text = "Inscripción a cursado";
             StudentInscriptionButton.UseVisualStyleBackColor = true;
+            StudentInscriptionButton.Click += StudentInscriptionButton_Click;
             // 
             // StudentSubjectsGradeButton
             // 

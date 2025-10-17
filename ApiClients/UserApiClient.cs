@@ -30,6 +30,18 @@ namespace ApiClients
             return user;
         }
 
+        public static async Task<UserDTO> GetByUsernameAsync(string username)
+        {
+            UserDTO user = null;
+            using var client = await CreateHttpClientAsync();
+            HttpResponseMessage response = await client.GetAsync($"users/username/{username}");
+            if (response.IsSuccessStatusCode)
+            {
+                user = await response.Content.ReadAsAsync<UserDTO>();
+            }
+            return user;
+        }
+
         public static async Task<IEnumerable<UserDTO>> GetAllAsync()
         {
             IEnumerable<UserDTO> users = null;
