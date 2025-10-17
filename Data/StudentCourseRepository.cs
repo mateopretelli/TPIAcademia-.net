@@ -34,7 +34,9 @@ namespace Data
         public StudentCourse? Get(int id)
         {
             using var context = CreateContext();
-            return context.StudentCourses.Find(id);
+            return context.StudentCourses
+            .Include(sc => sc.Student)
+            .FirstOrDefault(sc => sc.ID == id);
         }
 
         public IEnumerable<StudentCourse> GetAll()
@@ -72,10 +74,20 @@ namespace Data
             return query.Any();
         }
 
-        /*  public IEnumerable<StudentCourse> GetByCriteria(SearchCriteria criteria)
-          {
-              --- Habria que definir en base a que buscar ---
-          }
-        */
+        public IEnumerable<StudentCourse> GetStudentCoursesWithDetailsByCourseId(int courseId)
+        {
+            using var context = CreateContext();
+            return context.StudentCourses
+                .Where(sc => sc.IDCourse == courseId)
+                .Include(sc => sc.Student)
+                .Include(sc => sc.Course)
+                    .ThenInclude(c => c.Subject)
+                .Include(sc => sc.Course)
+                    .ThenInclude(c => c.Section)
+                .OrderBy(sc => sc.Student.LastName)
+                .ThenBy(sc => sc.Student.Name)
+                .ToList();
+        }
+
     }
 }

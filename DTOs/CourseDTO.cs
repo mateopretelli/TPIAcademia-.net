@@ -11,5 +11,7 @@
 
         public SubjectDTO Subject { get; set; } //agregado para poder acceder en cascada, capaz hay que eliminar lo de abajo e implementar este directamente
 
+        public string SectionDescription { get; set; }
+        public string SubjectDescription { get; set; }
     }
 }

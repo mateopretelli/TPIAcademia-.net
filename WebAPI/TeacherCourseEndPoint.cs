@@ -37,6 +37,16 @@ namespace Endpoints
                 .Produces<List<TeacherCourseDTO>>(StatusCodes.Status200OK)
                 .WithOpenApi();
 
+            app.MapGet("teachercourses/coursesByTeacher/{IDTeacher}", (int idTeacher) =>
+            {
+                TeacherCourseService teachercourseService = new TeacherCourseService();
+                var dtos = teachercourseService.GetCoursesByTeacherId(idTeacher);
+                return Results.Ok(dtos);
+            })
+                .WithName("GetTeachersCoursesByTeacher")
+                .Produces<List<TeacherCourseDTO>>(StatusCodes.Status200OK)
+                .WithOpenApi();
+
             app.MapPost("/teacherscourses", (TeacherCourseDTO dto) =>
             {
                 try

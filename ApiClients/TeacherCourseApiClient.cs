@@ -60,6 +60,32 @@ namespace ApiClients
             }
         }
 
+        public static async Task<IEnumerable<CourseDTO>> GetByTeacherIdAsync(int idTeacher)
+        {
+            try
+            {
+                using var client = await CreateHttpClientAsync();
+                HttpResponseMessage response = await client.GetAsync($"teachercourses/coursesByTeacher/{idTeacher}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsAsync<IEnumerable<CourseDTO>>();
+                }
+                else
+                {
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Error al obtener los cursos para el docente con ID {idTeacher}. Status: {response.StatusCode} - Detalle: {errorContent}");
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception($"Error de conexión al obtener cursos para el docente con ID {idTeacher}: {ex.Message}", ex);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new Exception($"Timeout al obtener cursos para el docente con ID {idTeacher}: {ex.Message}", ex);
+            }
+        }
+
         public async static Task AddAsync(TeacherCourseDTO teachercourse)
         {
             try

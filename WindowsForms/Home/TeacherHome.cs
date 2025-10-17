@@ -1,4 +1,5 @@
 ﻿using ApiClients;
+using WindowsForms.TeacherPages;
 
 namespace WindowsForms.Home
 {
@@ -14,6 +15,13 @@ namespace WindowsForms.Home
             var authService = AuthServiceProvider.Instance;
             await authService.LogoutAsync();
             Application.Restart();
+        }
+
+        private void UploadGradesButton_Click(object sender, EventArgs e)
+        {
+            TeacherCourseList teacherCourses = new TeacherCourseList(this);
+            teacherCourses.Show();
+            this.Hide();
         }
     }
 }
