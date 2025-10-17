@@ -106,6 +106,7 @@
             CourseReportButton.TabIndex = 1;
             CourseReportButton.Text = "Reporte Curso";
             CourseReportButton.UseVisualStyleBackColor = true;
+            CourseReportButton.Click += CourseReportButton_Click;
             // 
             // SelectStudentButton
             // 

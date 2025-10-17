@@ -69,5 +69,11 @@ namespace WindowsForms.TeacherPages
         {
             this.Close();
         }
+
+        private void CourseReportButton_Click(object sender, EventArgs e)
+        {
+            CourseReport courseReport = new CourseReport(courseID, CourseDetailInfoLabel.Text);
+            courseReport.ShowDialog();
+        }
     }
 }

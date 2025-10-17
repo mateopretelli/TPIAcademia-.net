@@ -36,7 +36,6 @@ namespace ApiClients
                     }
                 }
 
-                // ✅ Solo si es exitoso, asegura (opcional en este punto)
                 response.EnsureSuccessStatusCode();
             }
             catch(HttpRequestException ex)
