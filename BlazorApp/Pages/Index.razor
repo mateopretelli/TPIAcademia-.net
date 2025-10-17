@@ -1,7 +1,28 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
+@using Blazor.Server.Auth
+@attribute [Authorize]
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
 
 <PageTitle>Home</PageTitle>
 
-<h1>Sistema de Gestión Académica - UTN</h1>
+<AuthorizeView>
+    <Authorized>
+        <h1>Bienvenido, @context.User.Identity?.Name!</h1>
+        <p>Has iniciado sesión correctamente.</p>
 
-Bienvenido al mejor sistema de gestión académica
+        <button class="btn btn-danger" @onclick="HandleLogout">Cerrar Sesión</button>
+    </Authorized>
+    <NotAuthorized>
+        <p>Verificando autenticación...</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private async Task HandleLogout()
+    {
+        await AuthService.LogoutAsync();
+        Navigation.NavigateTo("/login", true);
+    }
+}
