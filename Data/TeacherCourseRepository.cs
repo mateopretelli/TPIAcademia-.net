@@ -85,6 +85,19 @@ namespace Data
             using var context = CreateContext();
             return context.TeachersCourses.Where(tc => tc.Teacher.Name.ToLower() == criteria.Text.ToLower() || tc.Teacher.LastName.ToLower() == criteria.Text.ToLower() || tc.Role.ToString() == criteria.Text);
         }
+
+        public IEnumerable<Course> GetCoursesByTeacherId(int teacherId)
+        {
+            using var context = CreateContext();
+            return context.TeachersCourses
+                .Where(tc => tc.IDTeacher == teacherId)
+                .Include(tc => tc.Course)
+                    .ThenInclude(c => c.Section)  // Importante
+                .Include(tc => tc.Course)
+                    .ThenInclude(c => c.Subject)  // Importante
+                .Select(tc => tc.Course)
+                .ToList();
+        }
     }
 }
 

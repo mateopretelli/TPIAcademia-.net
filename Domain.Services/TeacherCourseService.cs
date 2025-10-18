@@ -65,6 +65,23 @@ namespace Domain.Services
                 }).ToList();
         }
 
+        public IEnumerable<CourseDTO> GetCoursesByTeacherId(int idTeacher)
+        {
+            var teacherCourseRepository = new TeacherCourseRepository();
+            return teacherCourseRepository.GetCoursesByTeacherId(idTeacher)
+                .Select(tc => new CourseDTO
+                {
+                    ID = tc.ID,
+                    State = tc.State,
+                    Capacity = tc.Capacity,
+                    AcademicYear = tc.AcademicYear,
+                    IDSection = tc.IDSection,
+                    IDSubject = tc.IDSubject,
+                    SectionDescription = tc.Section?.Description,
+                    SubjectDescription = tc.Subject?.Description
+                }).ToList();
+        }
+
         public bool Update(TeacherCourseDTO dto)
         {
             var teacherCourseRepository = new TeacherCourseRepository();

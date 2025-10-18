@@ -11,7 +11,7 @@ public static class StudentCourseEndPoints
         {
             StudentCourseService studentCourseService = new StudentCourseService();
 
-            StudentCourseDTO dto = studentCourseService.Get(id);
+            StudentCourseDetailDTO dto = studentCourseService.Get(id);
 
             if (dto == null)
             {
@@ -20,7 +20,7 @@ public static class StudentCourseEndPoints
             return Results.Ok(dto);
         })
         .WithName("GetStudentCourse")
-        .Produces<StudentCourseDTO>(StatusCodes.Status200OK)
+        .Produces<StudentCourseDetailDTO>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound)
         .WithOpenApi();
 
@@ -82,16 +82,23 @@ public static class StudentCourseEndPoints
 
         app.MapDelete("/studentCourses/{ID}", (int id) =>
             {
-                StudentCourseService studentCourseService = new StudentCourseService();
-
-                var deleted = studentCourseService.Delete(id);
-
-                if (!deleted)
+                try
                 {
-                    return Results.NotFound();
-                }
+                    StudentCourseService studentCourseService = new StudentCourseService();
 
-                return Results.NoContent();
+                    var deleted = studentCourseService.Delete(id);
+
+                    if (!deleted)
+                    {
+                        return Results.NotFound();
+                    }
+
+                    return Results.NoContent();
+                }
+                catch (ArgumentException ex)
+                {
+                    return Results.BadRequest(new { error = ex.Message });
+                }
 
             })
             .WithName("DeleteStudentCourse")
@@ -100,7 +107,32 @@ public static class StudentCourseEndPoints
             .Produces(StatusCodes.Status400BadRequest)
             .WithOpenApi();
 
-        //Quizas un GetByCriteria
+        app.MapGet("/studentCourses/GetStudentsDetail/{ID}", (int id)=>
+        {
+            try
+            {
+                StudentCourseService studentCourseService = new StudentCourseService();
+                var dtos = studentCourseService.GetStudentsDetailByCourseId(id);
+
+                if (dtos == null || !dtos.Any())
+                {
+                    return Results.NotFound();
+                }
+
+                return Results.Ok(dtos);
+
+            }
+            catch (ArgumentException ex)
+            {
+                return Results.BadRequest(new { error = ex.Message });
+            }
+
+        })
+            .WithName("GetStudentsDetailByCourseId")
+            .Produces<List<StudentCourseDetailDTO>>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status400BadRequest)
+            .WithOpenApi();
     }
 }
 

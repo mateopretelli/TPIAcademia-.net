@@ -34,7 +34,7 @@ namespace Domain.Services
             return studentCourseRepository.Delete(id);
         }
 
-        public StudentCourseDTO Get(int id)
+        public StudentCourseDetailDTO Get(int id)
         {
             var studentCourseRepository = new StudentCourseRepository();
             StudentCourse? studentCourse = studentCourseRepository.Get(id);
@@ -44,12 +44,15 @@ namespace Domain.Services
                 return null;
             }
 
-            return new StudentCourseDTO
+            return new StudentCourseDetailDTO
             {
                 ID = studentCourse.ID,
                 State = studentCourse.State,
-                IDstudent = studentCourse.IDStudent,
-                IDcourse = studentCourse.IDCourse,
+                IDStudent = studentCourse.IDStudent,
+                IDCourse = studentCourse.IDCourse,
+                StudentName = studentCourse.Student.Name,
+                StudentLastName = studentCourse.Student.LastName,
+                StudentEmail = studentCourse.Student.Email,
                 Grade = studentCourse.Grade,
                 Condition = studentCourse.Condition.ToString()
             };
@@ -88,6 +91,23 @@ namespace Domain.Services
             return studentCourseRepository.Update(studentCourse);
         }
 
-        //Capaz hacer un getByCriteria
+        public IEnumerable<StudentCourseDetailDTO> GetStudentsDetailByCourseId(int courseId)
+        {
+            var studentCourseRepository = new StudentCourseRepository();
+            var studentCourses = studentCourseRepository.GetStudentCoursesWithDetailsByCourseId(courseId);
+
+            return studentCourses.Select(sc => new StudentCourseDetailDTO
+            {
+                ID = sc.ID,
+                IDStudent = sc.IDStudent,
+                IDCourse = sc.IDCourse,
+                StudentName = sc.Student.Name,
+                StudentLastName = sc.Student.LastName,
+                StudentEmail = sc.Student.Email,
+                Grade = sc.Grade,
+                Condition = sc.Condition,
+                State = sc.State
+            });
+        }
     }
 }
