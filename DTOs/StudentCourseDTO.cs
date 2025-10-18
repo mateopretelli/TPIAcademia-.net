@@ -9,6 +9,8 @@ namespace DTOs
         public int IDcourse { get; set; }
         public int? Grade { get; set; }
         public string Condition { get; set; }
+        public string? SubjectDescription { get; set; }
+
 
     }
 }

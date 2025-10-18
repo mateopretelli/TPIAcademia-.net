@@ -45,10 +45,10 @@
             // 
             // UserLoginLabel
             // 
-            UserLoginLabel.Anchor = AnchorStyles.None;
+            UserLoginLabel.Anchor = AnchorStyles.Right;
             UserLoginLabel.AutoSize = true;
             UserLoginLabel.Font = new Font("Segoe UI", 12F);
-            UserLoginLabel.Location = new Point(18, 25);
+            UserLoginLabel.Location = new Point(134, 25);
             UserLoginLabel.Name = "UserLoginLabel";
             UserLoginLabel.Size = new Size(64, 21);
             UserLoginLabel.TabIndex = 0;
@@ -56,18 +56,18 @@
             // 
             // UserLoginTextBox
             // 
-            UserLoginTextBox.Anchor = AnchorStyles.None;
-            UserLoginTextBox.Location = new Point(144, 24);
+            UserLoginTextBox.Anchor = AnchorStyles.Left;
+            UserLoginTextBox.Location = new Point(204, 24);
             UserLoginTextBox.Name = "UserLoginTextBox";
-            UserLoginTextBox.Size = new Size(316, 23);
+            UserLoginTextBox.Size = new Size(211, 23);
             UserLoginTextBox.TabIndex = 1;
             // 
             // label1
             // 
-            label1.Anchor = AnchorStyles.None;
+            label1.Anchor = AnchorStyles.Right;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F);
-            label1.Location = new Point(5, 97);
+            label1.Location = new Point(109, 97);
             label1.Name = "label1";
             label1.Size = new Size(89, 21);
             label1.TabIndex = 2;
@@ -75,11 +75,11 @@
             // 
             // PwdLoginTextBox
             // 
-            PwdLoginTextBox.Anchor = AnchorStyles.None;
-            PwdLoginTextBox.Location = new Point(145, 96);
+            PwdLoginTextBox.Anchor = AnchorStyles.Left;
+            PwdLoginTextBox.Location = new Point(204, 96);
             PwdLoginTextBox.Name = "PwdLoginTextBox";
             PwdLoginTextBox.PasswordChar = '*';
-            PwdLoginTextBox.Size = new Size(314, 23);
+            PwdLoginTextBox.Size = new Size(211, 23);
             PwdLoginTextBox.TabIndex = 3;
             // 
             // label2
@@ -114,8 +114,8 @@
             // tableLayoutPanel2
             // 
             tableLayoutPanel2.ColumnCount = 2;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 80F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
             tableLayoutPanel2.Controls.Add(UserLoginLabel, 0, 0);
             tableLayoutPanel2.Controls.Add(UserLoginTextBox, 1, 0);
             tableLayoutPanel2.Controls.Add(PwdLoginTextBox, 1, 1);
