@@ -133,6 +133,29 @@ public static class StudentCourseEndPoints
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status400BadRequest)
             .WithOpenApi();
+
+        app.MapGet("studentCourses/GetByStudentId/{ID}", (int id) =>
+        {
+            try
+            {
+                StudentCourseService studentCourseService = new StudentCourseService();
+                var dtos = studentCourseService.GetByStudentId(id);
+                if (dtos == null || !dtos.Any())
+                {
+                    return Results.NotFound();
+                }
+                return Results.Ok(dtos);
+            }
+            catch (ArgumentException ex)
+            {
+                return Results.BadRequest(new { error = ex.Message });
+            }
+        })
+            .WithName("GetByStudentId")
+            .Produces<List<StudentCourseDTO>>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status400BadRequest)
+            .WithOpenApi();
     }
 }
 

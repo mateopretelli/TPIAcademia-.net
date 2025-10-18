@@ -121,6 +121,29 @@ namespace ApiClients
                 throw new Exception($"Timeout al actualizar el alumno_curso: {ex.Message}", ex);
             }
         }
+
+        public static async Task<IEnumerable<StudentCourseDTO>> GetByStudentID(int studentId)
+        {
+            try
+            {
+                using var client = await CreateHttpClientAsync();
+                HttpResponseMessage response = await client.GetAsync($"/studentCourses/GetByStudentID/{studentId}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Error al obtener los cursos del alumno por ID de alumno. Status: {response.StatusCode} - Detalle: {errorContent} ");
+                }
+                return await response.Content.ReadAsAsync<IEnumerable<StudentCourseDTO>>();
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception($"Error al obtener los cursos del alumno por ID de alumno. Detalle: {ex.Message}", ex);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new Exception($"Timeout al obtener los cursos del alumno por ID de alumno: {ex.Message}", ex);
+            }
+        }
         private class ErrorResponse
         {
             public string error { get; set; }

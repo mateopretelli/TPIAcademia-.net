@@ -32,5 +32,12 @@ namespace WindowsForms.Home
             planSubjects.Show();
             this.Hide();
         }
+
+        private void StudentSubjectsGradeButton_Click(object sender, EventArgs e)
+        {
+            StudentCourseGrades studentCourseGrades = new StudentCourseGrades(this);
+            studentCourseGrades.Show();
+            this.Hide();
+        }
     }
 }

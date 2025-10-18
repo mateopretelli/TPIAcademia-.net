@@ -109,5 +109,21 @@ namespace Domain.Services
                 State = sc.State
             });
         }
+
+        public IEnumerable<StudentCourseDTO> GetByStudentId(int studentId)
+        {
+            var studentCourseRepository = new StudentCourseRepository();
+            return studentCourseRepository.GetStudentCoursesByStudentId(studentId)
+                .Select(sc => new StudentCourseDTO
+                {
+                    ID = sc.ID,
+                    State = sc.State,
+                    IDstudent = sc.IDStudent,
+                    IDcourse = sc.IDCourse,
+                    Grade = sc.Grade,
+                    Condition = sc.Condition.ToString(),
+                    SubjectDescription = sc.Course.Subject.Description
+                }).ToList();
+        }
     }
 }

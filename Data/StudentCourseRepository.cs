@@ -89,5 +89,19 @@ namespace Data
                 .ToList();
         }
 
+        public IEnumerable<StudentCourse> GetStudentCoursesByStudentId(int studentId)
+        {
+            using var context = CreateContext();
+            return context.StudentCourses
+                .Where(sc => sc.IDStudent == studentId)
+                .Include(sc => sc.Course)
+                    .ThenInclude(c => c.Subject)
+                .Include(sc => sc.Course)
+                    .ThenInclude(c => c.Section)
+                .OrderBy(sc => sc.Course.Subject.Description)
+                .ThenBy(sc => sc.Course.Section.SpecialtyYear)
+                .ToList();
+        }
+
     }
 }
