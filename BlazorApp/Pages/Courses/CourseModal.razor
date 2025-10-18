@@ -1,0 +1,261 @@
+﻿@using DTOs
+@using ApiClients
+@using System.Text.RegularExpressions
+@inject IJSRuntime JSRuntime
+
+@if (showModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            s
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        @if (mode == FormMode.Add)
+                        {
+                            <text>Agregar</text>
+                        }
+                        else
+                        {
+                            <text>Editar</text>
+                        }
+                    </h5>
+                    <button type="button" class="btn-close" @onclick="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="currentCourse" OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
+
+                        @if (mode == FormMode.Update)
+                        {
+                            <div class="mb-3">
+                                <label class="form-label">Id</label>
+                                <input type="text" class="form-control" value="@currentCourse.ID" readonly />
+                            </div>
+                        }
+
+                        <div class="mb-3">
+                            <label class="form-label">Año académico *</label>
+                            <InputNumber @bind-Value="currentCourse.AcademicYear" class="form-control" />
+                            @if (validationErrors.ContainsKey("AcademicYear"))
+                            {
+                                <div class="text-danger small">@validationErrors["AcademicYear"]</div>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Capacidad *</label>
+                            <InputNumber @bind-Value="currentCourse.Capacity" class="form-control" />
+                            @if (validationErrors.ContainsKey("Capacity"))
+                            {
+                                <div class="text-danger small">@validationErrors["Capacity"]</div>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Comisión *</label>
+                            <InputSelect @bind-Value="currentCourse.IDSection" class="form-select">
+                                <option value="0">Seleccionar comisión</option>
+                                @if (sections != null)
+                                {
+                                    @foreach (var section1 in sections)
+                                    {
+                                        <option value="@section1.ID">@section1.Description</option>
+                                    }
+                                }
+                            </InputSelect>
+                            @if (validationErrors.ContainsKey("Section"))
+                            {
+                                <div class="text-danger small">@validationErrors["Section"]</div>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Materia *</label>
+                            <InputSelect @bind-Value="currentCourse.IDSubject" class="form-select">
+                                <option value="0">Seleccionar materia</option>
+                                @if (subjects != null)
+                                {
+                                    @foreach (var subject in subjects)
+                                    {
+                                        <option value="@subject.ID">@subject.Description</option>
+                                    }
+                                }
+                            </InputSelect>
+                            @if (validationErrors.ContainsKey("Subject"))
+                            {
+                                <div class="text-danger small">@validationErrors["Subject"]</div>
+                            }
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <div class="alert alert-danger">
+                                @errorMessage
+                            </div>
+                        }
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @onclick="Close">Cancelar</button>
+                            <button type="submit" class="btn btn-primary" disabled="@saving">
+                                @if (saving)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                }
+                                @(mode == FormMode.Add ? "Agregar" : "Actualizar")
+                            </button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public EventCallback OnCourseChanged { get; set; }
+
+    private bool showModal = false;
+    private FormMode mode = FormMode.Add;
+    private CourseDTO currentCourse = new CourseDTO();
+    private bool saving = false;
+    private string errorMessage = string.Empty;
+    private Dictionary<string, string> validationErrors = new Dictionary<string, string>();
+    private List<SubjectDTO>? subjects;
+    private List<SectionDTO>? sections;
+
+    public enum FormMode
+    {
+        Add,
+        Update
+    }
+
+    public async Task ShowAddModal()
+    {
+        mode = FormMode.Add;
+        currentCourse = new CourseDTO();
+        await LoadSections();
+        await LoadSubjects();
+        ClearValidationErrors();
+        showModal = true;
+        StateHasChanged();
+    }
+
+    public void ShowEditModal(CourseDTO course)
+    {
+        mode = FormMode.Update;
+        currentCourse = new CourseDTO
+        {
+            ID = course.ID,
+            AcademicYear = course.AcademicYear,
+            Capacity = course.Capacity,
+            IDSection = course.IDSection,
+            IDSubject = course.IDSubject,
+
+        };
+        ClearValidationErrors();
+        showModal = true;
+        StateHasChanged();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (!ValidateCourse())
+            return;
+
+        try
+        {
+            saving = true;
+            errorMessage = string.Empty;
+
+            CourseApiClient client = new CourseApiClient();
+
+            if (mode == FormMode.Add)
+            {
+                await CourseApiClient.AddAsync(currentCourse);
+            }
+            else
+            {
+                await CourseApiClient.UpdateAsync(currentCourse);
+            }
+
+            await OnCourseChanged.InvokeAsync();
+            Close();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            saving = false;
+        }
+    }
+
+    private bool ValidateCourse()
+    {
+        ClearValidationErrors();
+        bool isValid = true;
+
+        if (currentCourse.AcademicYear > DateTime.Now.Year || currentCourse.AcademicYear < 1948)
+        {
+            validationErrors["AcademicYear"] = "El año académico es inválido";
+            isValid = false;
+        }
+        if (currentCourse.Capacity <= 0)
+        {
+            validationErrors["AcademicYear"] = "El capacidad es inválida";
+            isValid = false;
+        }
+        if (currentCourse.IDSection == 0)
+        {
+            validationErrors["IDSection"] = "Seleccione una comisión";
+            isValid = false;
+        }
+        if (currentCourse.IDSubject == 0)
+        {
+            validationErrors["IDSubject"] = "Seleccione una materia";
+            isValid = false;
+        }
+
+        StateHasChanged();
+        return isValid;
+    }
+
+    private void ClearValidationErrors()
+    {
+        validationErrors.Clear();
+        errorMessage = string.Empty;
+    }
+
+    private async Task LoadSections()
+    {
+        try
+        {
+            sections = (await SectionApiClient.GetAllAsync())?.ToList();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al cargar comisiones: {ex.Message}";
+        }
+    }
+
+    private async Task LoadSubjects()
+    {
+        try
+        {
+            subjects = (await SubjectApiClient.GetAllAsync())?.ToList();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al cargar materias: {ex.Message}";
+        }
+    }
+
+    private void Close()
+    {
+        showModal = false;
+        ClearValidationErrors();
+        StateHasChanged();
+    }
+}
