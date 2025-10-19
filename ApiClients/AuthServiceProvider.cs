@@ -3,9 +3,10 @@
     public static class AuthServiceProvider
     {
         private static string? _cachedToken;
+        private static IAuthService? _instance;
         private static readonly object _lock = new object();
 
-        // NUEVO: Para Blazor Server
+        // Para Blazor Server - Registrar token directamente
         public static void RegisterToken(string token)
         {
             lock (_lock)
@@ -14,17 +15,34 @@
             }
         }
 
+        // Obtener token (sincrónico) - Intenta primero el token cacheado, luego del IAuthService
         public static string? GetToken()
         {
             lock (_lock)
             {
-                return _cachedToken;
+                // Si hay token cacheado (de Blazor), usarlo
+                if (!string.IsNullOrEmpty(_cachedToken))
+                    return _cachedToken;
+
+                // Si no, intentar obtenerlo del IAuthService (Windows Forms)
+                if (_instance != null)
+                {
+                    // Llamar al método async de forma sincrónica (solo para Windows Forms)
+                    try
+                    {
+                        return _instance.GetTokenAsync().GetAwaiter().GetResult();
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                }
+
+                return null;
             }
         }
 
-        // MANTENER: Para compatibilidad con Windows Forms
-        private static IAuthService? _instance;
-
+        // Para Windows Forms - Registrar IAuthService completo
         public static IAuthService Instance
         {
             get
@@ -43,6 +61,7 @@
             lock (_lock)
             {
                 _instance = authService;
+                _cachedToken = null; // Limpiar token cacheado cuando se registra un IAuthService
             }
         }
 
