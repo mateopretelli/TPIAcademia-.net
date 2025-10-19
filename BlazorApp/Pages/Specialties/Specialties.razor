@@ -2,6 +2,9 @@
 @using DTOs
 @using ApiClients
 @using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Authorization
+@inherits Blazor.Server.Auth.AuthenticatedComponentBase
+@attribute [Authorize]
 @inject IJSRuntime JSRuntime
 
 <PageTitle>Specialties</PageTitle>
@@ -10,7 +13,7 @@
     <div class="row">
         <div class="col-12">
             <h3>Especialidades</h3>
-            
+
             @if (!string.IsNullOrEmpty(errorMessage))
             {
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -18,7 +21,7 @@
                     <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
                 </div>
             }
-            
+
             @if (!string.IsNullOrEmpty(successMessage))
             {
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -71,6 +74,12 @@
                                     </tr>
                                 }
                             }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center">No hay especialidades registradas.</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -90,6 +99,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
         await LoadSpecialties();
     }
 
@@ -99,7 +109,7 @@
         {
             loading = true;
             specialties = (await SpecialtyApiClient.GetAllAsync())?.ToList();
-            successMessage = string.Empty; // Clear success message when reloading
+            successMessage = string.Empty;
         }
         catch (Exception ex)
         {
@@ -123,9 +133,9 @@
 
     private async Task ConfirmDelete(SpecialtyDTO specialty)
     {
-        var confirm = await JSRuntime.InvokeAsync<bool>("confirm", 
-            $"¿Está seguro que desea eliminar el especialidad {specialty.ID} {specialty.Description}?");
-        
+        var confirm = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"¿Está seguro que desea eliminar la especialidad {specialty.ID} {specialty.Description}?");
+
         if (confirm)
         {
             await DeleteSpecialty(specialty.ID);
@@ -137,12 +147,12 @@
         try
         {
             await SpecialtyApiClient.DeleteAsync(id);
-            successMessage = "Specialty eliminado exitosamente.";
+            successMessage = "Especialidad eliminada exitosamente.";
             await LoadSpecialties();
         }
         catch (Exception ex)
         {
-            errorMessage = $"Error al eliminar specialty: {ex.Message}";
+            errorMessage = $"Error al eliminar especialidad: {ex.Message}";
         }
     }
 }

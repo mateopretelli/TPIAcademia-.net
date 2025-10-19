@@ -2,8 +2,28 @@
 {
     public static class AuthServiceProvider
     {
-        private static IAuthService? _instance;
+        private static string? _cachedToken;
         private static readonly object _lock = new object();
+
+        // NUEVO: Para Blazor Server
+        public static void RegisterToken(string token)
+        {
+            lock (_lock)
+            {
+                _cachedToken = token;
+            }
+        }
+
+        public static string? GetToken()
+        {
+            lock (_lock)
+            {
+                return _cachedToken;
+            }
+        }
+
+        // MANTENER: Para compatibilidad con Windows Forms
+        private static IAuthService? _instance;
 
         public static IAuthService Instance
         {
@@ -31,6 +51,7 @@
             lock (_lock)
             {
                 _instance = null;
+                _cachedToken = null;
             }
         }
     }

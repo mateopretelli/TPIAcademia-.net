@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Authorization;
 using Blazor.Server.Auth;
+using ApiClients;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
 
 // Configurar autenticación
-builder.Services.AddScoped<IAuthService, BlazorServerAuthService>();
+builder.Services.AddScoped<Blazor.Server.Auth.IAuthService, BlazorServerAuthService>();
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(provider =>
     provider.GetRequiredService<CustomAuthenticationStateProvider>());
@@ -22,13 +23,6 @@ builder.Services.AddScoped<AuthenticationStateProvider>(provider =>
 builder.Services.AddAuthorizationCore();
 
 var app = builder.Build();
-
-// Configurar AuthServiceProvider para ApiClients
-using (var scope = app.Services.CreateScope())
-{
-    var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
-    AuthServiceProvider.Register(authService);
-}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -41,7 +35,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-// IMPORTANTE: Agregar authentication y authorization
 app.UseAuthentication();
 app.UseAuthorization();
 

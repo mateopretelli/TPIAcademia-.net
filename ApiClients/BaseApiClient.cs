@@ -12,17 +12,24 @@ namespace ApiClients
             return client;
         }
 
-        protected static async Task ConfigureHttpClientAsync(HttpClient client)
+        protected static Task ConfigureHttpClientAsync(HttpClient client)
         {
-            // Leer URL base de configuración, si no existe usar localhost por defecto
             string baseUrl = GetBaseUrlFromConfig();
             client.BaseAddress = new Uri(baseUrl);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/json"));
+                new MediaTypeWithQualityHeaderValue("application/json"));
 
-            // Agregar Bearer token automáticamente si está autenticado
-            await AddAuthorizationHeaderAsync(client);
+            try
+            {
+                AddAuthorizationHeaderAsync(client); // Sin await
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error al agregar auth header: {ex.Message}");
+            }
+
+            return Task.CompletedTask;
         }
         private static readonly HttpClient client = new HttpClient();
 
@@ -61,19 +68,24 @@ namespace ApiClients
             return defaultUrl;
         }
 
-        protected static async Task AddAuthorizationHeaderAsync(HttpClient client)
+        protected static Task AddAuthorizationHeaderAsync(HttpClient client)
         {
-            var authService = AuthServiceProvider.Instance;
-
-            // Verificar expiración antes de usar el token
-            await authService.CheckTokenExpirationAsync();
-
-            var token = await authService.GetTokenAsync();
-            if (!string.IsNullOrEmpty(token))
+            try
             {
-                client.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", token);
+                var token = AuthServiceProvider.GetToken();
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    client.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", token);
+                }
             }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error al agregar auth header: {ex.Message}");
+            }
+
+            return Task.CompletedTask;
         }
 
         protected static async Task EnsureAuthenticatedAsync()

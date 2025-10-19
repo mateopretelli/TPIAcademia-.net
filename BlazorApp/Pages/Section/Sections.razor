@@ -2,6 +2,9 @@
 @using DTOs
 @using ApiClients
 @using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Authorization
+@inherits Blazor.Server.Auth.AuthenticatedComponentBase
+@attribute [Authorize]
 @inject IJSRuntime JSRuntime
 
 <PageTitle>Sections</PageTitle>
@@ -10,7 +13,7 @@
     <div class="row">
         <div class="col-12">
             <h3>Comisiones</h3>
-            
+
             @if (!string.IsNullOrEmpty(errorMessage))
             {
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -18,7 +21,7 @@
                     <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
                 </div>
             }
-            
+
             @if (!string.IsNullOrEmpty(successMessage))
             {
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -60,7 +63,7 @@
                                 @foreach (var sect in sections)
                                 {
                                     <tr>
-                                        <td>@sect.ID</td> 
+                                        <td>@sect.ID</td>
                                         <td>@sect.Description</td>
                                         <td>@sect.SpecialtyYear</td>
                                         <td>@sect.IDPlan</td>
@@ -74,6 +77,12 @@
                                         </td>
                                     </tr>
                                 }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center">No hay comisiones registradas.</td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -94,6 +103,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
         await LoadSections();
     }
 
@@ -103,7 +113,7 @@
         {
             loading = true;
             sections = (await SectionApiClient.GetAllAsync())?.ToList();
-            successMessage = string.Empty; // Clear success message when reloading
+            successMessage = string.Empty;
         }
         catch (Exception ex)
         {
@@ -127,9 +137,9 @@
 
     private async Task ConfirmDelete(SectionDTO section)
     {
-        var confirm = await JSRuntime.InvokeAsync<bool>("confirm", 
-            $"¿Está seguro que desea eliminar la comision {section.ID} {section.Description}?");
-        
+        var confirm = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"¿Está seguro que desea eliminar la comisión {section.ID} - {section.Description}?");
+
         if (confirm)
         {
             await DeleteSection(section.ID);
@@ -141,13 +151,12 @@
         try
         {
             await SectionApiClient.DeleteAsync(id);
-            successMessage = "Comision eliminada exitosamente.";
+            successMessage = "Comisión eliminada exitosamente.";
             await LoadSections();
         }
         catch (Exception ex)
         {
-            errorMessage = $"Error al eliminar la comision: {ex.Message}";
+            errorMessage = $"Error al eliminar la comisión: {ex.Message}";
         }
     }
 }
-
