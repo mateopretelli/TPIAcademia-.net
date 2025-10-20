@@ -2,6 +2,9 @@
 @using DTOs
 @using ApiClients
 @using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Authorization
+@inherits Blazor.Server.Auth.AuthenticatedComponentBase
+@attribute [Authorize]
 @inject IJSRuntime JSRuntime
 
 <PageTitle>Plans</PageTitle>
@@ -98,6 +101,9 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await JSRuntime.InvokeVoidAsync("console.log", "🔥 Plans.OnInitializedAsync - INICIO");
+        await base.OnInitializedAsync();
+        await JSRuntime.InvokeVoidAsync("console.log", "🔥 Plans - Después del base");
         await LoadPlans();
     }
 
@@ -106,11 +112,26 @@
         try
         {
             loading = true;
+
+            var token = await AuthService.GetTokenAsync();
+            await JSRuntime.InvokeVoidAsync("console.log", $"🔥 LoadPlans - Token disponible: {!string.IsNullOrEmpty(token)}");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                errorMessage = "No hay token de autenticación disponible";
+                return;
+            }
+
+            // Registrar el TOKEN
+            ApiClients.AuthServiceProvider.RegisterToken(token);
+            await JSRuntime.InvokeVoidAsync("console.log", "🔥 LoadPlans - Token registrado");
+
             plans = (await PlanApiClient.GetAllAsync())?.ToList();
             successMessage = string.Empty;
         }
         catch (Exception ex)
         {
+            await JSRuntime.InvokeVoidAsync("console.log", $"🔥 LoadPlans - ERROR: {ex.Message}");
             errorMessage = $"Error al cargar planes: {ex.Message}";
         }
         finally
@@ -132,7 +153,7 @@
     private async Task ConfirmDelete(PlanDTO plan)
     {
         var confirm = await JSRuntime.InvokeAsync<bool>("confirm",
-            $"¿Está seguro que desea eliminar el especialidad {plan.ID} {plan.Description}?");
+            $"¿Está seguro que desea eliminar el plan {plan.ID} {plan.Description}?");
 
         if (confirm)
         {
@@ -144,6 +165,10 @@
     {
         try
         {
+            // Registrar el token antes de cada operación
+            var token = await AuthService.GetTokenAsync();
+            ApiClients.AuthServiceProvider.RegisterToken(token);
+
             await PlanApiClient.DeleteAsync(id);
             successMessage = "Plan eliminado exitosamente.";
             await LoadPlans();

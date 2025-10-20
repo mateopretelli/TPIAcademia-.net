@@ -2,13 +2,17 @@
 @using DTOs
 @using ApiClients
 @using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Authorization
+@inherits Blazor.Server.Auth.AuthenticatedComponentBase
+@attribute [Authorize]
 @inject IJSRuntime JSRuntime
 
-<PageTitle>>Subjects</PageTitle>
+<PageTitle>Subjects</PageTitle>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h3>Subjects</h3>
+            <h3>Materias</h3>
 
             @if (!string.IsNullOrEmpty(errorMessage))
             {
@@ -32,7 +36,7 @@
                 </button>
             </div>
 
-            @if(loading)
+            @if (loading)
             {
                 <div class="d-flex justify-content-center">
                     <div class="spinner-border" role="status">
@@ -60,10 +64,10 @@
                                         <td>@subject.ID</td>
                                         <td>@subject.Description</td>
                                         <td class="text-end">
-                                            <button class="btn btn-sm btn-secondary me-2" @onclick="() => OpenEditModal(subject)">
+                                            <button class="btn btn-sm btn-outline-primary me-2" @onclick="() => OpenEditModal(subject)">
                                                 <i class="fas fa-edit"></i> Editar
                                             </button>
-                                            <button class="btn btn-sm btn-danger" @onclick="() => ConfirmDelete(subject)">
+                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(subject)">
                                                 <i class="fas fa-trash-alt"></i> Eliminar
                                             </button>
                                         </td>
@@ -84,6 +88,7 @@
     </div>
 </div>
 
+<SubjectModal @ref="subjectModal" OnSubjectChanged="LoadSubjects" />
 
 @code {
     private List<SubjectDTO>? subjects;
@@ -94,6 +99,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
         await LoadSubjects();
     }
 
@@ -103,8 +109,8 @@
         {
             loading = true;
             errorMessage = string.Empty;
-            subjects = (await SubjectApiClient.GetAllAsync()).ToList();
-            successMessage = string.Empty; // Clear success message when reloading
+            subjects = (await SubjectApiClient.GetAllAsync())?.ToList();
+            successMessage = string.Empty;
         }
         catch (Exception ex)
         {
@@ -128,7 +134,8 @@
 
     private async Task ConfirmDelete(SubjectDTO subject)
     {
-        var confirm = await JSRuntime.InvokeAsync<bool>("confirm", $"¿Está seguro de que desea eliminar la materia '{subject.Description}'?");
+        var confirm = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"¿Está seguro de que desea eliminar la materia '{subject.Description}'?");
         if (confirm)
         {
             await DeleteSubject(subject.ID);
@@ -147,6 +154,5 @@
         {
             errorMessage = $"Error eliminando materia: {ex.Message}";
         }
-
     }
 }

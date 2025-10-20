@@ -80,7 +80,6 @@ namespace WindowsForms
             MateriaStateTextBox.Text = this.Subject.State;
 
             IDSpecialtyComboBox.SelectedValue = this.Plan?.SpecialtyDescription;
-            Debug.WriteLine(this.Plan?.SpecialtyDescription);
 
             IDSpecialtyComboBox.DataSource = Specialties;
             IDSpecialtyComboBox.DisplayMember = "Description";

@@ -105,6 +105,7 @@
             StudentSubjectsGradeButton.TabIndex = 2;
             StudentSubjectsGradeButton.Text = "Materias / Notas";
             StudentSubjectsGradeButton.UseVisualStyleBackColor = true;
+            StudentSubjectsGradeButton.Click += StudentSubjectsGradeButton_Click;
             // 
             // label1
             // 

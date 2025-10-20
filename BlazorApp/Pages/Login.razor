@@ -1,0 +1,113 @@
+﻿@page "/login"
+@using Blazor.Server.Auth
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+@inject CustomAuthenticationStateProvider AuthStateProvider
+
+<PageTitle>Login</PageTitle>
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-center">Iniciar Sesión</h3>
+            </div>
+            <div class="card-body">
+                <EditForm Model="@loginModel" OnValidSubmit="@HandleLogin">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="form-group mb-3">
+                        <label for="username">Usuario:</label>
+                        <InputText id="username" class="form-control" @bind-Value="loginModel.Username" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="password">Contraseña:</label>
+                        <InputText id="password" type="password" class="form-control" @bind-Value="loginModel.Password" />
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger">@errorMessage</div>
+                    }
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary" disabled="@isLoading">
+                            @if (isLoading)
+                            {
+                                <span class="spinner-border spinner-border-sm me-2"></span>
+                            }
+                            Ingresar
+                        </button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginModel loginModel = new();
+    private string errorMessage = "";
+    private bool isLoading = false;
+
+    private async Task HandleLogin()
+    {
+        //Console.WriteLine("🔥🔥🔥 HandleLogin INICIADO"); //TEST
+        try
+        {
+            isLoading = true;
+            errorMessage = "";
+
+            //Console.WriteLine($"🔥 Username: {loginModel.Username}"); //TEST
+            //Console.WriteLine($"🔥 Password length: {loginModel.Password?.Length}"); //TEST
+
+            if (string.IsNullOrWhiteSpace(loginModel.Username) || string.IsNullOrWhiteSpace(loginModel.Password))
+            {
+                //Console.WriteLine("🔥 ERROR: Usuario o contraseña vacíos"); //TEST
+                errorMessage = "Usuario y contraseña son requeridos";
+                return;
+            }
+
+            //Console.WriteLine("🔥 ANTES de llamar AuthService.LoginAsync"); //TEST
+
+            var success = await AuthService.LoginAsync(loginModel.Username, loginModel.Password);
+
+            //Console.WriteLine($"🔥 DESPUÉS de LoginAsync. Success: {success}"); //TEST
+
+            if (success)
+            {
+                var username = await AuthService.GetUsernameAsync();
+                AuthStateProvider.NotifyUserAuthentication(username ?? loginModel.Username);
+
+                // Pequeña pausa para que SignalR procese
+                await Task.Delay(100);
+
+                Navigation.NavigateTo("/", false); // ⬅️ FALSE para no recargar
+            }
+            else
+            {
+                errorMessage = "Usuario o contraseña incorrectos";
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            errorMessage = $"Error de conexión: {ex.Message}";
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error inesperado: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    public class LoginModel
+    {
+        public string Username { get; set; } = "";
+        public string Password { get; set; } = "";
+    }
+}
