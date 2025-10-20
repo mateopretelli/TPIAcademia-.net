@@ -1,13 +1,13 @@
 ﻿@using DTOs
 @using ApiClients
 @using System.Text.RegularExpressions
+@inherits Blazor.Server.Auth.AuthenticatedComponentBase
 @inject IJSRuntime JSRuntime
 
 @if (showModal)
 {
     <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
         <div class="modal-dialog">
-            s
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
@@ -55,9 +55,9 @@
                                     }
                                 }
                             </InputSelect>
-                            @if (validationErrors.ContainsKey("Specialty"))
+                            @if (validationErrors.ContainsKey("IDSpecialty"))
                             {
-                                <div class="text-danger small">@validationErrors["Specialty"]</div>
+                                <div class="text-danger small">@validationErrors["IDSpecialty"]</div>
                             }
                         </div>
 
@@ -102,8 +102,16 @@
         Update
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
     public async Task ShowAddModal()
     {
+        var token = await AuthService.GetTokenAsync();
+        ApiClients.AuthServiceProvider.RegisterToken(token);
+
         mode = FormMode.Add;
         currentPlan = new PlanDTO();
         await LoadSpecialties();
@@ -112,15 +120,19 @@
         StateHasChanged();
     }
 
-    public void ShowEditModal(PlanDTO specialty)
+    public async Task ShowEditModal(PlanDTO plan)
     {
+        var token = await AuthService.GetTokenAsync();
+        ApiClients.AuthServiceProvider.RegisterToken(token);
+
         mode = FormMode.Update;
         currentPlan = new PlanDTO
-        {
-            ID = specialty.ID,
-            Description = specialty.Description,
-
-        };
+            {
+                ID = plan.ID,
+                Description = plan.Description,
+                IDSpecialty = plan.IDSpecialty
+            };
+        await LoadSpecialties();
         ClearValidationErrors();
         showModal = true;
         StateHasChanged();
@@ -136,7 +148,9 @@
             saving = true;
             errorMessage = string.Empty;
 
-            PlanApiClient client = new PlanApiClient();
+            // Registrar token antes de las operaciones
+            var token = await AuthService.GetTokenAsync();
+            ApiClients.AuthServiceProvider.RegisterToken(token);
 
             if (mode == FormMode.Add)
             {
@@ -169,7 +183,9 @@
         {
             validationErrors["Description"] = "La descripción es requerida";
             isValid = false;
-        } else if (currentPlan.IDSpecialty == 0)
+        }
+
+        if (currentPlan.IDSpecialty == 0)
         {
             validationErrors["IDSpecialty"] = "Seleccione una especialidad";
             isValid = false;
@@ -189,10 +205,21 @@
     {
         try
         {
+            await JSRuntime.InvokeVoidAsync("console.log", "🔥 LoadSpecialties - INICIO");
+
+            var token = await AuthService.GetTokenAsync();
+            await JSRuntime.InvokeVoidAsync("console.log", $"🔥 Token disponible: {!string.IsNullOrEmpty(token)}");
+
+            ApiClients.AuthServiceProvider.RegisterToken(token);
+            await JSRuntime.InvokeVoidAsync("console.log", "🔥 Token registrado en LoadSpecialties");
+
+            await JSRuntime.InvokeVoidAsync("console.log", "🔥 ANTES de llamar SpecialtyApiClient.GetAllAsync");
             specialties = (await SpecialtyApiClient.GetAllAsync())?.ToList();
+            await JSRuntime.InvokeVoidAsync("console.log", $"🔥 Especialidades cargadas: {specialties?.Count ?? 0}");
         }
         catch (Exception ex)
         {
+            await JSRuntime.InvokeVoidAsync("console.log", $"🔥 ERROR en LoadSpecialties: {ex.Message}");
             errorMessage = $"Error al cargar especialidades: {ex.Message}";
         }
     }
