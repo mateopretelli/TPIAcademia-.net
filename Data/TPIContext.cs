@@ -311,7 +311,90 @@ namespace Data
                     Salt = adminUser.Salt,
                     State = adminUser.State,
                 });
+                var alumno1User = new User("alumno1", "alumno1apellido", "alumno1@gmail.com", "casaalumno1 1234", "123456", 1002, new DateTime(2003, 6, 20), 3, 1, "alumno1", "JTJXsTQXKssG5+A0O8olaZ/pkKziEYdCsiSrc/x3RME=", "160AhA67F0BNGG4TYlhWqQ==");
+                alumno1User.SetId(2);
+                alumno1User.SetState("Active");
+                entity.HasData(new
+                {
+                    ID = alumno1User.ID,
+                    Name = alumno1User.Name,
+                    LastName = alumno1User.LastName,
+                    Email = alumno1User.Email,
+                    Address = alumno1User.Address,
+                    Phone = alumno1User.Phone,
+                    Legajo = alumno1User.Legajo,
+                    BirthDate = alumno1User.BirthDate,
+                    Type = alumno1User.Type,
+                    IDPlan = alumno1User.IDPlan,
+                    Username = alumno1User.Username,
+                    Password = alumno1User.Password,
+                    Salt = alumno1User.Salt,
+                    State = alumno1User.State,
                 });
+
+                var docenteUser = new User("docente", "docenteapellido", "docente@gmail.com", "casadocente 4321", "654321", 1003, new DateTime(1990, 10, 31), 2, null, "docente", "rso6ynfxn/llN0C5iaNg5GWgTPEwXyJdK+q/YFbsJtE=", "Kf/JGvR2jfl3bfTekXqFDQ==");
+                docenteUser.SetId(3);
+                docenteUser.SetState("Active");
+                entity.HasData(new
+                {
+                    ID = docenteUser.ID,
+                    Name = docenteUser.Name,
+                    LastName = docenteUser.LastName,
+                    Email = docenteUser.Email,
+                    Address = docenteUser.Address,
+                    Phone = docenteUser.Phone,
+                    Legajo = docenteUser.Legajo,
+                    BirthDate = docenteUser.BirthDate,
+                    Type = docenteUser.Type,
+                    IDPlan = docenteUser.IDPlan,
+                    Username = docenteUser.Username,
+                    Password = docenteUser.Password,
+                    Salt = docenteUser.Salt,
+                    State = docenteUser.State,
+                });
+
+                var alumno2User = new User("alumno2", "alumno2", "alumno2@gmail.com", "casaalumno 2987", "987654", 1004, new DateTime(2004, 10, 20), 3, 1, "alumno2", "d9/WWuMBjON/J+kEdgV2BcSxoUBjRswZFgGrkI+2gOM=", "58KgV1doRC/OBPJRB7gb7Q==");
+                alumno2User.SetId(4);
+                alumno2User.SetState("Active");
+                entity.HasData(new
+                {
+                    ID = alumno2User.ID,
+                    Name = alumno2User.Name,
+                    LastName = alumno2User.LastName,
+                    Email = alumno2User.Email,
+                    Address = alumno2User.Address,
+                    Phone = alumno2User.Phone,
+                    Legajo = alumno2User.Legajo,
+                    BirthDate = alumno2User.BirthDate,
+                    Type = alumno2User.Type,
+                    IDPlan = alumno2User.IDPlan,
+                    Username = alumno2User.Username,
+                    Password = alumno2User.Password,
+                    Salt = alumno2User.Salt,
+                    State = alumno2User.State,
+                });
+
+                var alumno3User = new User("alumno3", "alumno3", "alumno3@gmail.com", "casaalumno 3456", "765432", 1005, new DateTime(2004, 11, 13), 3, 1, "alumno3", "/YQKfcEUKC8HydM6Jb08uMBjKwvaCQ6dZ3drEtZDhhA=", "4rvFzSSuxOnhpIWoE7qQMQ==");
+                alumno3User.SetId(5);
+                alumno3User.SetState("Active");
+                entity.HasData(new
+                {
+                    ID = alumno3User.ID,
+                    Name = alumno3User.Name,
+                    LastName = alumno3User.LastName,
+                    Email = alumno3User.Email,
+                    Address = alumno3User.Address,
+                    Phone = alumno3User.Phone,
+                    Legajo = alumno3User.Legajo,
+                    BirthDate = alumno3User.BirthDate,
+                    Type = alumno3User.Type,
+                    IDPlan = alumno3User.IDPlan,
+                    Username = alumno3User.Username,
+                    Password = alumno3User.Password,
+                    Salt = alumno3User.Salt,
+                    State = alumno3User.State,
+                });
+            });
 
 
             modelBuilder.Entity<StudentCourse>(entity =>
