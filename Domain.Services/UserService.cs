@@ -151,6 +151,7 @@ namespace Domain.Services
                     IDPlan = u.IDPlan,
                     Username = u.Username,
                     Password = u.Password,
+                    Salt =u.Salt,
                     State = u.State
                 }).ToList();
         }

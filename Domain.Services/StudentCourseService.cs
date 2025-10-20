@@ -8,6 +8,20 @@ namespace Domain.Services
     {
         public StudentCourseDTO Add(StudentCourseDTO dto)
         {
+
+            UserRepository userRepository = new UserRepository();
+            User userInscription = userRepository.Get(dto.IDstudent);
+
+
+            if (userInscription == null)
+            {
+                throw new ArgumentException("El usuario ingresado no existe", nameof(dto.IDstudent));
+            }
+            if(userInscription.Type != 3)
+            {
+                throw new ArgumentException("El usuario que se quiere inscribir no es un alumno.", nameof(dto.IDstudent));
+            }
+            
             var studentCourseRepository = new StudentCourseRepository();
 
             if (studentCourseRepository.StudentCourseExists(dto.IDstudent, dto.IDcourse))
