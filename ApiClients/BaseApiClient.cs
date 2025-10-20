@@ -20,58 +20,37 @@ namespace ApiClients
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
-            try
-            {
-                AddAuthorizationHeaderAsync(client); // Sin await
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error al agregar auth header: {ex.Message}");
-            }
+            AddAuthorizationHeaderAsync(client); // Sin await
 
             return Task.CompletedTask;
         }
         private static readonly HttpClient client = new HttpClient();
 
         private static string GetBaseUrlFromConfig()
-        {
-            try
-            {
-                System.Diagnostics.Debug.WriteLine($"[DEBUG] Intentando leer configuración...");
+        {              
 
                 // 1. Primero revisar variable de entorno
                 string? envUrl = Environment.GetEnvironmentVariable("TPI_API_BASE_URL");
                 if (!string.IsNullOrEmpty(envUrl))
                 {
-                    System.Diagnostics.Debug.WriteLine($"[DEBUG] URL desde variable de entorno: {envUrl}");
                     return envUrl;
                 }
 
                 // 2. Detectar si estamos en Android por el runtime
                 string runtimeInfo = System.Runtime.InteropServices.RuntimeInformation.RuntimeIdentifier;
-                System.Diagnostics.Debug.WriteLine($"[DEBUG] Runtime: {runtimeInfo}");
 
                 if (runtimeInfo.StartsWith("android"))
                 {
-                    System.Diagnostics.Debug.WriteLine($"[DEBUG] Detectado Android - usando IP de emulador");
                     return "http://10.0.2.2:5183/";
                 }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"[DEBUG] Error detectando plataforma: {ex.Message}");
-            }
 
             // URL por defecto para Windows/otras plataformas
             string defaultUrl = "https://localhost:7005/";
-            System.Diagnostics.Debug.WriteLine($"[DEBUG] Usando URL por defecto: {defaultUrl}");
             return defaultUrl;
         }
 
         protected static Task AddAuthorizationHeaderAsync(HttpClient client)
         {
-            try
-            {
                 var token = AuthServiceProvider.GetToken();
 
                 if (!string.IsNullOrEmpty(token))
@@ -79,11 +58,6 @@ namespace ApiClients
                     client.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", token);
                 }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error al agregar auth header: {ex.Message}");
-            }
 
             return Task.CompletedTask;
         }
