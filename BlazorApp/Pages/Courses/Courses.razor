@@ -1,18 +1,15 @@
-﻿@page "/plans"
+﻿@page "/courses"
 @using DTOs
 @using ApiClients
 @using Microsoft.AspNetCore.Components
-@using Microsoft.AspNetCore.Authorization
-@inherits Blazor.Server.Auth.AuthenticatedComponentBase
-@attribute [Authorize]
 @inject IJSRuntime JSRuntime
 
-<PageTitle>Plans</PageTitle>
+<PageTitle>Courses</PageTitle>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h3>Planes</h3>
+            <h3>Cursos</h3>
 
             @if (!string.IsNullOrEmpty(errorMessage))
             {
@@ -51,25 +48,29 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>Id</th>
-                                <th>Descripción</th>
-                                <th>Especialidad</th>
+                                <th>Año académico</th>
+                                <th>Capacidad</th>
+                                <th>Comisión</th>
+                                <th>Materia</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (plans != null && plans.Any())
+                            @if (courses != null && courses.Any())
                             {
-                                @foreach (var plan in plans)
+                                @foreach (var course in courses)
                                 {
                                     <tr>
-                                        <td>@plan.ID</td>
-                                        <td>@plan.Description</td>
-                                        <td>@plan.IDSpecialty</td>
+                                        <td>@course.ID</td>
+                                        <td>@course.AcademicYear</td>
+                                        <td>@course.Capacity</td>
+                                        <td>@course.SectionDescription</td>
+                                        <td>@course.SubjectDescription</td>
                                         <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(plan)">
+                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(course)">
                                                 <i class="fas fa-edit"></i> Editar
                                             </button>
-                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(plan)">
+                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(course)">
                                                 <i class="fas fa-trash"></i> Eliminar
                                             </button>
                                         </td>
@@ -79,7 +80,7 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="3" class="text-center">No hay planes disponibles.</td>
+                                    <td colspan="3" class="text-center">No hay cursos disponibles.</td>
                                 </tr>
                             }
                         </tbody>
@@ -90,49 +91,31 @@
     </div>
 </div>
 
-<PlanModal @ref="planModal" OnPlanChanged="LoadPlans" />
+<CourseModal @ref="courseModal" OnCourseChanged="LoadCourses" />
 
 @code {
-    private List<PlanDTO>? plans;
+    private List<CourseDTO>? courses;
     private bool loading = true;
     private string errorMessage = string.Empty;
     private string successMessage = string.Empty;
-    private PlanModal planModal = null!;
+    private CourseModal courseModal = null!;
 
     protected override async Task OnInitializedAsync()
     {
-        await JSRuntime.InvokeVoidAsync("console.log", "🔥 Plans.OnInitializedAsync - INICIO");
-        await base.OnInitializedAsync();
-        await JSRuntime.InvokeVoidAsync("console.log", "🔥 Plans - Después del base");
-        await LoadPlans();
+        await LoadCourses();
     }
 
-    private async Task LoadPlans()
+    private async Task LoadCourses()
     {
         try
         {
             loading = true;
-
-            var token = await AuthService.GetTokenAsync();
-            await JSRuntime.InvokeVoidAsync("console.log", $"🔥 LoadPlans - Token disponible: {!string.IsNullOrEmpty(token)}");
-
-            if (string.IsNullOrEmpty(token))
-            {
-                errorMessage = "No hay token de autenticación disponible";
-                return;
-            }
-
-            // Registrar el TOKEN
-            ApiClients.AuthServiceProvider.RegisterToken(token);
-            await JSRuntime.InvokeVoidAsync("console.log", "🔥 LoadPlans - Token registrado");
-
-            plans = (await PlanApiClient.GetAllAsync())?.ToList();
+            courses = (await CourseApiClient.GetAllAsync())?.ToList();
             successMessage = string.Empty;
         }
         catch (Exception ex)
         {
-            await JSRuntime.InvokeVoidAsync("console.log", $"🔥 LoadPlans - ERROR: {ex.Message}");
-            errorMessage = $"Error al cargar planes: {ex.Message}";
+            errorMessage = $"Error al cargar cursos: {ex.Message}";
         }
         finally
         {
@@ -142,40 +125,36 @@
 
     private void OpenAddModal()
     {
-        planModal.ShowAddModal();
+        courseModal.ShowAddModal();
     }
 
-    private void OpenEditModal(PlanDTO plan)
+    private void OpenEditModal(CourseDTO course)
     {
-        planModal.ShowEditModal(plan);
+        courseModal.ShowEditModal(course);
     }
 
-    private async Task ConfirmDelete(PlanDTO plan)
+    private async Task ConfirmDelete(CourseDTO course)
     {
         var confirm = await JSRuntime.InvokeAsync<bool>("confirm",
-            $"¿Está seguro que desea eliminar el plan {plan.ID} {plan.Description}?");
+            $"¿Está seguro que desea eliminar el curso {course.ID} {course.AcademicYear} {course.Capacity}?");
 
         if (confirm)
         {
-            await DeletePlan(plan.ID);
+            await DeleteCourse(course.ID);
         }
     }
 
-    private async Task DeletePlan(int id)
+    private async Task DeleteCourse(int id)
     {
         try
         {
-            // Registrar el token antes de cada operación
-            var token = await AuthService.GetTokenAsync();
-            ApiClients.AuthServiceProvider.RegisterToken(token);
-
-            await PlanApiClient.DeleteAsync(id);
-            successMessage = "Plan eliminado exitosamente.";
-            await LoadPlans();
+            await CourseApiClient.DeleteAsync(id);
+            successMessage = "Curso eliminado exitosamente.";
+            await LoadCourses();
         }
         catch (Exception ex)
         {
-            errorMessage = $"Error al eliminar plan: {ex.Message}";
+            errorMessage = $"Error al eliminar curso: {ex.Message}";
         }
     }
 }
