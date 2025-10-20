@@ -51,7 +51,9 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>Id</th>
-                                <th>Descripción</th>
+                                <th>Descripción</th
+                                <th>Horas semanales</th>
+                                <th>Horas totales</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -63,6 +65,8 @@
                                     <tr>
                                         <td>@subject.ID</td>
                                         <td>@subject.Description</td>
+                                        <td>@subject.WeeklyHS</td>
+                                        <td>@subject.TotalHS</td>
                                         <td class="text-end">
                                             <button class="btn btn-sm btn-outline-primary me-2" @onclick="() => OpenEditModal(subject)">
                                                 <i class="fas fa-edit"></i> Editar

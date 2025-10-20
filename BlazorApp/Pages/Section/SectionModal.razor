@@ -44,20 +44,36 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Año especialidad *</label>
+                            <label class="form-label">Año de carrera *</label>
                             <InputSelect @bind-Value="currentSection.SpecialtyYear" class="form-select">
-                                <option value="0">Seleccionar año especialidad</option>
-                                @if (sections != null)
+                                <option value="0">Seleccionar año de carrera</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </InputSelect>
+                            @if (validationErrors.ContainsKey("SpecialtyYear"))
+                            {
+                                <div class="text-danger small">@validationErrors["SpecialtyYear"]</div>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Plan *</label>
+                            <InputSelect @bind-Value="currentSection.IDPlan" class="form-select">
+                                <option value="0">Seleccionar plan</option>
+                                @if (plans != null)
                                 {
-                                    @foreach (var sect in sections)
+                                    @foreach (var plan in plans)
                                     {
-                                        <option value="@sect.ID">@sect.SpecialtyYear</option>
+                                        <option value="@plan.ID">@plan.Description</option>
                                     }
                                 }
                             </InputSelect>
-                            @if (validationErrors.ContainsKey("Section"))
+                            @if (validationErrors.ContainsKey("Plan"))
                             {
-                                <div class="text-danger small">@validationErrors["Section"]</div>
+                                <div class="text-danger small">@validationErrors["Plan"]</div>
                             }
                         </div>
 
@@ -94,7 +110,7 @@
     private bool saving = false;
     private string errorMessage = string.Empty;
     private Dictionary<string, string> validationErrors = new Dictionary<string, string>();
-    private List<SectionDTO>? sections;
+    private List<PlanDTO>? plans;
 
     public enum FormMode
     {
@@ -106,21 +122,24 @@
     {
         mode = FormMode.Add;
         currentSection = new SectionDTO();
-        await LoadSections();
+        await LoadPlans();
         ClearValidationErrors();
         showModal = true;
         StateHasChanged();
     }
 
-    public void ShowEditModal(SectionDTO section)
+    public async Task ShowEditModal(SectionDTO section)
     {
         mode = FormMode.Update;
         currentSection = new SectionDTO
             {
                 ID = section.ID,
                 Description = section.Description,
+                SpecialtyYear = section.SpecialtyYear,
+                IDPlan = section.IDPlan
 
             };
+        await LoadPlans();
         ClearValidationErrors();
         showModal = true;
         StateHasChanged();
@@ -170,9 +189,14 @@
             validationErrors["Description"] = "La descripción es requerida";
             isValid = false;
         }
-        else if (currentSection.SpecialtyYear == 0)
+        if (currentSection.SpecialtyYear == 0)
         {
             validationErrors["SpecialtyYear"] = "Seleccione un año de especialidad";
+            isValid = false;
+        }
+        if (currentSection.SpecialtyYear == 0)
+        {
+            validationErrors["Plan"] = "Seleccione un plan";
             isValid = false;
         }
 
@@ -186,15 +210,15 @@
         errorMessage = string.Empty;
     }
 
-    private async Task LoadSections()
+    private async Task LoadPlans()
     {
         try
         {
-            sections = (await SectionApiClient.GetAllAsync())?.ToList();
+            plans = (await PlanApiClient.GetAllAsync())?.ToList() ?? new List<PlanDTO>();
         }
         catch (Exception ex)
         {
-            errorMessage = $"Error al cargar comisiones: {ex.Message}";
+            errorMessage = $"Error cargando planes: {ex.Message}";
         }
     }
 

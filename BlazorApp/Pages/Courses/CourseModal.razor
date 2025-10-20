@@ -204,15 +204,15 @@
         }
         if (currentCourse.Capacity <= 0)
         {
-            validationErrors["AcademicYear"] = "El capacidad es inválida";
+            validationErrors["Capacity"] = "El capacidad es inválida";
             isValid = false;
         }
-        if (currentCourse.IDSection == 0)
+        if (currentCourse.IDSection <= 0)
         {
             validationErrors["IDSection"] = "Seleccione una comisión";
             isValid = false;
         }
-        if (currentCourse.IDSubject == 0)
+        if (currentCourse.IDSubject <= 0)
         {
             validationErrors["IDSubject"] = "Seleccione una materia";
             isValid = false;

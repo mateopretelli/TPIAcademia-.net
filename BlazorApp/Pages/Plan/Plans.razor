@@ -101,9 +101,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await JSRuntime.InvokeVoidAsync("console.log", "🔥 Plans.OnInitializedAsync - INICIO");
+        await JSRuntime.InvokeVoidAsync("console.log", "Plans.OnInitializedAsync - INICIO");
         await base.OnInitializedAsync();
-        await JSRuntime.InvokeVoidAsync("console.log", "🔥 Plans - Después del base");
+        await JSRuntime.InvokeVoidAsync("console.log", "Plans - Después del base");
         await LoadPlans();
     }
 
@@ -114,7 +114,7 @@
             loading = true;
 
             var token = await AuthService.GetTokenAsync();
-            await JSRuntime.InvokeVoidAsync("console.log", $"🔥 LoadPlans - Token disponible: {!string.IsNullOrEmpty(token)}");
+            await JSRuntime.InvokeVoidAsync("console.log", $"LoadPlans - Token disponible: {!string.IsNullOrEmpty(token)}");
 
             if (string.IsNullOrEmpty(token))
             {
@@ -124,14 +124,14 @@
 
             // Registrar el TOKEN
             ApiClients.AuthServiceProvider.RegisterToken(token);
-            await JSRuntime.InvokeVoidAsync("console.log", "🔥 LoadPlans - Token registrado");
+            await JSRuntime.InvokeVoidAsync("console.log", "LoadPlans - Token registrado");
 
             plans = (await PlanApiClient.GetAllAsync())?.ToList();
             successMessage = string.Empty;
         }
         catch (Exception ex)
         {
-            await JSRuntime.InvokeVoidAsync("console.log", $"🔥 LoadPlans - ERROR: {ex.Message}");
+            await JSRuntime.InvokeVoidAsync("console.log", $"LoadPlans - ERROR: {ex.Message}");
             errorMessage = $"Error al cargar planes: {ex.Message}";
         }
         finally

@@ -2,6 +2,9 @@
 @using DTOs
 @using ApiClients
 @using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Authorization
+@inherits Blazor.Server.Auth.AuthenticatedComponentBase
+@attribute [Authorize]
 @inject IJSRuntime JSRuntime
 
 <PageTitle>Courses</PageTitle>
@@ -102,6 +105,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
         await LoadCourses();
     }
 

@@ -205,21 +205,21 @@
     {
         try
         {
-            await JSRuntime.InvokeVoidAsync("console.log", "🔥 LoadSpecialties - INICIO");
+            await JSRuntime.InvokeVoidAsync("console.log", "LoadSpecialties - INICIO");
 
             var token = await AuthService.GetTokenAsync();
-            await JSRuntime.InvokeVoidAsync("console.log", $"🔥 Token disponible: {!string.IsNullOrEmpty(token)}");
+            await JSRuntime.InvokeVoidAsync("console.log", $"Token disponible: {!string.IsNullOrEmpty(token)}");
 
             ApiClients.AuthServiceProvider.RegisterToken(token);
-            await JSRuntime.InvokeVoidAsync("console.log", "🔥 Token registrado en LoadSpecialties");
+            await JSRuntime.InvokeVoidAsync("console.log", "Token registrado en LoadSpecialties");
 
-            await JSRuntime.InvokeVoidAsync("console.log", "🔥 ANTES de llamar SpecialtyApiClient.GetAllAsync");
+            await JSRuntime.InvokeVoidAsync("console.log", "ANTES de llamar SpecialtyApiClient.GetAllAsync");
             specialties = (await SpecialtyApiClient.GetAllAsync())?.ToList();
-            await JSRuntime.InvokeVoidAsync("console.log", $"🔥 Especialidades cargadas: {specialties?.Count ?? 0}");
+            await JSRuntime.InvokeVoidAsync("console.log", $"Especialidades cargadas: {specialties?.Count ?? 0}");
         }
         catch (Exception ex)
         {
-            await JSRuntime.InvokeVoidAsync("console.log", $"🔥 ERROR en LoadSpecialties: {ex.Message}");
+            await JSRuntime.InvokeVoidAsync("console.log", $"ERROR en LoadSpecialties: {ex.Message}");
             errorMessage = $"Error al cargar especialidades: {ex.Message}";
         }
     }

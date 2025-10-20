@@ -46,7 +46,7 @@
                             <InputNumber @bind-Value="currentSubject.WeeklyHS" class="form-control" />
                             @if (validationErrors.ContainsKey("WeeklyHS"))
                             {
-                                <div class="text-danger small">@validationErrors["WeeklyHs"]</div>
+                                <div class="text-danger small">@validationErrors["WeeklyHS"]</div>
                             }
                         </div>
 
@@ -129,7 +129,7 @@
         StateHasChanged();
     }
 
-    public void ShowEditModal(SubjectDTO subject)
+    public async Task ShowEditModal(SubjectDTO subject)
     {
         mode = FormMode.Update;
         currentSubject = new SubjectDTO
@@ -141,6 +141,7 @@
             IDPlan = subject.IDPlan,
             PlanDescription = subject.PlanDescription
         };
+        await LoadPlans();
         ClearValidationErrors();
         showModal = true;
         StateHasChanged();
@@ -209,7 +210,7 @@
             validationErrors["TotalHS"] = "Las horas totales deben ser un número positivo";
             isValid = false;
         }
-        else if (currentSubject.TotalHS < currentSubject.WeeklyHS)
+        if (currentSubject.TotalHS < currentSubject.WeeklyHS)
         {
             validationErrors["TotalHS"] = "Las horas totales no pueden ser menores que las horas semanales";
             isValid = false;
