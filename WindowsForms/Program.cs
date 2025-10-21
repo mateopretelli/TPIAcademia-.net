@@ -1,5 +1,6 @@
-using ApiClients;
 using APIAuthWindowsForms;
+using ApiClients;
+using QuestPDF.Infrastructure;
 using WindowsForms.Home;
 
 namespace WindowsForms
@@ -12,6 +13,7 @@ namespace WindowsForms
         [STAThread]
         static void Main()
         {
+            QuestPDF.Settings.License = LicenseType.Community;
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
@@ -19,8 +21,7 @@ namespace WindowsForms
             Application.ThreadException += Application_ThreadException;
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 
-            // Ejecutar async main
-            Task.Run(async () => await MainAsync()).GetAwaiter().GetResult();
+            MainAsync().GetAwaiter().GetResult();
         }
 
         static async Task MainAsync()
