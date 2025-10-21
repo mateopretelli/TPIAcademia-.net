@@ -80,6 +80,14 @@ namespace WindowsForms
                     this.plansDataGridView.Rows[0].Selected = true;
                     this.deletePlanButton.Enabled = true;
                     this.updatePlanButton.Enabled = true;
+
+                    this.plansDataGridView.Columns["State"].Visible = false;
+                    this.plansDataGridView.Columns["DisplayText"].Visible = false;
+
+                    this.plansDataGridView.Columns["Description"].HeaderText = "Descripcion";
+                    this.plansDataGridView.Columns["IDSpecialty"].HeaderText = "IDEspecialidad";
+                    this.plansDataGridView.Columns["SpecialtyDescription"].HeaderText = "Especialidad";
+                    
                 }
                 else
                 {

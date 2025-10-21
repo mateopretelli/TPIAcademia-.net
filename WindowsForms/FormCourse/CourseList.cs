@@ -32,9 +32,17 @@ namespace WindowsForms.FormCourse
 
         private async void deleteCourseButton_Click(object sender, EventArgs e)
         {
-            int id;
-            id = this.SelectedItem().ID;
-            await CourseApiClient.DeleteAsync(id);
+            try
+            {
+                int id;
+                id = this.SelectedItem().ID;
+                await CourseApiClient.DeleteAsync(id);
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show("Error al eliminar el curso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
 
             this.GetAllAndLoad();
         }
@@ -69,6 +77,16 @@ namespace WindowsForms.FormCourse
                 this.CoursesDataGridView.Rows[0].Selected = true;
                 this.deleteCourseButton.Enabled = true;
                 this.updateCourseButton.Enabled = true;
+                this.CoursesDataGridView.Columns["Subject"].Visible = false;
+                this.CoursesDataGridView.Columns["State"].Visible = false;
+
+                this.CoursesDataGridView.Columns["Capacity"].HeaderText = "Capacidad";
+                this.CoursesDataGridView.Columns["AcademicYear"].HeaderText = "AñoAcademico";
+                this.CoursesDataGridView.Columns["IDSection"].HeaderText = "IDComision";
+                this.CoursesDataGridView.Columns["IDSubject"].HeaderText = "IDMateria";
+                this.CoursesDataGridView.Columns["SectionDescription"].HeaderText = "Curso";
+                this.CoursesDataGridView.Columns["SubjectDescription"].HeaderText = "Materia";
+
             }
             else
             {
