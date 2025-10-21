@@ -331,7 +331,7 @@ namespace Data
                     Salt = alumno1User.Salt,
                     State = alumno1User.State,
                 });
-
+                //NOTA: La CONTRASEÑA es igual al USERNAME
                 var docenteUser = new User("docente", "docenteapellido", "docente@gmail.com", "casadocente 4321", "654321", 1003, new DateTime(1990, 10, 31), 2, null, "docente", "rso6ynfxn/llN0C5iaNg5GWgTPEwXyJdK+q/YFbsJtE=", "Kf/JGvR2jfl3bfTekXqFDQ==");
                 docenteUser.SetId(3);
                 docenteUser.SetState("Active");

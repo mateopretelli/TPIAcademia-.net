@@ -54,8 +54,8 @@ namespace Data
             if (existingStudentCourse != null)
             {
                 existingStudentCourse.SetGrade(studentCourse.Grade);
-
                 existingStudentCourse.SetCondition(studentCourse.Condition);
+                existingStudentCourse.SetState(studentCourse.State);
 
                 context.SaveChanges();
                 return true;

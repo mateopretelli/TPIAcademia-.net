@@ -55,6 +55,7 @@ namespace Data
             {
                 existingSection.SetDescription(section.Description);
                 existingSection.SetIDPlan(section.IDPlan);
+                existingSection.SetState(section.State);
                 existingSection.SetSpecialtyYear(section.SpecialtyYear);
 
                 context.SaveChanges();

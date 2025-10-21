@@ -50,6 +50,7 @@ namespace Data
             if (existingSpecialty != null)
             {
                 existingSpecialty.SetDescription(specialty.Description);
+                existingSpecialty.SetState(specialty.State);
 
                 context.SaveChanges();
                 return true;

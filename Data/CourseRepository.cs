@@ -71,6 +71,7 @@ namespace Data
                 existingCourse.SetIDSection(course.IDSection);
                 existingCourse.SetAcademicYear(course.AcademicYear);
                 existingCourse.SetIDSubject(course.IDSubject);
+                existingCourse.SetState(course.State);
 
                 context.SaveChanges();
                 return true;
