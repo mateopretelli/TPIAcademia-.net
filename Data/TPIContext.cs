@@ -199,7 +199,7 @@ namespace Data
                 entity.HasOne(e => e.Section)
                     .WithMany()
                     .HasForeignKey(e => e.IDSection)
-                    .OnDelete(DeleteBehavior.Cascade); // mantener cascade
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.Property(e => e.IDSubject)
                     .IsRequired()
@@ -211,7 +211,7 @@ namespace Data
                 entity.HasOne(e => e.Subject)
                     .WithMany()
                     .HasForeignKey(e => e.IDSubject)
-                    .OnDelete(DeleteBehavior.Restrict); // cortar cascade
+                    .OnDelete(DeleteBehavior.Restrict); 
                 entity.HasData(
                     new { ID = 1, State = "Active", Capacity = 30, AcademicYear = 2024, IDSection = 1, IDSubject = 1 },
                     new { ID = 2, State = "Active", Capacity = 25, AcademicYear = 2024, IDSection = 2, IDSubject = 2 }
@@ -237,7 +237,7 @@ namespace Data
                 entity.HasOne(e => e.Course)
                     .WithMany()
                     .HasForeignKey(e => e.IDCourse)
-                    .OnDelete(DeleteBehavior.Restrict);// cortar cascade
+                    .OnDelete(DeleteBehavior.Cascade);
                 entity.Property(e => e.IDTeacher)
                     .IsRequired()
                     .HasField("_idTeacher");
@@ -246,7 +246,7 @@ namespace Data
                 entity.HasOne(e => e.Teacher)
                     .WithMany()
                     .HasForeignKey(e => e.IDTeacher)
-                    .OnDelete(DeleteBehavior.Restrict); // cortar cascade
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -419,7 +419,7 @@ namespace Data
                 entity.HasOne(e => e.Student)
                     .WithMany()
                     .HasForeignKey(e => e.IDStudent)
-                    .OnDelete(DeleteBehavior.Restrict); // cortar cascade
+                    .OnDelete(DeleteBehavior.Cascade); 
                 entity.Property(e => e.IDCourse)
                     .IsRequired()
                     .HasField("_idCourse");

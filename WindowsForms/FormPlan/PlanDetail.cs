@@ -29,22 +29,29 @@ namespace WindowsForms
 
         private async void acceptPlanButton_Click(object sender, EventArgs e)
         {
-            PlanApiClient client = new PlanApiClient();
-            IEnumerable<PlanDTO> Existantplans = await PlanApiClient.GetAllAsync();
-            if (this.ValidatePlan(Existantplans))
+            try
             {
-                this.Plan.Description = PlanDescriptionTextBox.Text.TrimEnd().TrimStart();
-                this.Plan.IDSpecialty = Convert.ToInt32(SpecialtyIDComboBox.SelectedValue);
-                this.Plan.State = PlanStateTextBox.Text;
-                if (this.EditMode)
+                PlanApiClient client = new PlanApiClient();
+                IEnumerable<PlanDTO> Existantplans = await PlanApiClient.GetAllAsync();
+                if (this.ValidatePlan(Existantplans))
                 {
-                    await PlanApiClient.UpdateAsync(this.Plan);
+                    this.Plan.Description = PlanDescriptionTextBox.Text.TrimEnd().TrimStart();
+                    this.Plan.IDSpecialty = Convert.ToInt32(SpecialtyIDComboBox.SelectedValue);
+                    this.Plan.State = PlanStateTextBox.Text;
+                    if (this.EditMode)
+                    {
+                        await PlanApiClient.UpdateAsync(this.Plan);
+                    }
+                    else
+                    {
+                        await PlanApiClient.AddAsync(this.Plan);
+                    }
+                    this.DialogResult = DialogResult.OK;
                 }
-                else
-                {
-                    await PlanApiClient.AddAsync(this.Plan);
-                }
-                this.DialogResult = DialogResult.OK;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al guardar el plan: {ex.Message}","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -87,6 +94,17 @@ namespace WindowsForms
             else
             {
                 errorProvider1.SetError(PlanDescriptionTextBox, string.Empty);
+            }
+
+            if (SpecialtyIDComboBox.SelectedValue == null ||
+            Convert.ToInt32(SpecialtyIDComboBox.SelectedValue) <= 0)
+            {
+                errorProvider1.SetError(SpecialtyIDComboBox, "Debe seleccionar una especialidad");
+                isValid = false;
+            }
+            else
+            {
+                errorProvider1.SetError(SpecialtyIDComboBox, string.Empty);
             }
             return isValid;
         }

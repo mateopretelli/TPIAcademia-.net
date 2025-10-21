@@ -24,19 +24,6 @@ namespace Data
             if (course != null)
             {
 
-                var teachersCourses = context.TeachersCourses
-                .Where(tc => tc.IDCourse == id)
-                .ToList();
-
-                context.TeachersCourses.RemoveRange(teachersCourses);
-
-                var studentCourses = context.StudentCourses
-                .Where(tc => tc.IDCourse == id)
-                .ToList();
-
-                context.TeachersCourses.RemoveRange(teachersCourses);
-                context.StudentCourses.RemoveRange(studentCourses);
-
                 context.Courses.Remove(course);
                 context.SaveChanges();
                 return true;
