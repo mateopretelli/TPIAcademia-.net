@@ -20,13 +20,11 @@ namespace WindowsForms
         private async void updateButton_Click(object sender, EventArgs e)
         {
 
-            UserDetail userDetalle = new UserDetail();
-
-            int id;
-
-            id = this.SelectedItem().ID;
+            int id = this.SelectedItem().ID;
 
             UserDTO user = await UserApiClient.GetAsync(id);
+
+            UserDetail userDetalle = new UserDetail();
 
             userDetalle.EditMode = true;
             userDetalle.User = user;
