@@ -77,21 +77,27 @@ namespace WindowsForms.FormStudentCourse
                 var selectedRow = CourseGridView.SelectedRows[0];
                 var selectedCourse = (CourseDTO)selectedRow.DataBoundItem;
 
-                try
+                if(selectedStudent!= null)
                 {
-                    await StudentCourseApiClient.AddAsync(selectedStudent.ID, selectedCourse.ID);
-                    MessageBox.Show($"El alumno {selectedStudent.Name} fue inscripto exitosamente en el curso.",
-                    "Inscripción Exitosa",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                    try
+                    {
+                        await StudentCourseApiClient.AddAsync(selectedStudent.ID, selectedCourse.ID);
+                        MessageBox.Show($"El alumno {selectedStudent.Name} fue inscripto exitosamente en el curso.",
+                        "Inscripción Exitosa",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
 
-                    // Limpiar el textbox o refrescar la vista
-                    LegajoTextBox.Clear();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error al inscribir el alumno en el curso: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show($"Error al inscribir el alumno en el curso: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"El legajo ingresado no pertenece a un alumno", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                
 
             }
             else

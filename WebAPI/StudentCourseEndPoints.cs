@@ -116,7 +116,7 @@ public static class StudentCourseEndPoints
 
                 if (dtos == null || !dtos.Any())
                 {
-                    return Results.NotFound();
+                    return Results.Ok(new List<StudentCourseDetailDTO>());
                 }
 
                 return Results.Ok(dtos);
@@ -142,7 +142,7 @@ public static class StudentCourseEndPoints
                 var dtos = studentCourseService.GetByStudentId(id);
                 if (dtos == null || !dtos.Any())
                 {
-                    return Results.NotFound();
+                    return Results.Ok(new List<StudentCourseDetailDTO>());
                 }
                 return Results.Ok(dtos);
             }
