@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="FastReport.DataVisualization" Version="2026.1.2" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
+    <PackageReference Include="QuestPDF" Version="2025.7.3" />
   </ItemGroup>
 
   <ItemGroup>

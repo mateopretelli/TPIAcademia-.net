@@ -35,6 +35,7 @@
             CourseReportButton = new Button();
             SelectStudentButton = new Button();
             CourseDetailInfoLabel = new Label();
+            exportToPDFButton = new Button();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)CourseDetailinfoGrid).BeginInit();
             tableLayoutPanel2.SuspendLayout();
@@ -70,13 +71,15 @@
             // 
             // tableLayoutPanel2
             // 
-            tableLayoutPanel2.ColumnCount = 3;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            tableLayoutPanel2.ColumnCount = 4;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
             tableLayoutPanel2.Controls.Add(CourseDetailBackButton, 0, 0);
             tableLayoutPanel2.Controls.Add(CourseReportButton, 1, 0);
-            tableLayoutPanel2.Controls.Add(SelectStudentButton, 2, 0);
+            tableLayoutPanel2.Controls.Add(SelectStudentButton, 3, 0);
+            tableLayoutPanel2.Controls.Add(exportToPDFButton, 2, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(3, 385);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -90,7 +93,7 @@
             CourseDetailBackButton.Anchor = AnchorStyles.Left;
             CourseDetailBackButton.Location = new Point(3, 4);
             CourseDetailBackButton.Name = "CourseDetailBackButton";
-            CourseDetailBackButton.Size = new Size(196, 53);
+            CourseDetailBackButton.Size = new Size(147, 53);
             CourseDetailBackButton.TabIndex = 0;
             CourseDetailBackButton.Text = "Volver atrás";
             CourseDetailBackButton.UseVisualStyleBackColor = true;
@@ -100,9 +103,9 @@
             // 
             CourseReportButton.Anchor = AnchorStyles.None;
             CourseReportButton.Enabled = false;
-            CourseReportButton.Location = new Point(298, 4);
+            CourseReportButton.Location = new Point(223, 4);
             CourseReportButton.Name = "CourseReportButton";
-            CourseReportButton.Size = new Size(196, 53);
+            CourseReportButton.Size = new Size(147, 53);
             CourseReportButton.TabIndex = 1;
             CourseReportButton.Text = "Reporte Curso";
             CourseReportButton.UseVisualStyleBackColor = true;
@@ -112,9 +115,9 @@
             // 
             SelectStudentButton.Anchor = AnchorStyles.Right;
             SelectStudentButton.Enabled = false;
-            SelectStudentButton.Location = new Point(595, 4);
+            SelectStudentButton.Location = new Point(644, 4);
             SelectStudentButton.Name = "SelectStudentButton";
-            SelectStudentButton.Size = new Size(196, 53);
+            SelectStudentButton.Size = new Size(147, 53);
             SelectStudentButton.TabIndex = 2;
             SelectStudentButton.Text = "Elegir Estudiante";
             SelectStudentButton.UseVisualStyleBackColor = true;
@@ -129,6 +132,17 @@
             CourseDetailInfoLabel.Name = "CourseDetailInfoLabel";
             CourseDetailInfoLabel.Size = new Size(0, 32);
             CourseDetailInfoLabel.TabIndex = 2;
+            // 
+            // exportToPDFButton
+            // 
+            exportToPDFButton.Anchor = AnchorStyles.None;
+            exportToPDFButton.Location = new Point(421, 4);
+            exportToPDFButton.Name = "exportToPDFButton";
+            exportToPDFButton.Size = new Size(147, 53);
+            exportToPDFButton.TabIndex = 3;
+            exportToPDFButton.Text = "ExportarPDF";
+            exportToPDFButton.UseVisualStyleBackColor = true;
+            exportToPDFButton.Click += exportToPDFButton_Click;
             // 
             // CourseDetail
             // 
@@ -154,5 +168,6 @@
         private Button CourseDetailBackButton;
         private Button CourseReportButton;
         private Button SelectStudentButton;
+        private Button exportToPDFButton;
     }
 }
