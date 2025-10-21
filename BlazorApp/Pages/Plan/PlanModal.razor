@@ -130,7 +130,8 @@
             {
                 ID = plan.ID,
                 Description = plan.Description,
-                IDSpecialty = plan.IDSpecialty
+                IDSpecialty = plan.IDSpecialty,
+                State = plan.State
             };
         await LoadSpecialties();
         ClearValidationErrors();

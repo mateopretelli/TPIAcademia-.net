@@ -62,6 +62,7 @@ namespace Data
                 existingTeacherCourse.SetIDTeacher(teacherCourses.IDTeacher);
                 existingTeacherCourse.SetRole(teacherCourses.Role);
                 existingTeacherCourse.SetIDCourse(teacherCourses.IDCourse);
+                existingTeacherCourse.SetState(teacherCourses.State);
 
                 context.SaveChanges();
                 return true;

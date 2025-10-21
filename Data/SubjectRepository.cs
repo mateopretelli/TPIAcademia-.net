@@ -58,6 +58,7 @@ namespace Data
                 existingSubject.SetIDPlan(subject.IDPlan);
                 existingSubject.SetWeeklyHS(subject.WeeklyHS);
                 existingSubject.SetTotalHS(subject.TotalHS);
+                existingSubject.SetState(subject.State);
 
                 context.SaveChanges();
                 return true;
