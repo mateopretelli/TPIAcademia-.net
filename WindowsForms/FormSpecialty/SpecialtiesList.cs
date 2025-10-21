@@ -78,6 +78,9 @@ namespace WindowsForms
                     this.specialtiesDataGridView.Rows[0].Selected = true;
                     this.deleteSpecialtyButton.Enabled = true;
                     this.updateSpecialtyButton.Enabled = true;
+
+                    this.specialtiesDataGridView.Columns["State"].Visible = false;
+                    this.specialtiesDataGridView.Columns["Description"].HeaderText = "Descripcion";
                 }
                 else
                 {

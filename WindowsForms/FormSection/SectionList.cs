@@ -69,6 +69,10 @@ namespace WindowsForms.FormSection
                 this.SectionsDataGridView.Rows[0].Selected = true;
                 this.deleteSectionButton.Enabled = true;
                 this.updateSectionButton.Enabled = true;
+
+                this.SectionsDataGridView.Columns["State"].Visible = false;
+                this.SectionsDataGridView.Columns["Description"].HeaderText = "Descripcion";
+                this.SectionsDataGridView.Columns["SpecialtyYear"].HeaderText = "AñoEspecialidad";
             }
             else
             {

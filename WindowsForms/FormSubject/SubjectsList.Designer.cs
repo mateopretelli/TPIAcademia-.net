@@ -50,9 +50,9 @@
             // 
             // addMateriaButton
             // 
-            addMateriaButton.Location = new Point(551, 369);
+            addMateriaButton.Location = new Point(467, 369);
             addMateriaButton.Name = "addMateriaButton";
-            addMateriaButton.Size = new Size(75, 23);
+            addMateriaButton.Size = new Size(103, 50);
             addMateriaButton.TabIndex = 1;
             addMateriaButton.Text = "Agregar";
             addMateriaButton.UseVisualStyleBackColor = true;
@@ -60,9 +60,9 @@
             // 
             // deleteMateriaButton
             // 
-            deleteMateriaButton.Location = new Point(632, 369);
+            deleteMateriaButton.Location = new Point(576, 369);
             deleteMateriaButton.Name = "deleteMateriaButton";
-            deleteMateriaButton.Size = new Size(75, 23);
+            deleteMateriaButton.Size = new Size(103, 50);
             deleteMateriaButton.TabIndex = 2;
             deleteMateriaButton.Text = "Eliminar";
             deleteMateriaButton.UseVisualStyleBackColor = true;
@@ -70,9 +70,9 @@
             // 
             // updateMateriaButton
             // 
-            updateMateriaButton.Location = new Point(713, 369);
+            updateMateriaButton.Location = new Point(685, 369);
             updateMateriaButton.Name = "updateMateriaButton";
-            updateMateriaButton.Size = new Size(75, 23);
+            updateMateriaButton.Size = new Size(103, 50);
             updateMateriaButton.TabIndex = 3;
             updateMateriaButton.Text = "Modificar";
             updateMateriaButton.UseVisualStyleBackColor = true;
@@ -92,7 +92,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 429);
             Controls.Add(MateriasHomeButton);
             Controls.Add(updateMateriaButton);
             Controls.Add(deleteMateriaButton);

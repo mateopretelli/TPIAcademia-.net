@@ -132,6 +132,13 @@ namespace WindowsForms.FormStudentCourse
                 if (this.CourseGridView.Rows.Count > 0)
                 {
                     this.CourseGridView.Rows[0].Selected = true;
+
+                    this.CourseGridView.Columns["State"].Visible = false;
+                    this.CourseGridView.Columns["Plan"].Visible = false;
+                    this.CourseGridView.Columns["Description"].HeaderText = "Descripcion";
+                    this.CourseGridView.Columns["WeeklyHS"].HeaderText = "HSSemanales";
+                    this.CourseGridView.Columns["TotalHS"].HeaderText = "HSTotales";
+
                 }
                 else
                 {

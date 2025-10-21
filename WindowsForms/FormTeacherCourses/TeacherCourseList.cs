@@ -69,6 +69,11 @@ namespace WindowsForms.FormTeacherCourse
                 this.TeachersCoursesDataGridView.Rows[0].Selected = true;
                 this.deleteTeacherCourseButton.Enabled = true;
                 this.updateTeacherCourseButton.Enabled = true;
+
+                this.TeachersCoursesDataGridView.Columns["State"].Visible = false;
+                this.TeachersCoursesDataGridView.Columns["Role"].HeaderText = "Rol";
+                this.TeachersCoursesDataGridView.Columns["IDTeacher"].HeaderText = "IDDocente";
+                this.TeachersCoursesDataGridView.Columns["IDCourse"].HeaderText = "IDCurso";
             }
             else
             {

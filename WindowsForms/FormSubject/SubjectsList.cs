@@ -69,6 +69,14 @@ namespace WindowsForms
                 this.materiasDataGridView.Rows[0].Selected = true;
                 this.deleteMateriaButton.Enabled = true;
                 this.updateMateriaButton.Enabled = true;
+
+                this.materiasDataGridView.Columns["State"].Visible = false;
+                this.materiasDataGridView.Columns["Plan"].Visible = false;
+
+                this.materiasDataGridView.Columns["Description"].HeaderText = "Descripcion";
+                this.materiasDataGridView.Columns["WeeklyHS"].HeaderText = "HSSemanales";
+                this.materiasDataGridView.Columns["TotalHS"].HeaderText = "HSTotales";
+                this.materiasDataGridView.Columns["PlanDescription"].HeaderText = "DescripcionPlan";
             }
             else
             {

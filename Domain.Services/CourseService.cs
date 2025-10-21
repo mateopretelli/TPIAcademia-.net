@@ -64,7 +64,9 @@ namespace Domain.Services
                     Capacity = c.Capacity,
                     AcademicYear = c.AcademicYear,
                     IDSubject = c.IDSubject,
-                    IDSection = c.IDSection
+                    IDSection = c.IDSection,
+                    SubjectDescription = c.Subject.Description,
+                    SectionDescription = c.Section.Description
                 }).ToList();
         }
 

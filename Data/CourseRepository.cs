@@ -23,6 +23,7 @@ namespace Data
             var course = context.Courses.Find(id);
             if (course != null)
             {
+
                 context.Courses.Remove(course);
                 context.SaveChanges();
                 return true;
