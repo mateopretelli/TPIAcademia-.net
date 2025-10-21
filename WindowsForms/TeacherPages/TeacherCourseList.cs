@@ -37,8 +37,10 @@ namespace WindowsForms.TeacherPages
                 TeacherCoursesGrid.Columns["AcademicYear"].HeaderText = "Año Académico";
                 TeacherCoursesGrid.Columns["Capacity"].HeaderText = "Capacidad";
 
-                this.SelectCourseGradeButton.Enabled = true;
             }
+
+            this.SelectCourseGradeButton.Enabled = this.TeacherCoursesGrid.Rows.Count > 0;
+
         }
 
         private void CoursesByTeacherBackButton_Click(object sender, EventArgs e)
