@@ -49,7 +49,7 @@ namespace WindowsForms
                 this.User.Email = EmailTextBox.Text;
                 this.User.Address = AddressTextBox.Text;
                 this.User.Phone = PhoneTextBox.Text;
-                //Legajo not implemented here
+
                 this.User.BirthDate = BirthDatePicker.Value;
                 this.User.Type = TypeComboBox.SelectedIndex + 1;
                 bool isStudent = TypeComboBox.SelectedIndex == 2;
@@ -57,8 +57,11 @@ namespace WindowsForms
                 ? Convert.ToInt32(IDPlanComboBox.SelectedValue)
                 : (int?)null;
                 this.User.Username = UsernameTextBox.Text;
-                this.User.Password = PasswordTextBox.Text;
-                //State not implemented here
+                if (!string.IsNullOrWhiteSpace(PasswordTextBox.Text))
+                {
+                    this.User.Password = PasswordTextBox.Text;
+                    //El salt queda null, lo genera el service
+                }
 
                 try
                 {
@@ -86,40 +89,46 @@ namespace WindowsForms
 
         private void SetUser()
         {
-            if (this.User != null)
-            {
-                UserIDTextBox.Text = this.User.ID.ToString(); ;
-                UserStateTextBox.Text = this.User.State;
-                NameTextBox.Text = this.User.Name;
-                LastNameTextBox.Text = this.User.LastName;
-                EmailTextBox.Text = this.User.Email;
-                AddressTextBox.Text = this.User.Address;
-                PhoneTextBox.Text = this.User.Phone;
-                //Lejago not implemented here
-                BirthDatePicker.Value = this.User.BirthDate > DateTimePicker.MinimumDateTime ? this.User.BirthDate : DateTime.Today;
-                TypeComboBox.SelectedIndex = (this.User.Type - 1);
+            if (this.User == null) return;
 
-                bool isStudent = this.User.Type == 3; // 3 = Alumno
+            UserIDTextBox.Text = this.User.ID.ToString();
+            UserStateTextBox.Text = this.User.State ?? string.Empty;
+            NameTextBox.Text = this.User.Name ?? string.Empty;
+            LastNameTextBox.Text = this.User.LastName ?? string.Empty;
+            EmailTextBox.Text = this.User.Email ?? string.Empty;
+            AddressTextBox.Text = this.User.Address ?? string.Empty;
+            PhoneTextBox.Text = this.User.Phone ?? string.Empty;
+            BirthDatePicker.Value = this.User.BirthDate > DateTimePicker.MinimumDateTime
+                ? this.User.BirthDate
+                : DateTime.Today;
+
+            if (this.User.Type >= 1 && this.User.Type <= 3)
+            {
+                string[] types = { "Admin", "Docente", "Alumno" };
+                TypeComboBox.SelectedItem = types[this.User.Type - 1];
+
+                bool isStudent = this.User.Type == 3;
                 IDPlanComboBox.Enabled = isStudent;
 
-                if (isStudent)
+                if (isStudent && this.User.IDPlan.HasValue)
                 {
-                    IDPlanComboBox.SelectedValue = this.User.IDPlan;
+                    IDPlanComboBox.SelectedValue = this.User.IDPlan.Value;
                 }
                 else
                 {
                     IDPlanComboBox.SelectedIndex = -1;
                 }
+            }
 
-                UsernameTextBox.Text = this.User.Username;
-                PasswordTextBox.Text = this.User.Password;
-                ConfirmPasswordTextBox.Text = this.User.Password;
+            UsernameTextBox.Text = this.User.Username ?? string.Empty;
 
-                IDPlanComboBox.SelectedValue = this.User.IDPlan;
-                UsernameTextBox.Text = this.User.Username;
-                PasswordTextBox.Text = this.User.Password;
-                ConfirmPasswordTextBox.Text = this.User.Password;
-                //State not implemented here
+            // En modo edición, dejar los campos de contraseña vacíos
+            if (this.EditMode)
+            {
+                PasswordTextBox.Text = string.Empty;
+                PasswordTextBox.PlaceholderText = "Dejar en blanco para mantener";
+                ConfirmPasswordTextBox.Text = string.Empty;
+                ConfirmPasswordTextBox.PlaceholderText = "Dejar en blanco para mantener";
             }
         }
 
@@ -210,7 +219,7 @@ namespace WindowsForms
             {
                 errorProvider1.SetError(UsernameTextBox, string.Empty);
             }
-            if (string.IsNullOrWhiteSpace(PasswordTextBox.Text))
+            if (string.IsNullOrWhiteSpace(PasswordTextBox.Text) && !EditMode)
             {
                 isValid = false;
                 errorProvider1.SetError(PasswordTextBox, "La contraseña es requerida");
@@ -219,7 +228,7 @@ namespace WindowsForms
             {
                 errorProvider1.SetError(PasswordTextBox, string.Empty);
             }
-            if (string.IsNullOrWhiteSpace(ConfirmPasswordTextBox.Text))
+            if (string.IsNullOrWhiteSpace(ConfirmPasswordTextBox.Text) && !EditMode)
             {
                 isValid = false;
                 errorProvider1.SetError(ConfirmPasswordTextBox, "Debe confirmar la contraseña");

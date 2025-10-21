@@ -77,7 +77,8 @@ namespace Domain.Services
                 IDPlan = user.IDPlan,
                 Username = user.Username,
                 Password = user.Password,
-                State = user.State
+                State = user.State,
+                Type = user.Type,
             };
         }
 
@@ -182,13 +183,42 @@ namespace Domain.Services
         public bool Update(UserDTO dto)
         {
             var userRepository = new UserRepository();
+            var passwordHasher = new PasswordHasherPBKDF2();
 
             if (userRepository.UserExists(dto.Email, dto.ID))
             {
                 throw new ArgumentException("Ya existe un usuario con ese email.", nameof(dto.Email));
             }
 
-            User user = new User(dto.Name, dto.LastName, dto.Email, dto.Address, dto.Phone, dto.Legajo, dto.BirthDate, dto.Type, dto.IDPlan, dto.Username, dto.Password, dto.Salt)
+            User existingUser = userRepository.Get(dto.ID);
+
+            string passwordHash;
+            string passwordSalt;
+
+            // Si la contraseña cambió, se hashea, sino se mantiene la original
+            if (!string.IsNullOrWhiteSpace(dto.Password) && dto.Password != existingUser.Password)
+            {
+                (passwordHash, passwordSalt) = passwordHasher.HashPassword(dto.Password);
+            }
+            else
+            {
+                passwordHash = existingUser.Password;
+                passwordSalt = existingUser.Salt;
+            }
+
+            User user = new User(
+                dto.Name, 
+                dto.LastName, 
+                dto.Email, 
+                dto.Address, 
+                dto.Phone, 
+                dto.Legajo, 
+                dto.BirthDate, 
+                dto.Type, 
+                dto.IDPlan, 
+                dto.Username,
+                passwordHash,
+                passwordSalt)
             {
                 ID = dto.ID,
                 State = dto.State,
