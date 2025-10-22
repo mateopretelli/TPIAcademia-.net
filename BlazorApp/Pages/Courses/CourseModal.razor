@@ -141,7 +141,7 @@
         StateHasChanged();
     }
 
-    public void ShowEditModal(CourseDTO course)
+    public async Task ShowEditModal(CourseDTO course)
     {
         mode = FormMode.Update;
         currentCourse = new CourseDTO
@@ -154,6 +154,8 @@
             State = course.State
 
         };
+        await LoadSections();
+        await LoadSubjects();
         ClearValidationErrors();
         showModal = true;
         StateHasChanged();
