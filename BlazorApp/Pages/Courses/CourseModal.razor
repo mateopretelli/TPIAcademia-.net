@@ -64,9 +64,9 @@
                                     }
                                 }
                             </InputSelect>
-                            @if (validationErrors.ContainsKey("Section"))
+                            @if (validationErrors.ContainsKey("IDSection"))
                             {
-                                <div class="text-danger small">@validationErrors["Section"]</div>
+                                <div class="text-danger small">@validationErrors["IDSection"]</div>
                             }
                         </div>
 
@@ -82,9 +82,9 @@
                                     }
                                 }
                             </InputSelect>
-                            @if (validationErrors.ContainsKey("Subject"))
+                            @if (validationErrors.ContainsKey("IDSubject"))
                             {
-                                <div class="text-danger small">@validationErrors["Subject"]</div>
+                                <div class="text-danger small">@validationErrors["IDSubject"]</div>
                             }
                         </div>
 
@@ -151,6 +151,7 @@
             Capacity = course.Capacity,
             IDSection = course.IDSection,
             IDSubject = course.IDSubject,
+            State = course.State
 
         };
         ClearValidationErrors();
