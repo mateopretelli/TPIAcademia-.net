@@ -88,7 +88,7 @@ namespace WindowsForms.TeacherPages
                 SaveFileDialog saveDialog = new SaveFileDialog
                 {
                     Filter = "PDF files (*.pdf)|*.pdf",
-                    FileName = $"Alumnos {courseName}-{DateTime.Now:dd/MM/yyyy}.pdf"
+                    FileName = $"Alumnos {courseName}-{DateTime.Now:dd-MM-yyyy}.pdf"
                 };
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
