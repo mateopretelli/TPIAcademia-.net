@@ -9,11 +9,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FastReport.DataVisualization" Version="2026.1.2" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
+    <PackageReference Include="QuestPDF" Version="2025.7.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\APIAuthWindowsForms\APIAuthWindowsForms.csproj" />
+    <ProjectReference Include="..\ApiClients\ApiClients.csproj" />
     <ProjectReference Include="..\DTOs\DTOs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="FormTeacherCourses\TeacherCourseDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormTeacherCourses\TeacherCourseList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserLista.cs" />
+    <Compile Update="FormPlan\PlansList.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,162 @@
+﻿@page "/sections"
+@using DTOs
+@using ApiClients
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Authorization
+@inherits Blazor.Server.Auth.AuthenticatedComponentBase
+@attribute [Authorize]
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Sections</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h3>Comisiones</h3>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @errorMessage
+                    <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @successMessage
+                    <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
+                </div>
+            }
+
+            <div class="mb-3">
+                <button class="btn btn-primary" @onclick="OpenAddModal">
+                    <i class="fas fa-plus"></i> Agregar
+                </button>
+            </div>
+
+            @if (loading)
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Descripción</th>
+                                <th>Año de carrera</th>
+                                <th>Plan</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (sections != null && sections.Any())
+                            {
+                                @foreach (var sect in sections)
+                                {
+                                    <tr>
+                                        <td>@sect.ID</td>
+                                        <td>@sect.Description</td>
+                                        <td>@sect.SpecialtyYear</td>
+                                        <td>@sect.IDPlan</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(sect)">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(sect)">
+                                                <i class="fas fa-trash"></i> Eliminar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center">No hay comisiones registradas.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<SectionModal @ref="sectionModal" OnSectionChanged="LoadSections" />
+
+@code {
+    private List<SectionDTO>? sections;
+    private bool loading = true;
+    private string errorMessage = string.Empty;
+    private string successMessage = string.Empty;
+    private SectionModal sectionModal = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await LoadSections();
+    }
+
+    private async Task LoadSections()
+    {
+        try
+        {
+            loading = true;
+            sections = (await SectionApiClient.GetAllAsync())?.ToList();
+            successMessage = string.Empty;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al cargar comisiones: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private void OpenAddModal()
+    {
+        sectionModal.ShowAddModal();
+    }
+
+    private void OpenEditModal(SectionDTO section)
+    {
+        sectionModal.ShowEditModal(section);
+    }
+
+    private async Task ConfirmDelete(SectionDTO section)
+    {
+        var confirm = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"¿Está seguro que desea eliminar la comisión {section.ID} - {section.Description}?");
+
+        if (confirm)
+        {
+            await DeleteSection(section.ID);
+        }
+    }
+
+    private async Task DeleteSection(int id)
+    {
+        try
+        {
+            await SectionApiClient.DeleteAsync(id);
+            successMessage = "Comisión eliminada exitosamente.";
+            await LoadSections();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al eliminar la comisión: {ex.Message}";
+        }
+    }
+}

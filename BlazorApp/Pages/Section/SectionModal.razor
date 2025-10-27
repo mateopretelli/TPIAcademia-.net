@@ -1,0 +1,232 @@
+﻿@using DTOs
+@using ApiClients
+@using System.Text.RegularExpressions
+@inject IJSRuntime JSRuntime
+
+@if (showModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            s
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        @if (mode == FormMode.Add)
+                        {
+                            <text>Agregar</text>
+                        }
+                        else
+                        {
+                            <text>Editar</text>
+                        }
+                    </h5>
+                    <button type="button" class="btn-close" @onclick="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="currentSection" OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
+
+                        @if (mode == FormMode.Update)
+                        {
+                            <div class="mb-3">
+                                <label class="form-label">Id</label>
+                                <input type="text" class="form-control" value="@currentSection.ID" readonly />
+                            </div>
+                        }
+
+                        <div class="mb-3">
+                            <label class="form-label">Descripción *</label>
+                            <InputText @bind-Value="currentSection.Description" class="form-control" />
+                            @if (validationErrors.ContainsKey("Description"))
+                            {
+                                <div class="text-danger small">@validationErrors["Description"]</div>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Año de carrera *</label>
+                            <InputSelect @bind-Value="currentSection.SpecialtyYear" class="form-select">
+                                <option value="0">Seleccionar año de carrera</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </InputSelect>
+                            @if (validationErrors.ContainsKey("SpecialtyYear"))
+                            {
+                                <div class="text-danger small">@validationErrors["SpecialtyYear"]</div>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Plan *</label>
+                            <InputSelect @bind-Value="currentSection.IDPlan" class="form-select">
+                                <option value="0">Seleccionar plan</option>
+                                @if (plans != null)
+                                {
+                                    @foreach (var plan in plans)
+                                    {
+                                        <option value="@plan.ID">@plan.Description</option>
+                                    }
+                                }
+                            </InputSelect>
+                            @if (validationErrors.ContainsKey("Plan"))
+                            {
+                                <div class="text-danger small">@validationErrors["Plan"]</div>
+                            }
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <div class="alert alert-danger">
+                                @errorMessage
+                            </div>
+                        }
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @onclick="Close">Cancelar</button>
+                            <button type="submit" class="btn btn-primary" disabled="@saving">
+                                @if (saving)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                }
+                                @(mode == FormMode.Add ? "Agregar" : "Actualizar")
+                            </button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public EventCallback OnSectionChanged { get; set; }
+
+    private bool showModal = false;
+    private FormMode mode = FormMode.Add;
+    private SectionDTO currentSection = new SectionDTO();
+    private bool saving = false;
+    private string errorMessage = string.Empty;
+    private Dictionary<string, string> validationErrors = new Dictionary<string, string>();
+    private List<PlanDTO>? plans;
+
+    public enum FormMode
+    {
+        Add,
+        Update
+    }
+
+    public async Task ShowAddModal()
+    {
+        mode = FormMode.Add;
+        currentSection = new SectionDTO();
+        await LoadPlans();
+        ClearValidationErrors();
+        showModal = true;
+        StateHasChanged();
+    }
+
+    public async Task ShowEditModal(SectionDTO section)
+    {
+        mode = FormMode.Update;
+        currentSection = new SectionDTO
+            {
+                ID = section.ID,
+                Description = section.Description,
+                SpecialtyYear = section.SpecialtyYear,
+                IDPlan = section.IDPlan,
+                State = section.State
+
+            };
+        await LoadPlans();
+        ClearValidationErrors();
+        showModal = true;
+        StateHasChanged();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (!ValidateSection())
+            return;
+
+        try
+        {
+            saving = true;
+            errorMessage = string.Empty;
+
+            SectionApiClient client = new SectionApiClient();
+
+            if (mode == FormMode.Add)
+            {
+                await SectionApiClient.AddAsync(currentSection);
+            }
+            else
+            {
+                await SectionApiClient.UpdateAsync(currentSection);
+            }
+
+            await OnSectionChanged.InvokeAsync();
+            Close();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            saving = false;
+        }
+    }
+
+    private bool ValidateSection()
+    {
+        ClearValidationErrors();
+        bool isValid = true;
+
+        if (string.IsNullOrWhiteSpace(currentSection.Description))
+        {
+            validationErrors["Description"] = "La descripción es requerida";
+            isValid = false;
+        }
+        if (currentSection.SpecialtyYear == 0)
+        {
+            validationErrors["SpecialtyYear"] = "Seleccione un año de especialidad";
+            isValid = false;
+        }
+        if (currentSection.IDPlan == 0)
+        {
+            validationErrors["Plan"] = "Seleccione un plan";
+            isValid = false;
+        }
+
+        StateHasChanged();
+        return isValid;
+    }
+
+    private void ClearValidationErrors()
+    {
+        validationErrors.Clear();
+        errorMessage = string.Empty;
+    }
+
+    private async Task LoadPlans()
+    {
+        try
+        {
+            plans = (await PlanApiClient.GetAllAsync())?.ToList() ?? new List<PlanDTO>();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error cargando planes: {ex.Message}";
+        }
+    }
+
+    private void Close()
+    {
+        showModal = false;
+        ClearValidationErrors();
+        StateHasChanged();
+    }
+}

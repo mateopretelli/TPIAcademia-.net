@@ -1,0 +1,181 @@
+﻿@page "/plans"
+@using DTOs
+@using ApiClients
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Authorization
+@inherits Blazor.Server.Auth.AuthenticatedComponentBase
+@attribute [Authorize]
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Plans</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h3>Planes</h3>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @errorMessage
+                    <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @successMessage
+                    <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
+                </div>
+            }
+
+            <div class="mb-3">
+                <button class="btn btn-primary" @onclick="OpenAddModal">
+                    <i class="fas fa-plus"></i> Agregar
+                </button>
+            </div>
+
+            @if (loading)
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Descripción</th>
+                                <th>Especialidad</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (plans != null && plans.Any())
+                            {
+                                @foreach (var plan in plans)
+                                {
+                                    <tr>
+                                        <td>@plan.ID</td>
+                                        <td>@plan.Description</td>
+                                        <td>@plan.IDSpecialty</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(plan)">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(plan)">
+                                                <i class="fas fa-trash"></i> Eliminar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center">No hay planes disponibles.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<PlanModal @ref="planModal" OnPlanChanged="LoadPlans" />
+
+@code {
+    private List<PlanDTO>? plans;
+    private bool loading = true;
+    private string errorMessage = string.Empty;
+    private string successMessage = string.Empty;
+    private PlanModal planModal = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("console.log", "Plans.OnInitializedAsync - INICIO");
+        await base.OnInitializedAsync();
+        await JSRuntime.InvokeVoidAsync("console.log", "Plans - Después del base");
+        await LoadPlans();
+    }
+
+    private async Task LoadPlans()
+    {
+        try
+        {
+            loading = true;
+
+            var token = await AuthService.GetTokenAsync();
+            await JSRuntime.InvokeVoidAsync("console.log", $"LoadPlans - Token disponible: {!string.IsNullOrEmpty(token)}");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                errorMessage = "No hay token de autenticación disponible";
+                return;
+            }
+
+            // Registrar el TOKEN
+            ApiClients.AuthServiceProvider.RegisterToken(token);
+            await JSRuntime.InvokeVoidAsync("console.log", "LoadPlans - Token registrado");
+
+            plans = (await PlanApiClient.GetAllAsync())?.ToList();
+            successMessage = string.Empty;
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.log", $"LoadPlans - ERROR: {ex.Message}");
+            errorMessage = $"Error al cargar planes: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private void OpenAddModal()
+    {
+        planModal.ShowAddModal();
+    }
+
+    private void OpenEditModal(PlanDTO plan)
+    {
+        planModal.ShowEditModal(plan);
+    }
+
+    private async Task ConfirmDelete(PlanDTO plan)
+    {
+        var confirm = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"¿Está seguro que desea eliminar el plan {plan.ID} {plan.Description}?");
+
+        if (confirm)
+        {
+            await DeletePlan(plan.ID);
+        }
+    }
+
+    private async Task DeletePlan(int id)
+    {
+        try
+        {
+            // Registrar el token antes de cada operación
+            var token = await AuthService.GetTokenAsync();
+            ApiClients.AuthServiceProvider.RegisterToken(token);
+
+            await PlanApiClient.DeleteAsync(id);
+            successMessage = "Plan eliminado exitosamente.";
+            await LoadPlans();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al eliminar plan: {ex.Message}";
+        }
+    }
+}

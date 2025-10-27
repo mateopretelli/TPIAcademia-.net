@@ -1,0 +1,170 @@
+﻿@using DTOs
+@using ApiClients
+@using System.Text.RegularExpressions
+@inject IJSRuntime JSRuntime
+
+@if (showModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">s
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        @if (mode == FormMode.Add)
+                        {
+                            <text>Agregar</text>
+                        }
+                        else
+                        {
+                            <text>Editar</text>
+                        }
+                    </h5>
+                    <button type="button" class="btn-close" @onclick="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="currentSpecialty" OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
+
+                        @if (mode == FormMode.Update)
+                        {
+                            <div class="mb-3">
+                                <label class="form-label">Id</label>
+                                <input type="text" class="form-control" value="@currentSpecialty.ID" readonly />
+                            </div>
+                        }
+
+                        <div class="mb-3">
+                            <label class="form-label">Descripción *</label>
+                            <InputText @bind-Value="currentSpecialty.Description" class="form-control" />
+                            @if (validationErrors.ContainsKey("Description"))
+                            {
+                                <div class="text-danger small">@validationErrors["Description"]</div>
+                            }
+                        </div>  
+
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <div class="alert alert-danger">
+                                @errorMessage
+                            </div>
+                        }
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @onclick="Close">Cancelar</button>
+                            <button type="submit" class="btn btn-primary" disabled="@saving">
+                                @if (saving)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                }
+                                @(mode == FormMode.Add ? "Agregar" : "Actualizar")
+                            </button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public EventCallback OnSpecialtyChanged { get; set; }
+
+    private bool showModal = false;
+    private FormMode mode = FormMode.Add;
+    private SpecialtyDTO currentSpecialty = new SpecialtyDTO();
+    private bool saving = false;
+    private string errorMessage = string.Empty;
+    private Dictionary<string, string> validationErrors = new Dictionary<string, string>();
+
+    public enum FormMode
+    {
+        Add,
+        Update
+    }
+
+    public void ShowAddModal()
+    {
+        mode = FormMode.Add;
+        currentSpecialty = new SpecialtyDTO();
+        ClearValidationErrors();
+        showModal = true;
+        StateHasChanged();
+    }
+
+    public void ShowEditModal(SpecialtyDTO specialty)
+    {
+        mode = FormMode.Update;
+        currentSpecialty = new SpecialtyDTO
+        {
+            ID = specialty.ID,
+            Description = specialty.Description,
+            State = specialty.State
+
+        };
+        ClearValidationErrors();
+        showModal = true;
+        StateHasChanged();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (!ValidateSpecialty())
+            return;
+
+        try
+        {
+            saving = true;
+            errorMessage = string.Empty;
+
+            SpecialtyApiClient client = new SpecialtyApiClient();
+
+            if (mode == FormMode.Add)
+            {
+                await SpecialtyApiClient.AddAsync(currentSpecialty);
+            }
+            else
+            {
+                await SpecialtyApiClient.UpdateAsync(currentSpecialty);
+            }
+
+            await OnSpecialtyChanged.InvokeAsync();
+            Close();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            saving = false;
+        }
+    }
+
+    private bool ValidateSpecialty()
+    {
+        ClearValidationErrors();
+        bool isValid = true;
+
+        if (string.IsNullOrWhiteSpace(currentSpecialty.Description))
+        {
+            validationErrors["Description"] = "La descripción es requerida";
+            isValid = false;
+        }
+
+        StateHasChanged();
+        return isValid;
+    }
+
+    private void ClearValidationErrors()
+    {
+        validationErrors.Clear();
+        errorMessage = string.Empty;
+    }
+
+    private void Close()
+    {
+        showModal = false;
+        ClearValidationErrors();
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,164 @@
+﻿@page "/courses"
+@using DTOs
+@using ApiClients
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Authorization
+@inherits Blazor.Server.Auth.AuthenticatedComponentBase
+@attribute [Authorize]
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Courses</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h3>Cursos</h3>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @errorMessage
+                    <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @successMessage
+                    <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
+                </div>
+            }
+
+            <div class="mb-3">
+                <button class="btn btn-primary" @onclick="OpenAddModal">
+                    <i class="fas fa-plus"></i> Agregar
+                </button>
+            </div>
+
+            @if (loading)
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Año académico</th>
+                                <th>Capacidad</th>
+                                <th>Comisión</th>
+                                <th>Materia</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (courses != null && courses.Any())
+                            {
+                                @foreach (var course in courses)
+                                {
+                                    <tr>
+                                        <td>@course.ID</td>
+                                        <td>@course.AcademicYear</td>
+                                        <td>@course.Capacity</td>
+                                        <td>@course.SectionDescription</td>
+                                        <td>@course.SubjectDescription</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(course)">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(course)">
+                                                <i class="fas fa-trash"></i> Eliminar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center">No hay cursos disponibles.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<CourseModal @ref="courseModal" OnCourseChanged="LoadCourses" />
+
+@code {
+    private List<CourseDTO>? courses;
+    private bool loading = true;
+    private string errorMessage = string.Empty;
+    private string successMessage = string.Empty;
+    private CourseModal courseModal = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await LoadCourses();
+    }
+
+    private async Task LoadCourses()
+    {
+        try
+        {
+            loading = true;
+            courses = (await CourseApiClient.GetAllAsync())?.ToList();
+            successMessage = string.Empty;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al cargar cursos: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private void OpenAddModal()
+    {
+        courseModal.ShowAddModal();
+    }
+
+    private void OpenEditModal(CourseDTO course)
+    {
+        courseModal.ShowEditModal(course);
+    }
+
+    private async Task ConfirmDelete(CourseDTO course)
+    {
+        var confirm = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"¿Está seguro que desea eliminar el curso {course.ID} {course.AcademicYear} {course.Capacity}?");
+
+        if (confirm)
+        {
+            await DeleteCourse(course.ID);
+        }
+    }
+
+    private async Task DeleteCourse(int id)
+    {
+        try
+        {
+            await CourseApiClient.DeleteAsync(id);
+            successMessage = "Curso eliminado exitosamente.";
+            await LoadCourses();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al eliminar curso: {ex.Message}";
+        }
+    }
+}

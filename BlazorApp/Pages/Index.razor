@@ -1,0 +1,31 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
+@using Blazor.Server.Auth
+@attribute [Authorize]
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+
+<PageTitle>Home</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <h1>Bienvenido, @context.User.Identity?.Name!</h1>
+        <p>Has iniciado sesión correctamente.</p>
+
+        <button class="btn btn-danger" @onclick="HandleLogout">Cerrar Sesión</button>
+    </Authorized>
+    <NotAuthorized>
+        <p>Verificando autenticación...</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@inject CustomAuthenticationStateProvider AuthStateProvider
+
+@code {
+    private async Task HandleLogout()
+    {
+        await AuthService.LogoutAsync();
+        AuthStateProvider.NotifyUserLogout(); 
+        Navigation.NavigateTo("/login", true);
+    }
+}

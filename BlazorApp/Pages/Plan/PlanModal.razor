@@ -1,0 +1,234 @@
+﻿@using DTOs
+@using ApiClients
+@using System.Text.RegularExpressions
+@inherits Blazor.Server.Auth.AuthenticatedComponentBase
+@inject IJSRuntime JSRuntime
+
+@if (showModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        @if (mode == FormMode.Add)
+                        {
+                            <text>Agregar</text>
+                        }
+                        else
+                        {
+                            <text>Editar</text>
+                        }
+                    </h5>
+                    <button type="button" class="btn-close" @onclick="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="currentPlan" OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
+
+                        @if (mode == FormMode.Update)
+                        {
+                            <div class="mb-3">
+                                <label class="form-label">Id</label>
+                                <input type="text" class="form-control" value="@currentPlan.ID" readonly />
+                            </div>
+                        }
+
+                        <div class="mb-3">
+                            <label class="form-label">Descripción *</label>
+                            <InputText @bind-Value="currentPlan.Description" class="form-control" />
+                            @if (validationErrors.ContainsKey("Description"))
+                            {
+                                <div class="text-danger small">@validationErrors["Description"]</div>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Especialidad *</label>
+                            <InputSelect @bind-Value="currentPlan.IDSpecialty" class="form-select">
+                                <option value="0">Seleccionar especialidad</option>
+                                @if (specialties != null)
+                                {
+                                    @foreach (var specialty in specialties)
+                                    {
+                                        <option value="@specialty.ID">@specialty.Description</option>
+                                    }
+                                }
+                            </InputSelect>
+                            @if (validationErrors.ContainsKey("IDSpecialty"))
+                            {
+                                <div class="text-danger small">@validationErrors["IDSpecialty"]</div>
+                            }
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <div class="alert alert-danger">
+                                @errorMessage
+                            </div>
+                        }
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @onclick="Close">Cancelar</button>
+                            <button type="submit" class="btn btn-primary" disabled="@saving">
+                                @if (saving)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                }
+                                @(mode == FormMode.Add ? "Agregar" : "Actualizar")
+                            </button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public EventCallback OnPlanChanged { get; set; }
+
+    private bool showModal = false;
+    private FormMode mode = FormMode.Add;
+    private PlanDTO currentPlan = new PlanDTO();
+    private bool saving = false;
+    private string errorMessage = string.Empty;
+    private Dictionary<string, string> validationErrors = new Dictionary<string, string>();
+    private List<SpecialtyDTO>? specialties;
+
+    public enum FormMode
+    {
+        Add,
+        Update
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+    public async Task ShowAddModal()
+    {
+        var token = await AuthService.GetTokenAsync();
+        ApiClients.AuthServiceProvider.RegisterToken(token);
+
+        mode = FormMode.Add;
+        currentPlan = new PlanDTO();
+        await LoadSpecialties();
+        ClearValidationErrors();
+        showModal = true;
+        StateHasChanged();
+    }
+
+    public async Task ShowEditModal(PlanDTO plan)
+    {
+        var token = await AuthService.GetTokenAsync();
+        ApiClients.AuthServiceProvider.RegisterToken(token);
+
+        mode = FormMode.Update;
+        currentPlan = new PlanDTO
+            {
+                ID = plan.ID,
+                Description = plan.Description,
+                IDSpecialty = plan.IDSpecialty,
+                State = plan.State
+            };
+        await LoadSpecialties();
+        ClearValidationErrors();
+        showModal = true;
+        StateHasChanged();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (!ValidatePlan())
+            return;
+
+        try
+        {
+            saving = true;
+            errorMessage = string.Empty;
+
+            // Registrar token antes de las operaciones
+            var token = await AuthService.GetTokenAsync();
+            ApiClients.AuthServiceProvider.RegisterToken(token);
+
+            if (mode == FormMode.Add)
+            {
+                await PlanApiClient.AddAsync(currentPlan);
+            }
+            else
+            {
+                await PlanApiClient.UpdateAsync(currentPlan);
+            }
+
+            await OnPlanChanged.InvokeAsync();
+            Close();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            saving = false;
+        }
+    }
+
+    private bool ValidatePlan()
+    {
+        ClearValidationErrors();
+        bool isValid = true;
+
+        if (string.IsNullOrWhiteSpace(currentPlan.Description))
+        {
+            validationErrors["Description"] = "La descripción es requerida";
+            isValid = false;
+        }
+
+        if (currentPlan.IDSpecialty == 0)
+        {
+            validationErrors["IDSpecialty"] = "Seleccione una especialidad";
+            isValid = false;
+        }
+
+        StateHasChanged();
+        return isValid;
+    }
+
+    private void ClearValidationErrors()
+    {
+        validationErrors.Clear();
+        errorMessage = string.Empty;
+    }
+
+    private async Task LoadSpecialties()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("console.log", "LoadSpecialties - INICIO");
+
+            var token = await AuthService.GetTokenAsync();
+            await JSRuntime.InvokeVoidAsync("console.log", $"Token disponible: {!string.IsNullOrEmpty(token)}");
+
+            ApiClients.AuthServiceProvider.RegisterToken(token);
+            await JSRuntime.InvokeVoidAsync("console.log", "Token registrado en LoadSpecialties");
+
+            await JSRuntime.InvokeVoidAsync("console.log", "ANTES de llamar SpecialtyApiClient.GetAllAsync");
+            specialties = (await SpecialtyApiClient.GetAllAsync())?.ToList();
+            await JSRuntime.InvokeVoidAsync("console.log", $"Especialidades cargadas: {specialties?.Count ?? 0}");
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.log", $"ERROR en LoadSpecialties: {ex.Message}");
+            errorMessage = $"Error al cargar especialidades: {ex.Message}";
+        }
+    }
+
+    private void Close()
+    {
+        showModal = false;
+        ClearValidationErrors();
+        StateHasChanged();
+    }
+}
